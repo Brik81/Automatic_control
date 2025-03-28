@@ -1,0 +1,3 @@
+- crearecaretlla per ongi capitolo 
+-nominare varie cartelle con il nome del capitolo 
+- verificare che saltino fuori nel main
