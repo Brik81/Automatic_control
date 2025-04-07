@@ -3,19 +3,28 @@ close all
 clear all
 
 %% parameters
-m = 2;      % [kg] mass
-k = 10;    % [N/m] spring stiffness
-beta = 1;   % [N/(m/s)] damper coeff.
-ell0 = 2;   % [m] 0-load lenght
+m = 500;      % [kg] mass
+k = 10000;    % [N/m] spring stiffness
+beta = 750;   % [N/(m/s)] damper coeff.
+ell0 = 0.5;   % [m] 0-load lenght
 g = 9.81;   % [m/s^2] gravity acceleration
-df = 1;     % [m] distance between center of mass and front
+df = 1.6;     % [m] distance between center of mass and front
 dr = 1;     % [m] distance between center of mass and rear
 J = 500;      % [kg*m^2] Moment of intertia
 
+
+p = [ m;
+      k;
+      beta;
+      ell0;
+      g;
+      df;
+      dr;
+      J];
 %% initial conditions
 %p0 = 0; % [m] initial position
 %v0 = 0; % [m/s] initial speed
-x0 = [  2; %posizione centro di massa
+x0 = [  0.7; %posizione centro di massa
         0;   % velocità centro di massa
         0;   % pitch angle
         0;   % velocità angolare pitch 
@@ -46,7 +55,7 @@ delta0 = -m*g/(2*k);
 A = [0, 1, 0, 0, 0, 0;
     -2*k/m, -2*beta/m, -k*(df-dr)/m, -beta*(df-dr)/m, k*(df-dr)/m, beta*(df-dr)/m;
     0, 0, 0, 1, 0, 0;
-    -k*(df-dr)/J, -beta*(df-dr)/J, -k*(df^2+dr^2)/J, -beta*(df+dr)/J, k*(df^2+dr^2)/J, beta*(df+dr)/J;
+    -k*(df-dr)/J, -beta*(df-dr)/J, -k*(df^2+dr^2)/J, -beta*(df^2+dr^2)/J, k*(df^2+dr^2)/J, beta*(df^2+dr^2)/J;
     0, 0, 0, 0, 0, 1;
     0, 0, 0, 0, 0, 0];
 
@@ -58,9 +67,24 @@ B1 = [0,0;
      0,0;
      0,0];
 
-B2 = [0,0,0,0,0, 0;
-      -1,0,0,0,0, 0;
-      0,0,0,0,0, 0;
-      0,0,(delta0+ell0)/J,(delta0+ell0)/J, 0, 0;
-      0,0,0,0,0, 0;
-      0,1,0,0,0, 0];
+B2 = [0,0,0,0,0,0;
+      -1,0,0,0,0,0;
+      0,0,0,0,0,0;
+      0,0,(delta0+ell0)/J,(delta0+ell0)/J,0,0;
+      0,0,0,0,0,0;
+      0,1,0,0,0,0];
+
+u0_lin =[0;
+    k*delta0*(df-dr)];
+x0_lin = [
+    x0(1)-delta0;
+    0;
+    0;
+    0;
+    0;
+    0];
+
+
+k1 = -10;
+k2 = -1; 
+Ks = [k1; k2];
