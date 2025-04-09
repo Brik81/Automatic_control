@@ -41,7 +41,11 @@ d0 = 0; % [N] equilibrium disturbance
 %u0 = k*(p0-ell0)+g*m-d0;
 %y0 = p0-ell0;
 
+delta0 = -m*g/(2*k);
+
 w0 = [d0; 0; r0];
+
+u0 = [0;k*delta0*(df-dr)];
 %% initial conditions
 
 % p_initial = p0+0.01; % [m] initial position
@@ -50,7 +54,7 @@ w0 = [d0; 0; r0];
 
 %% LINEARISED PLANT
 
-delta0 = -m*g/(2*k);
+
 
 A = [0, 1, 0, 0, 0, 0;
     -2*k/m, -2*beta/m, -k*(df-dr)/m, -beta*(df-dr)/m, k*(df-dr)/m, beta*(df-dr)/m;
@@ -83,8 +87,11 @@ x0_lin = [
     0;
     0;
     0];
+% Matrice Ks 2x6
+Ks = [-3000,  -3000, -3000,  -3000,   -3000,    -3000;
+      0,  0,  0,  0,   0,   0];
+%todo: Capire i parametri di K 
+syms K [2 6];
+syms x [6 1]; %dovrebbe essere X-X0
+RIS = K*x
 
-
-k1 = -10;
-k2 = -1; 
-Ks = [k1; k2];
