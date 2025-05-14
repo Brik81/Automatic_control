@@ -1,9 +1,10 @@
 \documentclass[]{report}
-
 \usepackage{amsmath,amsfonts}
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, decorations.pathreplacing, decorations.pathmorphing}
 
 % Title Page
 \title{{\huge  TITLE} \\
@@ -203,6 +204,64 @@ Use the environment \textit{ref} to add a hyperlink to the figure. As example Fi
 \chapter{Application}
 
 \section{Simulator description}
+\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+	
+	% Coordinate axes
+	\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
+	\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
+	\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
+	
+	% Sprung mass (body)
+	\draw[thick, red] (-2,1.5) rectangle (3,2);
+	\node at (-1,1.75) {$J, m$};
+	
+	% Center of mass
+	\draw[fill=red] (0.5,1.6) circle (0.07);
+	\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
+	
+	% pitch angle psi
+	\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
+	\node at (0.7,1.9) {$\psi$};
+	
+	% Front suspension
+	\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
+	\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
+	\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
+	\node[left] at (-1.5,0.6) {$k$};
+	\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
+	\node[left] at (-1.5,-0.4) {$\beta$};
+	\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
+	
+	% Rear suspension
+	\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
+	\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
+	\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
+	\node[right] at (2.5,0.6) {$k$};
+	\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
+	\node[right] at (2.5,-0.4) {$\beta$};
+	\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
+	
+	% Front and rear wheel forces
+	\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
+	\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
+	
+	% Ground heights
+	\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
+	\node[left] at (-2.5,-0.6) {$p_f$};
+	\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
+	\node[left] at (1.5,-0.6) {$p_r$};
+	
+	% Distances df and dr
+	\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
+	\node[below] at (-0.5,1.2) {$d_f$};
+	\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
+	\node[below] at (1.5,1.2) {$d_r$};
+	
+	% Labels z
+	\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
+	\node[right] at (3.2,1.6) {$z$};
+	
+\end{tikzpicture}
 Copy and past the Simulink block scheme and describe what each block does. Describe the set-up MATLAB file, where and how to change the parameters of the simulations. Remember to include also the sensor noises and realistic external disturbances.
 
 \section{Simulation results}
