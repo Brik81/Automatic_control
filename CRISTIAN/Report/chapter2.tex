@@ -41,9 +41,9 @@ Here list all the symbols used in the manuscript and add a description to each o
 Change the title with the name of the selected application
 
 \section{Model and Problem Formulation}
-To define the control problem for the half-car active suspension system, we formalize the system as a nonlinear state-space model, which incorporates dynamics, sensor measurements, control inputs, and reference goals.
+In this section, we formulate the control problem for the active suspension system of a half-car model. This system aims to regulate both the vertical position and the perceived pitch angle of the vehicle body, enhancing ride comfort and handling. The model is described by a nonlinear dynamic system influenced by road disturbances, actuator forces, and sensor measurements.
 
-The system model is given by:
+The general form of the system is expressed as:
 \begin{align}
 	\dot{x} &= f(x, u, w) \\
 	y &= h(x, u, w) \\
@@ -71,7 +71,7 @@ y &= h(x,u)
 \end{equation}
 \subsection*{Assumptions}
 
-The control design relies on the following assumptions:
+To make the problem tractable and to ensure solvability of the control task, we impose the following assumptions:
 
 \begin{enumerate}
 	\item The exogenous input $w$ is not directly measurable.
@@ -82,10 +82,12 @@ The control design relies on the following assumptions:
 	\item The control error $e$ can be reconstructed from the output $y$: $\exists E$ such that $e = E(y)$.
 \end{enumerate}
 
+These assumptions lay the theoretical foundation required to design a control law capable of driving the error $e$ to zero despite the presence of unknown disturbances and sensor noise.
+
 \section{Model Analysis}
 \subsection{Dynamic Model}
 
-The half-car model captures the vertical and roll dynamics of a vehicle subject to suspension forces and road disturbances. The state variables are:
+The half-car model captures the vertical and pitch dynamics of a vehicle subject to suspension forces and road disturbances. The state variables are:
 
 \begin{align}
 	x = \begin{bmatrix}
@@ -109,8 +111,8 @@ Control inputs are defined as:
 		u_2
 	\end{bmatrix} =
 	\begin{bmatrix}
-		f_{al} + f_{ar} \\
-		f_{al} d_l - f_{ar} d_r
+		f_{af} + f_{ar} \\
+		f_{af} d_f - f_{ar} d_r
 	\end{bmatrix}
 \end{align}
 
@@ -129,15 +131,15 @@ The system dynamics are expressed as:
 
 Where:
 \begin{align}
-	f_2 &= -g + \frac{1}{m}(f_{sl} + f_{sr}) + \frac{u_1}{m} \\
-	f_4 &= \frac{1}{J}(f_{sl} d_l - f_{sr} d_r + u_2 + f_{wl} l + f_{wr} r)
+	f_2 &= -g + \frac{1}{m}(f_{sf} + f_{sr}) + \frac{u_1}{m} \\
+	f_4 &= \frac{1}{J}(f_{sf} d_f - f_{sr} d_r + u_2 + f_{wf} f + f_{wr} r)
 \end{align}
 
 The suspension deflections and velocities are:
 
 \begin{align}
-	s_1 &= x_1 + d_l(\sin x_3 - \sin x_5), \quad s_3 = x_1 - d_r(\sin x_3 - \sin x_5) \\
-	s_2 &= x_2 + d_l(x_4 \cos x_3 - x_6 \cos x_5), \quad s_4 = x_2 - d_r(x_4 \cos x_3 - x_6 \cos x_5)
+	s_1 &= x_1 + d_f(\sin x_3 - \sin x_5), \quad s_3 = x_1 - d_r(\sin x_3 - \sin x_5) \\
+	s_2 &= x_2 + d_f(x_4 \cos x_3 - x_6 \cos x_5), \quad s_4 = x_2 - d_r(x_4 \cos x_3 - x_6 \cos x_5)
 \end{align}
 
 Suspension forces are modeled as spring-damper systems:
@@ -159,8 +161,8 @@ The measurement vector is given by:
 		y_r
 	\end{bmatrix} =
 	\begin{bmatrix}
-		\sin x_3(f_2 + g) + \cos x_3 \frac{f_{wr} + f_{wl}}{m} \\
-		\cos x_3(f_2 + g) - \sin x_3 \frac{f_{wr} + f_{wl}}{m} \\
+		\sin x_3(f_2 + g) + \cos x_3 \frac{f_{wr} + f_{wf}}{m} \\
+		\cos x_3(f_2 + g) - \sin x_3 \frac{f_{wr} + f_{wf}}{m} \\
 		x_4 \\
 		s_1 \\
 		s_3
@@ -169,7 +171,7 @@ The measurement vector is given by:
 
 \subsection{Control Objectives}
 
-We define the apparent roll angle $\phi_a$ using accelerometer data:
+We define the apparent pitch angle $\phi_a$ using accelerometer data:
 
 \begin{align}
 	\phi_a = \sin^{-1} \left( \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \right)
@@ -179,12 +181,12 @@ The control error vector is defined as:
 
 \begin{align}
 	e = \begin{bmatrix}
-		\frac{y_l d_r + y_r d_l}{d_r + d_l} - r_z \\
+		\frac{y_f d_r + y_r d_f}{d_r + d_f} - r_z \\
 		\phi_a - r_\phi
 	\end{bmatrix}
 \end{align}
 
-This error describes deviations from the desired vertical height and perceived roll. The control task is to design $u$ to drive $e \rightarrow 0$ in the presence of disturbances and noise.
+This error describes deviations from the desired vertical height and perceived pitch. The control task is to design $u$ to drive $e \rightarrow 0$ in the presence of disturbances and noise.
 
 \section{Proposed Solution}
 Here describe the proposed solution: Control system architecture (draw a block scheme!), mathematical description of the solution, listings of the MATLAB code implemented to obtain the solution

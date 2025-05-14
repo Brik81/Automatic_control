@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  14 MAY 2025 14:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  14 MAY 2025 15:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -401,7 +401,7 @@ Chapter 4.
 [8
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 219--220
+Underfull \hbox (badness 10000) in paragraph at lines 221--222
 
  []
 
@@ -424,7 +424,7 @@ Here is how much of TeX's memory you used:
  36004 multiletter control sequences out of 15000+600000
  637048 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,15n,79p,341b,502s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,15n,79p,411b,502s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Cristian\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\t
 crm1000.pk><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmbx10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/t
@@ -445,7 +445,7 @@ C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmti10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmtt10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/amsfonts/symbols/msbm10.pfb>
-Output written on chapter2.pdf (11 pages, 221511 bytes).
+Output written on chapter2.pdf (11 pages, 222430 bytes).
 PDF statistics:
  247 PDF objects out of 1000 (max. 8388607)
  52 named destinations out of 1000 (max. 500000)
