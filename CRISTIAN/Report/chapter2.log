@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  14 MAY 2025 11:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  14 MAY 2025 14:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./Report_lin_part.tex
-(Report_lin_part.tex
+**./chapter2.tex
+(chapter2.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
 (C:\Users\Cristian\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
@@ -285,8 +285,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 pdftex.def
 File: l3backend-pdftex.def 2025-04-14 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count305
-) (Report_lin_part.aux)
-\openout1 = `Report_lin_part.aux'.
+) (chapter2.aux)
+\openout1 = `chapter2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
@@ -333,9 +333,9 @@ s.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 17.
- (Report_lin_part.out) (Report_lin_part.out)
+ (chapter2.out) (chapter2.out)
 \@outlinefile=\write3
-\openout3 = `Report_lin_part.out'.
+\openout3 = `chapter2.out'.
 
 LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
 
@@ -359,13 +359,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.22 	\end{abstract}
-                     [1]
+l.22 \end{abstract}
+                    [1]
 Chapter 1.
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 26.
-
 
 
 
@@ -373,57 +369,85 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.73 \end{equation}
-                    [1
+l.40 \chapter
+             {MAIN BODY} [1
 
 ]
-Overfull \hbox (11.35706pt too wide) detected at line 84
-[][][][][]
+Chapter 2.
+
+
+[2
+
+]
+
+[3]
+
+[4]
+
+[5]
+Chapter 3.
+
+
+[6
+
+]
+Chapter 4.
+
+
+[7
+
+]
+
+[8
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 219--220
+
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
- []
+[9
 
-
-
-[2] (Report_lin_part.aux)
+] (chapter2.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
  ***********
-Package rerunfilecheck Info: File `Report_lin_part.out' has not changed.
-(rerunfilecheck)             Checksum: 8BBFC5BD7114A89AFFFD8CA8B3C8BDB6;265.
+Package rerunfilecheck Info: File `chapter2.out' has not changed.
+(rerunfilecheck)             Checksum: 5834011B9810FEA59D9601D21DF4C961;2588.
  ) 
 Here is how much of TeX's memory you used:
- 9281 strings out of 469940
- 144627 string characters out of 5467957
- 545108 words of memory out of 5000000
- 35976 multiletter control sequences out of 15000+600000
- 635641 words of font info for 74 fonts, out of 8000000 for 9000
+ 9350 strings out of 469940
+ 145219 string characters out of 5467957
+ 541859 words of memory out of 5000000
+ 36004 multiletter control sequences out of 15000+600000
+ 637048 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,79p,655b,458s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
-cm/cmbx10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/amsfonts/cm/cmbx12.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/font
-s/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Cristian/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Cristian/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Cristian
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Use
-rs/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.
-pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
-s/cm/cmr12.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/pub
-lic/amsfonts/cm/cmr17.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/font
-s/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Cristian/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Cristian/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Cristian/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/
-Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pf
-b>
-Output written on Report_lin_part.pdf (4 pages, 169706 bytes).
+ 75i,15n,79p,341b,502s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Cristian\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\t
+crm1000.pk><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmbx10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Cristian/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Cristian/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Cristian/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users
+/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pf
+b><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmr10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmr12.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Cristian/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Cristian/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Cristian/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Cr
+istian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
+C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmti10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmtt10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/symbols/msbm10.pfb>
+Output written on chapter2.pdf (11 pages, 221511 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
- 13 named destinations out of 1000 (max. 500000)
- 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 247 PDF objects out of 1000 (max. 8388607)
+ 52 named destinations out of 1000 (max. 500000)
+ 137 words of extra memory for PDF output out of 10000 (max. 10000000)
 
