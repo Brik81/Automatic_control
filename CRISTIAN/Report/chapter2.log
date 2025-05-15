@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  14 MAY 2025 21:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  15 MAY 2025 16:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -742,29 +742,31 @@ Chapter 2.
 [4]
 
 [5]
+
+[6]
 Chapter 3.
-
-
-[6
-
-]
-Chapter 4.
 
 
 [7
 
 ]
+Chapter 4.
+
 
 [8
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 280--281
+
+[9
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
 
  []
 
 
 
-[9
+[10
 
 ] (chapter2.aux)
  ***********
@@ -775,13 +777,13 @@ Package rerunfilecheck Info: File `chapter2.out' has not changed.
 (rerunfilecheck)             Checksum: 5834011B9810FEA59D9601D21DF4C961;2588.
  ) 
 Here is how much of TeX's memory you used:
- 20780 strings out of 469940
- 404425 string characters out of 5467957
- 762710 words of memory out of 5000000
- 47196 multiletter control sequences out of 15000+600000
+ 20790 strings out of 469940
+ 404590 string characters out of 5467957
+ 761710 words of memory out of 5000000
+ 47204 multiletter control sequences out of 15000+600000
  638294 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,15n,91p,472b,642s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,15n,91p,726b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Cristian\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\t
 crm1000.pk><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 amsfonts/cm/cmbx10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/t
@@ -804,9 +806,9 @@ msfonts/cm/cmsy7.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmti10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Cristian/AppData/Local/P
 rograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on chapter2.pdf (11 pages, 247069 bytes).
+Output written on chapter2.pdf (12 pages, 252098 bytes).
 PDF statistics:
- 260 PDF objects out of 1000 (max. 8388607)
- 52 named destinations out of 1000 (max. 500000)
+ 265 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
  149 words of extra memory for PDF output out of 10000 (max. 10000000)
 
