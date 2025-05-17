@@ -167,24 +167,33 @@ Suspension forces are modeled as spring-damper systems:
 
 \subsection{Sensor Model}
 
-The measurement vector is given by:
+The vehicle is equipped with a set of onboard sensors that provide real-time measurements required for control and state estimation. These sensors include two accelerometers, a gyroscope, and two suspension potentiometers. The complete sensor output is gathered in the measurement vector:
 
 \begin{align}
 	y = \begin{bmatrix}
-		y_y \\
-		y_z \\
-		y_g \\
-		y_l \\
-		y_r
+		y_y \\ y_z \\ y_g \\ y_l \\ y_r
 	\end{bmatrix} =
 	\begin{bmatrix}
-		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/{m} \\
-		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/{m} \\
+		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/m \\
+		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/m \\
 		x_4 \\
 		s_1 \\
 		s_3
 	\end{bmatrix} + \nu
 \end{align}
+
+\paragraph{Accelerometers.}
+The first two components of the vector, $y_y$ and $y_z$, correspond to the lateral and vertical accelerations measured in the vehicle's body-fixed frame. These quantities are nonlinear combinations of the vertical acceleration of the center of mass and the contributions from external lateral forces, projected into the rotating frame of the vehicle using the pitch angle $x_3 = \theta$. These measurements reflect how the vehicle responds dynamically to road inputs and control actions, and are essential for estimating the apparent pitch felt by passengers.
+
+\paragraph{Gyroscope.}
+The third measurement, $y_g$, provides a direct reading of the pitch rate $\dot{\theta}$ (i.e., $x_4$). This is obtained from a gyroscope mounted on the vehicle, and it offers high-frequency dynamic information critical for closed-loop control, especially in active suspension systems that respond rapidly to body motion.
+
+\paragraph{Suspension Potentiometers.}
+The last two measurements, $y_l$ and $y_r$, represent the deflections of the left and right suspensions, respectively. These are measured via linear potentiometers or displacement sensors mounted along each suspension strut. The quantities $s_1$ and $s_3$ represent how much each suspension has compressed or extended relative to its rest position. These values reflect road unevenness and the vehicle's dynamic posture (e.g., roll or pitch), and are fundamental for both control and diagnostic purposes.
+
+\paragraph{Sensor Noise.}
+All measurements are affected by additive noise $\nu = [\nu_y, \nu_z, \nu_g, \nu_l, \nu_r]^T$, which accounts for sensor imperfections, electrical disturbances, or vibration-induced errors. The presence of noise highlights the importance of robust control and filtering strategies in practical implementations.
+
 
 \subsection{Control Objectives}
 
