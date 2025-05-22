@@ -234,7 +234,65 @@ where $s_1$, $s_3$ are suspension deflections, $h_1$, $h_2$ are derived from dyn
 \section{Proposed Solution}
 Here describe the proposed solution: Control system architecture (draw a block scheme!), mathematical description of the solution, listings of the MATLAB code implemented to obtain the solution
 
-To include a picture use the environment \textit{figure}. 
+\subsection{Sensor Model}
+
+The effectiveness of the control architecture relies heavily on the accurate and timely acquisition of physical quantities related to the vehicle's motion and posture. To this end, the half-car system is equipped with a set of onboard sensors, specifically selected to ensure observability of the dynamic model and to allow real-time feedback control.
+
+\paragraph{Measurement Vector.}
+The complete sensor output is gathered in the measurement vector:
+
+\begin{align}
+	y = \begin{bmatrix}
+		y_y \\ y_z \\ y_g \\ y_l \\ y_r
+	\end{bmatrix} =
+	\begin{bmatrix}
+		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/m \\
+		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/m \\
+		x_4 \\
+		s_1 \\
+		s_3
+	\end{bmatrix} + \nu
+\end{align}
+
+This vector includes measurements from two accelerometers, one gyroscope, and two linear potentiometers, all subject to additive noise $\nu$.
+
+\paragraph{Accelerometers.}
+The first two components $y_y$ and $y_z$ represent the lateral and vertical accelerations measured in the vehicle’s body-fixed reference frame. These measurements are obtained via two MEMS accelerometers mounted at the vehicle's center of mass. Due to the non-inertial frame of reference, the accelerations are nonlinear combinations of translational and rotational dynamics and include the gravitational component projected along the vehicle's pitch angle $x_3 = \theta$.
+
+These measurements are used to estimate the apparent pitch angle $\theta_a$, which is a key feedback signal for pitch stabilization control. We assume a typical sensor such as the \textbf{STMicroelectronics LIS3DH}, offering 12-bit resolution, low noise density ($\sim50~\mu g/\sqrt{Hz}$), and a digital output interface.
+
+\paragraph{Gyroscope.}
+The third component $y_g$ corresponds to the pitch angular rate $\dot{\theta}$, measured directly by a gyroscope mounted on the vehicle frame. This measurement provides high-frequency information essential for dynamic feedback control and stability monitoring.
+
+A typical device used could be the \textbf{Bosch BMI160} inertial measurement unit (IMU), with integrated accelerometer and gyroscope, capable of delivering low-latency angular rate data with high sensitivity (16-bit ADC) and low drift. The sensor is assumed to be rigidly fixed to the main chassis near the center of rotation to minimize errors due to offset and vibration.
+
+\paragraph{Suspension Potentiometers.}
+The fourth and fifth entries $y_l$ and $y_r$ are deflection measurements of the front and rear suspension struts, modeled by the quantities $s_1$ and $s_3$. These values are acquired via linear position sensors (e.g., \textbf{Honeywell MLH Series}) mounted along the suspension path to detect extension or compression relative to the static rest position.
+
+These readings give direct insight into the interaction between the vehicle and the road surface, reflecting terrain irregularities, road disturbances, and load shifts. Additionally, they are fundamental to compute control actions that regulate ride comfort and load distribution.
+
+\paragraph{Noise Modeling.}
+All sensor measurements are corrupted by additive noise:
+
+\[
+\nu = \begin{bmatrix}
+	\nu_y & \nu_z & \nu_g & \nu_l & \nu_r
+\end{bmatrix}^T
+\]
+
+We assume Gaussian-distributed noise with known standard deviations derived from the sensor datasheets. Noise in the accelerometers and gyroscope may include both white noise and low-frequency bias drift, while potentiometers may exhibit quantization and thermal noise. These uncertainties justify the implementation of robust filtering (e.g., Kalman filters) and noise-resilient control laws.
+
+\paragraph{Sensor Placement and Observability.}
+The sensor configuration is designed to ensure full observability of the system state vector $x$ required for control. The accelerometers and gyroscope reconstruct the translational and rotational dynamics, while the suspension sensors resolve wheel-body interactions. This sensor suite has been tested in simulation to confirm that it enables estimation of all states through standard observers.
+
+\paragraph{Practical Considerations.}
+While alternative sensors such as LIDAR, GPS, or magnetometers could enhance localization in other contexts, they are not considered here due to their inadequacy in indoor or suspension-focused scenarios. For example, GPS is unsuitable for fine-grained control of vertical dynamics or in indoor testing environments, and magnetometers are highly susceptible to interference from ferromagnetic chassis components and electromagnetic noise from motors.
+
+The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
+
+
+
+ 
 \begin{figure}[h!]
 	\centering
 	%\includegraphics[width=0.7\columnwidth]{Figure}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  17 MAY 2025 15:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  22 MAY 2025 20:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -750,36 +750,34 @@ t/10 ^^W[]; ^^W[]; ^^W[]; ^^W[]; ^^W[]\OT1/cmr/m/n/10 ][]$,
 
 [5]
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
 [6]
 
 [7]
+
+[8]
 Chapter 3.
-
-
-[8
-
-]
-Chapter 4.
 
 
 [9
 
 ]
+Chapter 4.
+
 
 [10
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 324--325
+
+[11
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
 
  []
 
 
 
-[11
+[12
 
 ] (chapter2.aux)
  ***********
@@ -787,13 +785,13 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
  ***********
 Package rerunfilecheck Info: File `chapter2.out' has not changed.
-(rerunfilecheck)             Checksum: 5834011B9810FEA59D9601D21DF4C961;2588.
+(rerunfilecheck)             Checksum: 86A7B2627DF37B850245C4D4432D6227;2713.
  ) 
 Here is how much of TeX's memory you used:
- 20795 strings out of 469940
- 404637 string characters out of 5467957
- 761710 words of memory out of 5000000
- 47204 multiletter control sequences out of 15000+600000
+ 20806 strings out of 469940
+ 404766 string characters out of 5467957
+ 761713 words of memory out of 5000000
+ 47205 multiletter control sequences out of 15000+600000
  638294 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,15n,91p,726b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -819,9 +817,9 @@ msfonts/cm/cmsy7.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmti10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Cristian/AppData/Local/P
 rograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on chapter2.pdf (13 pages, 257276 bytes).
+Output written on chapter2.pdf (14 pages, 269342 bytes).
 PDF statistics:
- 275 PDF objects out of 1000 (max. 8388607)
- 59 named destinations out of 1000 (max. 500000)
- 149 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 293 PDF objects out of 1000 (max. 8388607)
+ 69 named destinations out of 1000 (max. 500000)
+ 157 words of extra memory for PDF output out of 10000 (max. 10000000)
 
