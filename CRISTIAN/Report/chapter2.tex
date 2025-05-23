@@ -290,16 +290,187 @@ While alternative sensors such as LIDAR, GPS, or magnetometers could enhance loc
 
 The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
 
+\section{Control}
+
+\subsubsection{Reachability}
+
+In this section, a reachability analysis is carried out to determine which parts of the system's state space can be influenced by the control input. Starting from the linearized state-space system:
+
+\[
+\dot{\tilde{x}} = A \tilde{x} + B_1 \tilde{u}
+\]
+
+we aim to identify which states can be driven from the origin to a desired position through the control input $\tilde{u}$. The reachability matrix is defined as:
+
+\[
+\mathcal{R} = \left[ B_1 \quad AB_1 \quad A^2B_1 \quad \dots \quad A^{n-1}B_1 \right]
+\]
+
+A linear time-invariant system is said to be \textbf{fully reachable} (or controllable from the origin) if the rank of $\mathcal{R}$ is equal to $n$, the number of state variables. In such a case, it is possible to design a state feedback controller that places all eigenvalues of the closed-loop system arbitrarily.
+
+\paragraph{Reduced Reachability Analysis}
+
+In the present model, the state vector $\tilde{x} \in \mathbb{R}^6$ includes six components. However, the last two states represent environmental or road-related variables (e.g., road profile curvature), which evolve independently of the control input $\tilde{u}$. These are known as \textbf{exogenous states} and are not directly controllable.
+
+Therefore, we perform reachability analysis only on the first four states, which represent the internal vehicle dynamics and are influenced by control inputs. Let $A_{\text{int}}$ and $B_{1, \text{int}}$ be the upper-left $4 \times 4$ and $4 \times 2$ blocks of matrices $A$ and $B_1$:
+
+\[
+\dot{\tilde{x}}_{\text{int}} = A_{\text{int}} \tilde{x}_{\text{int}} + B_{1,\text{int}} \tilde{u}
+\]
+
+The reachability matrix becomes:
+
+\[
+\mathcal{R}_{\text{int}} = \left[ B_{1,\text{int}} \quad A_{\text{int}}B_{1,\text{int}} \quad A_{\text{int}}^2B_{1,\text{int}} \quad A_{\text{int}}^3B_{1,\text{int}} \right]
+\]
+
+We then evaluate the rank of this matrix using MATLAB's \texttt{ctrb} function:
+
+\begin{verbatim}
+	R_int = ctrb(A_int, B1_int);
+	rank(R_int)
+\end{verbatim}
+
+The resulting rank is 4, which confirms that the internal subsystem is fully reachable.
+
+\paragraph{Stabilizability and the Hurwitz Condition}
+
+According to control theory, if the system is fully reachable, it is possible to design a state feedback control law:
+
+\[
+\tilde{u} = K_S \tilde{x}_{\text{int}}
+\]
+
+such that the closed-loop matrix:
+
+\[
+A_{\text{int}} + B_{1,\text{int}} K_S
+\]
+
+is \textbf{Hurwitz}, meaning that all of its eigenvalues lie in the left half of the complex plane. This ensures that the closed-loop system is \textbf{BIBS stable} (Bounded Input Bounded State): all state trajectories remain bounded in response to bounded inputs.
+
+In conclusion, while the full model is not entirely reachable due to the presence of exogenous states, the subsystem representing the vehicle dynamics is fully reachable and can be stabilized using linear state feedback.
 
 
- 
-\begin{figure}[h!]
-	\centering
-	%\includegraphics[width=0.7\columnwidth]{Figure}
-	\caption{Add the caption to each figure! The caption should completely describe the figure so that the reader should be able to understand it without the need of reading the main text.}
-	\label{fig:FigureA}
-\end{figure}
-Use the environment \textit{ref} to add a hyperlink to the figure. As example Figure \ref{fig:FigureA}.
+\subsubsection{Integral Action}
+
+While the stabilizer matrix $K_S$ ensures the stability of the internal system under feedback control, an integral action is required to eliminate steady-state error in the presence of unknown constant disturbances $\tilde{w}$.
+
+The regulated error $\tilde{e}$ is defined as:
+\[
+\tilde{e} = C_e \tilde{x} + D_{1e} \tilde{u} + D_{2e} \tilde{w}
+\]
+
+To implement integral control, we introduce a new integral state $\eta$:
+\[
+\dot{\eta} = \tilde{e}
+\]
+
+This leads to an extended state vector:
+\[
+x_e = \begin{bmatrix} \tilde{x} \\ \eta \end{bmatrix}
+\]
+
+The extended system dynamics are:
+\[
+\dot{x}_e = \bar{A} x_e + \bar{B}_1 \tilde{u} + \bar{B}_2 \tilde{w}
+\]
+where
+\[
+\bar{A} = \begin{bmatrix}
+	A & 0 \\
+	C_e & 0
+\end{bmatrix},
+\quad
+\bar{B}_1 = \begin{bmatrix}
+	B_1 \\
+	D_{1e}
+\end{bmatrix},
+\quad
+\bar{B}_2 = \begin{bmatrix}
+	B_2 \\
+	D_{2e}
+\end{bmatrix}
+\]
+
+To verify whether the extended system is controllable (reachable), we compute the reachability matrix:
+\[
+\mathcal{R}_e = \left[\bar{B}_1 \quad \bar{A}\bar{B}_1 \quad \bar{A}^2\bar{B}_1 \quad \cdots \quad \bar{A}^{n+q-1} \bar{B}_1 \right]
+\]
+
+where $n$ is the number of original state variables and $q$ is the number of integrator states. In our model, $n=4$ (excluding the two uncontrollable states) and $q=2$, so we expect:
+\[
+\text{rank}(\mathcal{R}_e) = 6
+\]
+
+The reachability matrix is constructed in MATLAB using:
+
+\begin{verbatim}
+	Ae = [A, zeros(6,2); Ce, zeros(2,2)];
+	B1e = [B1; D1e];
+	Re = ctrb(Ae, B1e);
+	rank(Re)
+\end{verbatim}
+
+\textbf{Result:}  
+The output of the command confirms that $\text{rank}(\mathcal{R}_e) = 6$, i.e., the extended system is fully reachable.
+
+\textbf{Conclusion:}  
+Since the extended system is reachable, it is possible to design a state feedback control law of the form:
+\[
+\tilde{u} = \bar{K} x_e = K_S \tilde{x} + K_I \eta
+\]
+such that the closed-loop matrix $\bar{A} + \bar{B}_1 \bar{K}$ is Hurwitz. This guarantees asymptotic stability of the augmented system and drives the regulation error $\tilde{e}$ to zero.
+
+
+
+\subsubsection{Observability}
+
+Up to this point, the system state $\tilde{x}$ has been assumed to be known. However, this assumption is often unrealistic, particularly when some state variables are not directly measurable. For this reason, a state observer is required to estimate the internal states based on measurable outputs.
+
+Given that the last two states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
+
+Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
+
+\[
+\mathcal{O} = \begin{bmatrix}
+	C_{\text{int}} \\
+	C_{\text{int}} A_{\text{int}} \\
+	C_{\text{int}} A_{\text{int}}^2 \\
+	C_{\text{int}} A_{\text{int}}^3 \\
+\end{bmatrix}
+\]
+
+Using MATLAB, we compute:
+
+\begin{verbatim}
+	O = obsv(A_int, C_int);
+	rank(O)
+\end{verbatim}
+
+If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order Luenberger observer:
+
+\[
+\dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_O(y - C_{\text{int}} \hat{x}_{\text{int}})
+\]
+
+where $K_O$ is the observer gain. By properly choosing $K_O$, the eigenvalues of $(A_{\text{int}} - K_O C_{\text{int}})$ can be placed in the left half-plane to make the observer error dynamics stable. That is, the matrix must be \textbf{Hurwitz} to ensure convergence of the estimate $\hat{x}_{\text{int}}$ to the true internal state $\tilde{x}_{\text{int}}$.
+
+We check observability with MATLAB:
+
+\begin{verbatim}
+	O = obsv(A_int, C_int);
+	rank(O)
+\end{verbatim}
+
+\textbf{Conclusion:}  
+The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}. This implies that there exists a matrix $K_O$ such that the observer error dynamics matrix $A_{\text{int}} - K_O C_{\text{int}}$ is \textbf{Hurwitz}.
+
+
+This observability ensures that despite partial measurements, the entire controllable state can be reconstructed and regulated accordingly.
+
+
+
 
 \chapter{Application}
 
