@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  23 MAY 2025 15:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  24 MAY 2025 20:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -761,29 +761,33 @@ t/10 ^^W[]; ^^W[]; ^^W[]; ^^W[]; ^^W[]\OT1/cmr/m/n/10 ][]$,
 [10]
 
 [11]
+
+[12]
+
+[13]
 Chapter 3.
 
 
-[12
+[14
 
 ]
 Chapter 4.
 
 
-[13
+[15
 
 ]
 
-[14
+[16
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 553--554
+Underfull \hbox (badness 10000) in paragraph at lines 616--617
 
  []
 
 
 
-[15
+[17
 
 ] (chapter2.aux)
  ***********
@@ -791,13 +795,13 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
  ***********
 Package rerunfilecheck Info: File `chapter2.out' has not changed.
-(rerunfilecheck)             Checksum: E85E6E6B67C73B60C3B24BFD3AAA53AA;2803.
+(rerunfilecheck)             Checksum: 505470A5F0340AD7912D34EE18735E8F;2976.
  ) 
 Here is how much of TeX's memory you used:
- 20811 strings out of 469940
- 404815 string characters out of 5467957
- 761513 words of memory out of 5000000
- 47203 multiletter control sequences out of 15000+600000
+ 20820 strings out of 469940
+ 404949 string characters out of 5467957
+ 761708 words of memory out of 5000000
+ 47208 multiletter control sequences out of 15000+600000
  637948 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,15n,91p,726b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -822,9 +826,9 @@ msy10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy7.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on chapter2.pdf (17 pages, 276424 bytes).
+Output written on chapter2.pdf (19 pages, 282125 bytes).
 PDF statistics:
- 309 PDF objects out of 1000 (max. 8388607)
- 77 named destinations out of 1000 (max. 500000)
- 165 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 324 PDF objects out of 1000 (max. 8388607)
+ 81 named destinations out of 1000 (max. 500000)
+ 173 words of extra memory for PDF output out of 10000 (max. 10000000)
 

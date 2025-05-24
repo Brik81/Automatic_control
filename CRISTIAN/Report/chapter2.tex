@@ -290,6 +290,69 @@ While alternative sensors such as LIDAR, GPS, or magnetometers could enhance loc
 
 The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
 
+\subsection{Linear Model Analysis}
+
+To facilitate controller design and gain analytical insight into the system's dynamic behavior, we consider a linearized version of the half-car model about a nominal equilibrium. This equilibrium corresponds to the vehicle at rest, with zero pitch angle, and no vertical or angular velocity. The analysis focuses on the open-loop behavior of the vehicle body, excluding actuator dynamics and wheel flexibility.
+
+The linearized dynamics retain the essential vertical (heave) and rotational (pitch) motion of the chassis. Let the state vector be:
+
+\[
+x = \begin{bmatrix}
+	z - z_0 \\
+	\dot{z} \\
+	\theta \\
+	\dot{\theta}
+\end{bmatrix}
+\]
+
+where \( z_0 \) is the static vertical equilibrium position of the vehicle's center of mass, and \( \theta = 0 \) denotes level pitch. The governing state-space model is given by:
+
+\[
+\dot{x} = A x
+\]
+
+with the system matrix:
+
+\[
+A =
+\begin{bmatrix}
+	0 & 1 & 0 & 0 \\
+	-40 & -3 & 0 & 0 \\
+	0 & 0 & 0 & 1 \\
+	0 & 0 & -160 & -12
+\end{bmatrix}
+\]
+
+This matrix is block diagonal in structure, reflecting the decoupled nature of vertical and pitch dynamics in the absence of actuation. Specifically, the first \( 2 \times 2 \) block corresponds to the vertical motion, and the lower \( 2 \times 2 \) block represents pitch dynamics.
+
+\subsubsection{Open-Loop Dynamics}
+
+To characterize the system's response, we compute the eigenvalues of the matrix \( A \) by solving:
+
+\[
+\det(A - \lambda I) = 0
+\]
+
+The resulting eigenvalues are:
+
+\[
+\lambda_{1,2} = -1.5 \pm j6.15, \quad \lambda_{3,4} = -6 \pm j11.14
+\]
+
+These complex-conjugate pairs have strictly negative real parts, indicating that the system is asymptotically stable in open loop. The imaginary components reflect oscillatory behavior, with damping ratios and natural frequencies determined by each eigenpair.
+
+\begin{itemize}
+	\item The eigenvalues \( \lambda_{1,2} \) are associated with vertical (heave) dynamics.
+	\item The eigenvalues \( \lambda_{3,4} \) correspond to pitch motion.
+\end{itemize}
+
+The heave mode is more lightly damped and slower, suggesting that vertical oscillations persist longer than pitch responses. This insight is critical for controller design, as it implies that control strategies may require separate tuning for heave and pitch channels, potentially with higher bandwidth for the pitch mode.
+
+Overall, while the passive system returns to equilibrium following perturbations, the oscillatory transients—especially in the vertical direction—can compromise ride comfort. Active suspension control is thus motivated to attenuate these oscillations, reduce settling time, and enhance both comfort and handling.
+
+
+
+
 \section{Control}
 
 \subsubsection{Reachability}
