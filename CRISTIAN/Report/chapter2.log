@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  24 MAY 2025 20:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.14)  25 MAY 2025 14:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -765,29 +765,31 @@ t/10 ^^W[]; ^^W[]; ^^W[]; ^^W[]; ^^W[]\OT1/cmr/m/n/10 ][]$,
 [12]
 
 [13]
+
+[14]
 Chapter 3.
-
-
-[14
-
-]
-Chapter 4.
 
 
 [15
 
 ]
+Chapter 4.
+
 
 [16
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 616--617
+
+[17
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 618--619
 
  []
 
 
 
-[17
+[18
 
 ] (chapter2.aux)
  ***********
@@ -798,10 +800,10 @@ Package rerunfilecheck Info: File `chapter2.out' has not changed.
 (rerunfilecheck)             Checksum: 505470A5F0340AD7912D34EE18735E8F;2976.
  ) 
 Here is how much of TeX's memory you used:
- 20820 strings out of 469940
- 404949 string characters out of 5467957
- 761708 words of memory out of 5000000
- 47208 multiletter control sequences out of 15000+600000
+ 20817 strings out of 469940
+ 404881 string characters out of 5467957
+ 761513 words of memory out of 5000000
+ 47204 multiletter control sequences out of 15000+600000
  637948 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,15n,91p,726b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -826,9 +828,9 @@ msy10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
 msfonts/cm/cmsy7.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb><C:/Users/Cristian/AppData/Local/Programs/MiKT
 eX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on chapter2.pdf (19 pages, 282125 bytes).
+Output written on chapter2.pdf (20 pages, 282719 bytes).
 PDF statistics:
- 324 PDF objects out of 1000 (max. 8388607)
- 81 named destinations out of 1000 (max. 500000)
+ 328 PDF objects out of 1000 (max. 8388607)
+ 82 named destinations out of 1000 (max. 500000)
  173 words of extra memory for PDF output out of 10000 (max. 10000000)
 

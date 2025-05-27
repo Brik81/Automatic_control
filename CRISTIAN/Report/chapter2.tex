@@ -194,7 +194,7 @@ The last two measurements, $y_l$ and $y_r$, represent the deflections of the lef
 \paragraph{Sensor Noise.}
 All measurements are affected by additive noise $\nu = [\nu_y, \nu_z, \nu_g, \nu_l, \nu_r]^T$, which accounts for sensor imperfections, electrical disturbances, or vibration-induced errors. The presence of noise highlights the importance of robust control and filtering strategies in practical implementations.
 
-
+\newpage
 \subsection{Control Objectives}
 
 We define the apparent pitch angle $\theta_a$ using accelerometer data:
@@ -290,6 +290,8 @@ While alternative sensors such as LIDAR, GPS, or magnetometers could enhance loc
 
 The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
 
+\newpage
+
 \subsection{Linear Model Analysis}
 
 To facilitate controller design and gain analytical insight into the system's dynamic behavior, we consider a linearized version of the half-car model about a nominal equilibrium. This equilibrium corresponds to the vehicle at rest, with zero pitch angle, and no vertical or angular velocity. The analysis focuses on the open-loop behavior of the vehicle body, excluding actuator dynamics and wheel flexibility.
@@ -352,7 +354,7 @@ Overall, while the passive system returns to equilibrium following perturbations
 
 
 
-
+\newpage
 \section{Control}
 
 \subsubsection{Reachability}
