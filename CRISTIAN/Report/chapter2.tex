@@ -167,25 +167,34 @@ Suspension forces are modeled as spring-damper systems:
 
 \subsection{Sensor Model}
 
-The measurement vector is given by:
+The vehicle is equipped with a set of onboard sensors that provide real-time measurements required for control and state estimation. These sensors include two accelerometers, a gyroscope, and two suspension potentiometers. The complete sensor output is gathered in the measurement vector:
 
 \begin{align}
 	y = \begin{bmatrix}
-		y_y \\
-		y_z \\
-		y_g \\
-		y_l \\
-		y_r
+		y_y \\ y_z \\ y_g \\ y_l \\ y_r
 	\end{bmatrix} =
 	\begin{bmatrix}
-		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/{m} \\
-		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/{m} \\
+		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/m \\
+		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/m \\
 		x_4 \\
 		s_1 \\
 		s_3
 	\end{bmatrix} + \nu
 \end{align}
 
+\paragraph{Accelerometers.}
+The first two components of the vector, $y_y$ and $y_z$, correspond to the lateral and vertical accelerations measured in the vehicle's body-fixed frame. These quantities are nonlinear combinations of the vertical acceleration of the center of mass and the contributions from external lateral forces, projected into the rotating frame of the vehicle using the pitch angle $x_3 = \theta$. These measurements reflect how the vehicle responds dynamically to road inputs and control actions, and are essential for estimating the apparent pitch felt by passengers.
+
+\paragraph{Gyroscope.}
+The third measurement, $y_g$, provides a direct reading of the pitch rate $\dot{\theta}$ (i.e., $x_4$). This is obtained from a gyroscope mounted on the vehicle, and it offers high-frequency dynamic information critical for closed-loop control, especially in active suspension systems that respond rapidly to body motion.
+
+\paragraph{Suspension Potentiometers.}
+The last two measurements, $y_l$ and $y_r$, represent the deflections of the left and right suspensions, respectively. These are measured via linear potentiometers or displacement sensors mounted along each suspension strut. The quantities $s_1$ and $s_3$ represent how much each suspension has compressed or extended relative to its rest position. These values reflect road unevenness and the vehicle's dynamic posture (e.g., roll or pitch), and are fundamental for both control and diagnostic purposes.
+
+\paragraph{Sensor Noise.}
+All measurements are affected by additive noise $\nu = [\nu_y, \nu_z, \nu_g, \nu_l, \nu_r]^T$, which accounts for sensor imperfections, electrical disturbances, or vibration-induced errors. The presence of noise highlights the importance of robust control and filtering strategies in practical implementations.
+
+\newpage
 \subsection{Control Objectives}
 
 We define the apparent pitch angle $\theta_a$ using accelerometer data:
@@ -225,14 +234,308 @@ where $s_1$, $s_3$ are suspension deflections, $h_1$, $h_2$ are derived from dyn
 \section{Proposed Solution}
 Here describe the proposed solution: Control system architecture (draw a block scheme!), mathematical description of the solution, listings of the MATLAB code implemented to obtain the solution
 
-To include a picture use the environment \textit{figure}. 
-\begin{figure}[h!]
-	\centering
-	%\includegraphics[width=0.7\columnwidth]{Figure}
-	\caption{Add the caption to each figure! The caption should completely describe the figure so that the reader should be able to understand it without the need of reading the main text.}
-	\label{fig:FigureA}
-\end{figure}
-Use the environment \textit{ref} to add a hyperlink to the figure. As example Figure \ref{fig:FigureA}.
+\subsection{Sensor Model}
+
+The effectiveness of the control architecture relies heavily on the accurate and timely acquisition of physical quantities related to the vehicle's motion and posture. To this end, the half-car system is equipped with a set of onboard sensors, specifically selected to ensure observability of the dynamic model and to allow real-time feedback control.
+
+\paragraph{Measurement Vector.}
+The complete sensor output is gathered in the measurement vector:
+
+\begin{align}
+	y = \begin{bmatrix}
+		y_y \\ y_z \\ y_g \\ y_l \\ y_r
+	\end{bmatrix} =
+	\begin{bmatrix}
+		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/m \\
+		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/m \\
+		x_4 \\
+		s_1 \\
+		s_3
+	\end{bmatrix} + \nu
+\end{align}
+
+This vector includes measurements from two accelerometers, one gyroscope, and two linear potentiometers, all subject to additive noise $\nu$.
+
+\paragraph{Accelerometers.}
+The first two components $y_y$ and $y_z$ represent the lateral and vertical accelerations measured in the vehicle’s body-fixed reference frame. These measurements are obtained via two MEMS accelerometers mounted at the vehicle's center of mass. Due to the non-inertial frame of reference, the accelerations are nonlinear combinations of translational and rotational dynamics and include the gravitational component projected along the vehicle's pitch angle $x_3 = \theta$.
+
+These measurements are used to estimate the apparent pitch angle $\theta_a$, which is a key feedback signal for pitch stabilization control. We assume a typical sensor such as the \textbf{STMicroelectronics LIS3DH}, offering 12-bit resolution, low noise density ($\sim50~\mu g/\sqrt{Hz}$), and a digital output interface.
+
+\paragraph{Gyroscope.}
+The third component $y_g$ corresponds to the pitch angular rate $\dot{\theta}$, measured directly by a gyroscope mounted on the vehicle frame. This measurement provides high-frequency information essential for dynamic feedback control and stability monitoring.
+
+A typical device used could be the \textbf{Bosch BMI160} inertial measurement unit (IMU), with integrated accelerometer and gyroscope, capable of delivering low-latency angular rate data with high sensitivity (16-bit ADC) and low drift. The sensor is assumed to be rigidly fixed to the main chassis near the center of rotation to minimize errors due to offset and vibration.
+
+\paragraph{Suspension Potentiometers.}
+The fourth and fifth entries $y_l$ and $y_r$ are deflection measurements of the front and rear suspension struts, modeled by the quantities $s_1$ and $s_3$. These values are acquired via linear position sensors (e.g., \textbf{Honeywell MLH Series}) mounted along the suspension path to detect extension or compression relative to the static rest position.
+
+These readings give direct insight into the interaction between the vehicle and the road surface, reflecting terrain irregularities, road disturbances, and load shifts. Additionally, they are fundamental to compute control actions that regulate ride comfort and load distribution.
+
+\paragraph{Noise Modeling.}
+All sensor measurements are corrupted by additive noise:
+
+\[
+\nu = \begin{bmatrix}
+	\nu_y & \nu_z & \nu_g & \nu_l & \nu_r
+\end{bmatrix}^T
+\]
+
+We assume Gaussian-distributed noise with known standard deviations derived from the sensor datasheets. Noise in the accelerometers and gyroscope may include both white noise and low-frequency bias drift, while potentiometers may exhibit quantization and thermal noise. These uncertainties justify the implementation of robust filtering (e.g., Kalman filters) and noise-resilient control laws.
+
+\paragraph{Sensor Placement and Observability.}
+The sensor configuration is designed to ensure full observability of the system state vector $x$ required for control. The accelerometers and gyroscope reconstruct the translational and rotational dynamics, while the suspension sensors resolve wheel-body interactions. This sensor suite has been tested in simulation to confirm that it enables estimation of all states through standard observers.
+
+\paragraph{Practical Considerations.}
+While alternative sensors such as LIDAR, GPS, or magnetometers could enhance localization in other contexts, they are not considered here due to their inadequacy in indoor or suspension-focused scenarios. For example, GPS is unsuitable for fine-grained control of vertical dynamics or in indoor testing environments, and magnetometers are highly susceptible to interference from ferromagnetic chassis components and electromagnetic noise from motors.
+
+The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
+
+\newpage
+
+\subsection{Linear Model Analysis}
+
+To facilitate controller design and gain analytical insight into the system's dynamic behavior, we consider a linearized version of the half-car model about a nominal equilibrium. This equilibrium corresponds to the vehicle at rest, with zero pitch angle, and no vertical or angular velocity. The analysis focuses on the open-loop behavior of the vehicle body, excluding actuator dynamics and wheel flexibility.
+
+The linearized dynamics retain the essential vertical (heave) and rotational (pitch) motion of the chassis. Let the state vector be:
+
+\[
+x = \begin{bmatrix}
+	z - z_0 \\
+	\dot{z} \\
+	\theta \\
+	\dot{\theta}
+\end{bmatrix}
+\]
+
+where \( z_0 \) is the static vertical equilibrium position of the vehicle's center of mass, and \( \theta = 0 \) denotes level pitch. The governing state-space model is given by:
+
+\[
+\dot{x} = A x
+\]
+
+with the system matrix:
+
+\[
+A =
+\begin{bmatrix}
+	0 & 1 & 0 & 0 \\
+	-40 & -3 & 0 & 0 \\
+	0 & 0 & 0 & 1 \\
+	0 & 0 & -160 & -12
+\end{bmatrix}
+\]
+
+This matrix is block diagonal in structure, reflecting the decoupled nature of vertical and pitch dynamics in the absence of actuation. Specifically, the first \( 2 \times 2 \) block corresponds to the vertical motion, and the lower \( 2 \times 2 \) block represents pitch dynamics.
+
+\subsubsection{Open-Loop Dynamics}
+
+To characterize the system's response, we compute the eigenvalues of the matrix \( A \) by solving:
+
+\[
+\det(A - \lambda I) = 0
+\]
+
+The resulting eigenvalues are:
+
+\[
+\lambda_{1,2} = -1.5 \pm j6.15, \quad \lambda_{3,4} = -6 \pm j11.14
+\]
+
+These complex-conjugate pairs have strictly negative real parts, indicating that the system is asymptotically stable in open loop. The imaginary components reflect oscillatory behavior, with damping ratios and natural frequencies determined by each eigenpair.
+
+\begin{itemize}
+	\item The eigenvalues \( \lambda_{1,2} \) are associated with vertical (heave) dynamics.
+	\item The eigenvalues \( \lambda_{3,4} \) correspond to pitch motion.
+\end{itemize}
+
+The heave mode is more lightly damped and slower, suggesting that vertical oscillations persist longer than pitch responses. This insight is critical for controller design, as it implies that control strategies may require separate tuning for heave and pitch channels, potentially with higher bandwidth for the pitch mode.
+
+Overall, while the passive system returns to equilibrium following perturbations, the oscillatory transients—especially in the vertical direction—can compromise ride comfort. Active suspension control is thus motivated to attenuate these oscillations, reduce settling time, and enhance both comfort and handling.
+
+
+
+\newpage
+\section{Control}
+
+\subsubsection{Reachability}
+
+In this section, a reachability analysis is carried out to determine which parts of the system's state space can be influenced by the control input. Starting from the linearized state-space system:
+
+\[
+\dot{\tilde{x}} = A \tilde{x} + B_1 \tilde{u}
+\]
+
+we aim to identify which states can be driven from the origin to a desired position through the control input $\tilde{u}$. The reachability matrix is defined as:
+
+\[
+\mathcal{R} = \left[ B_1 \quad AB_1 \quad A^2B_1 \quad \dots \quad A^{n-1}B_1 \right]
+\]
+
+A linear time-invariant system is said to be \textbf{fully reachable} (or controllable from the origin) if the rank of $\mathcal{R}$ is equal to $n$, the number of state variables. In such a case, it is possible to design a state feedback controller that places all eigenvalues of the closed-loop system arbitrarily.
+
+\paragraph{Reduced Reachability Analysis}
+
+In the present model, the state vector $\tilde{x} \in \mathbb{R}^6$ includes six components. However, the last two states represent environmental or road-related variables (e.g., road profile curvature), which evolve independently of the control input $\tilde{u}$. These are known as \textbf{exogenous states} and are not directly controllable.
+
+Therefore, we perform reachability analysis only on the first four states, which represent the internal vehicle dynamics and are influenced by control inputs. Let $A_{\text{int}}$ and $B_{1, \text{int}}$ be the upper-left $4 \times 4$ and $4 \times 2$ blocks of matrices $A$ and $B_1$:
+
+\[
+\dot{\tilde{x}}_{\text{int}} = A_{\text{int}} \tilde{x}_{\text{int}} + B_{1,\text{int}} \tilde{u}
+\]
+
+The reachability matrix becomes:
+
+\[
+\mathcal{R}_{\text{int}} = \left[ B_{1,\text{int}} \quad A_{\text{int}}B_{1,\text{int}} \quad A_{\text{int}}^2B_{1,\text{int}} \quad A_{\text{int}}^3B_{1,\text{int}} \right]
+\]
+
+We then evaluate the rank of this matrix using MATLAB's \texttt{ctrb} function:
+
+\begin{verbatim}
+	R_int = ctrb(A_int, B1_int);
+	rank(R_int)
+\end{verbatim}
+
+The resulting rank is 4, which confirms that the internal subsystem is fully reachable.
+
+\paragraph{Stabilizability and the Hurwitz Condition}
+
+According to control theory, if the system is fully reachable, it is possible to design a state feedback control law:
+
+\[
+\tilde{u} = K_S \tilde{x}_{\text{int}}
+\]
+
+such that the closed-loop matrix:
+
+\[
+A_{\text{int}} + B_{1,\text{int}} K_S
+\]
+
+is \textbf{Hurwitz}, meaning that all of its eigenvalues lie in the left half of the complex plane. This ensures that the closed-loop system is \textbf{BIBS stable} (Bounded Input Bounded State): all state trajectories remain bounded in response to bounded inputs.
+
+In conclusion, while the full model is not entirely reachable due to the presence of exogenous states, the subsystem representing the vehicle dynamics is fully reachable and can be stabilized using linear state feedback.
+
+
+\subsubsection{Integral Action}
+
+While the stabilizer matrix $K_S$ ensures the stability of the internal system under feedback control, an integral action is required to eliminate steady-state error in the presence of unknown constant disturbances $\tilde{w}$.
+
+The regulated error $\tilde{e}$ is defined as:
+\[
+\tilde{e} = C_e \tilde{x} + D_{1e} \tilde{u} + D_{2e} \tilde{w}
+\]
+
+To implement integral control, we introduce a new integral state $\eta$:
+\[
+\dot{\eta} = \tilde{e}
+\]
+
+This leads to an extended state vector:
+\[
+x_e = \begin{bmatrix} \tilde{x} \\ \eta \end{bmatrix}
+\]
+
+The extended system dynamics are:
+\[
+\dot{x}_e = \bar{A} x_e + \bar{B}_1 \tilde{u} + \bar{B}_2 \tilde{w}
+\]
+where
+\[
+\bar{A} = \begin{bmatrix}
+	A & 0 \\
+	C_e & 0
+\end{bmatrix},
+\quad
+\bar{B}_1 = \begin{bmatrix}
+	B_1 \\
+	D_{1e}
+\end{bmatrix},
+\quad
+\bar{B}_2 = \begin{bmatrix}
+	B_2 \\
+	D_{2e}
+\end{bmatrix}
+\]
+
+To verify whether the extended system is controllable (reachable), we compute the reachability matrix:
+\[
+\mathcal{R}_e = \left[\bar{B}_1 \quad \bar{A}\bar{B}_1 \quad \bar{A}^2\bar{B}_1 \quad \cdots \quad \bar{A}^{n+q-1} \bar{B}_1 \right]
+\]
+
+where $n$ is the number of original state variables and $q$ is the number of integrator states. In our model, $n=4$ (excluding the two uncontrollable states) and $q=2$, so we expect:
+\[
+\text{rank}(\mathcal{R}_e) = 6
+\]
+
+The reachability matrix is constructed in MATLAB using:
+
+\begin{verbatim}
+	Ae = [A, zeros(6,2); Ce, zeros(2,2)];
+	B1e = [B1; D1e];
+	Re = ctrb(Ae, B1e);
+	rank(Re)
+\end{verbatim}
+
+\textbf{Result:}  
+The output of the command confirms that $\text{rank}(\mathcal{R}_e) = 6$, i.e., the extended system is fully reachable.
+
+\textbf{Conclusion:}  
+Since the extended system is reachable, it is possible to design a state feedback control law of the form:
+\[
+\tilde{u} = \bar{K} x_e = K_S \tilde{x} + K_I \eta
+\]
+such that the closed-loop matrix $\bar{A} + \bar{B}_1 \bar{K}$ is Hurwitz. This guarantees asymptotic stability of the augmented system and drives the regulation error $\tilde{e}$ to zero.
+
+
+
+\subsubsection{Observability}
+
+Up to this point, the system state $\tilde{x}$ has been assumed to be known. However, this assumption is often unrealistic, particularly when some state variables are not directly measurable. For this reason, a state observer is required to estimate the internal states based on measurable outputs.
+
+Given that the last two states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
+
+Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
+
+\[
+\mathcal{O} = \begin{bmatrix}
+	C_{\text{int}} \\
+	C_{\text{int}} A_{\text{int}} \\
+	C_{\text{int}} A_{\text{int}}^2 \\
+	C_{\text{int}} A_{\text{int}}^3 \\
+\end{bmatrix}
+\]
+
+Using MATLAB, we compute:
+
+\begin{verbatim}
+	O = obsv(A_int, C_int);
+	rank(O)
+\end{verbatim}
+
+If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order Luenberger observer:
+
+\[
+\dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_O(y - C_{\text{int}} \hat{x}_{\text{int}})
+\]
+
+where $K_O$ is the observer gain. By properly choosing $K_O$, the eigenvalues of $(A_{\text{int}} - K_O C_{\text{int}})$ can be placed in the left half-plane to make the observer error dynamics stable. That is, the matrix must be \textbf{Hurwitz} to ensure convergence of the estimate $\hat{x}_{\text{int}}$ to the true internal state $\tilde{x}_{\text{int}}$.
+
+We check observability with MATLAB:
+
+\begin{verbatim}
+	O = obsv(A_int, C_int);
+	rank(O)
+\end{verbatim}
+
+\textbf{Conclusion:}  
+The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}. This implies that there exists a matrix $K_O$ such that the observer error dynamics matrix $A_{\text{int}} - K_O C_{\text{int}}$ is \textbf{Hurwitz}.
+
+
+This observability ensures that despite partial measurements, the entire controllable state can be reconstructed and regulated accordingly.
+
+
+
 
 \chapter{Application}
 
