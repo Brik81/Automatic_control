@@ -380,6 +380,9 @@ Overall, while the passive system returns to equilibrium following perturbations
 
 \subsubsection{Reachability}
 
+
+
+
 In this section, a reachability analysis is carried out to determine which parts of the system's state space can be influenced by the control input. Starting from the linearized state-space system:
 
 \[
@@ -394,11 +397,80 @@ we aim to identify which states can be driven from the origin to a desired posit
 
 A linear time-invariant system is said to be \textbf{fully reachable} (or controllable from the origin) if the rank of $\mathcal{R}$ is equal to $n$, the number of state variables. In such a case, it is possible to design a state feedback controller that places all eigenvalues of the closed-loop system arbitrarily.
 
+
+In our case, the system has $n = 8$ state variables. These include both the vehicle body dynamics (vertical position and velocity, pitch angle and rate) and road-related exogenous components (front and rear road pitch angles and their derivatives). The control input $\tilde{u} \in \mathbb{R}^2$ acts through actuators located at the front and rear suspensions, influencing primarily the body dynamics of the vehicle.
+
+However, the states related to the road excitation are not directly controllable. As such, only a subset of the full state vector can be affected by $\tilde{u}$. Upon computation of the reachability matrix $\mathcal{R}$ using the specific system matrices $A$ and $B_1$, we obtain:
+
+
+\[
+A =
+\begin{bmatrix}
+	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+	1.4538 & 0.0969199 & -27.158 & -1.81053 & 11.4274 & 15.7306 & 0.761825 & 1.04871 \\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
+\end{bmatrix}
+\]
+
+\[
+B_1 =
+\begin{bmatrix}
+	0 & 0 \\
+	0.000921659 & 0  \\
+	0 & 0 \\
+	0 & 0.000205339 \\
+	0 & 0 \\
+	0 & 0 \\
+	0 & 0 \\
+	0 & 0 \\
+	
+\end{bmatrix}
+\]
+
+
+\begin{verbatim}
+R = ctrb(A, B1);
+rank_R = rank(R);
+
+\end{verbatim}
+
+\[
+\text{rank}(\mathcal{R}) = 4 < 8
+\]
+
+This indicates that the system is \textbf{not fully reachable}. Only the four states corresponding to the internal dynamics of the vehicle body are reachable, while the remaining four states — associated with the road profile — are uncontrollable and must be treated as external disturbances. Consequently, control strategies such as state feedback and optimal control (e.g., LQR) can only be designed for the reachable subspace.
+
 \paragraph{Reduced Reachability Analysis}
 
-In the present model, the state vector $\tilde{x} \in \mathbb{R}^6$ includes six components. However, the last two states represent environmental or road-related variables (e.g., road profile curvature), which evolve independently of the control input $\tilde{u}$. These are known as \textbf{exogenous states} and are not directly controllable.
+In the present model, the state vector $\tilde{x} \in \mathbb{R}^8$ includes eight components. However, the last four states represent environmental or road-related variables (e.g., road profile curvature), which evolve independently of the control input $\tilde{u}$. These are known as \textbf{exogenous states} and are not directly controllable.
 
 Therefore, we perform reachability analysis only on the first four states, which represent the internal vehicle dynamics and are influenced by control inputs. Let $A_{\text{int}}$ and $B_{1, \text{int}}$ be the upper-left $4 \times 4$ and $4 \times 2$ blocks of matrices $A$ and $B_1$:
+
+\[
+A_{\text{int}} =
+\begin{bmatrix}
+	0 & 1 & 0 & 0 \\
+	-55.2995 & -3.68664 & 6.52535 & 0.435023 \\
+	0 & 0 & 0 & 1 \\
+	1.4538 & 0.0969199 & -27.158 & -1.81053 
+\end{bmatrix}
+\]
+
+\[
+B_{1,\text{int}} =
+\begin{bmatrix}
+	0 & 0 \\
+	0.000921659 & 0  \\
+	0 & 0 \\
+	0 & 0.000205339 
+
+\end{bmatrix}
+\]
 
 \[
 \dot{\tilde{x}}_{\text{int}} = A_{\text{int}} \tilde{x}_{\text{int}} + B_{1,\text{int}} \tilde{u}
@@ -514,7 +586,7 @@ such that the closed-loop matrix $\bar{A} + \bar{B}_1 \bar{K}$ is Hurwitz. This 
 
 Up to this point, the system state $\tilde{x}$ has been assumed to be known. However, this assumption is often unrealistic, particularly when some state variables are not directly measurable. For this reason, a state observer is required to estimate the internal states based on measurable outputs.
 
-Given that the last two states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
+Given that the last four states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
 
 Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
 
@@ -527,6 +599,19 @@ Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. 
 \end{bmatrix}
 \]
 
+\[
+C_{\text{int}} =
+\begin{bmatrix}
+	0 & 0 & 9.81 & 0 \\
+	-55.2995 & -3.68664 & 6.52535 & 0.435023 \\
+	0 & 0 & 0 & 1 \\
+	1 & 0 & 1.362 & 0  \\
+	1 & 0 & -1.598 & 0 \\
+	0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 
+\end{bmatrix}
+\]
+
 Using MATLAB, we compute:
 
 \begin{verbatim}
@@ -535,7 +620,7 @@ Using MATLAB, we compute:
 \end{verbatim}
 
 If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order Luenberger observer:
-
+\textbf{DA CAMBIARE CON FORMULA KALMAN FILTER?}
 \[
 \dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_O(y - C_{\text{int}} \hat{x}_{\text{int}})
 \]
