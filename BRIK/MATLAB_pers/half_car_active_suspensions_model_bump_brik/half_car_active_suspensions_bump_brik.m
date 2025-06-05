@@ -231,17 +231,28 @@ CE = jacobian(e, states);
 DE1 = jacobian(e, inputs1);
 DE2 = jacobian(e, disturb);
 
-A_0 = subs(A,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r, fwrear, fwfront], [ Delta0, 0, 0, 0,0,0,0,0,0,0]);
-B1_0 = subs(B1,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
-B2_0 = subs(B2, [pz,ptheta,thetaroad_f,thetaroad_r], [Delta0,0,0,0]);
-C_0 = subs(C,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,fwrear, fwfront], [Delta0, 0, 0, 0,0,0,0,0,0,0]);
-D1_0 = subs(D1,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
-D2_0 = subs(D2,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
+% A_0 = subs(A,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r, fwrear, fwfront], [ Delta0, 0, 0, 0,0,0,0,0,0,0]);
+% B1_0 = subs(B1,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
+% B2_0 = subs(B2, [pz,ptheta,thetaroad_f,thetaroad_r], [Delta0,0,0,0]);
+% C_0 = subs(C,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,fwrear, fwfront], [Delta0, 0, 0, 0,0,0,0,0,0,0]);
+% D1_0 = subs(D1,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
+% D2_0 = subs(D2,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
+% 
+% CE_0 = subs(CE,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [ Delta0,0, 0, 0,0,0,0,0]);
+% DE1_0 = subs(DE1,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
+% DE2_0 = subs(DE2,[pz,vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
+linear_point = [pz, vz, ptheta, vtheta, zroad_f, zroad_r, thetaroad_f, thetaroad_r];
+linear_value = [Delta0, 0, 0, 0, 0, 0, 0, 0];
 
-CE_0 = subs(CE,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [ Delta0,0, 0, 0,0,0,0,0]);
-DE1_0 = subs(DE1,[pz, vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
-DE2_0 = subs(DE2,[pz,vz, ptheta, vtheta,zroad_f,zroad_r, thetaroad_f,thetaroad_r,], [Delta0, 0, 0, 0,0,0,0,0]);
-
+A_0   = subs(A,   [linear_point, fwrear, fwfront], [linear_value, 0, 0]);
+B1_0  = subs(B1,  linear_point, linear_value);
+B2_0  = subs(B2,  [pz, ptheta, thetaroad_f, thetaroad_r], [Delta0, 0, 0, 0]);
+C_0   = subs(C,   [linear_point, fwrear, fwfront], [linear_value, 0, 0]);
+D1_0  = subs(D1,  linear_point, linear_value);
+D2_0  = subs(D2,  linear_point, linear_value);
+CE_0  = subs(CE,  linear_point, linear_value);
+DE1_0 = subs(DE1, linear_point, linear_value);
+DE2_0 = subs(DE2, linear_point, linear_value);
 
 
 % %% Visualizzazione matrici simboliche NON RIMUOVERE
@@ -286,3 +297,5 @@ disp('Matrice numerica D2:'); disp(D2_N);
 disp('Matrice numerica CE:'); disp(CE_N);
 disp('Matrice numerica DE1:'); disp(DE1_N);
 disp('Matrice numerica DE2:'); disp(DE2_N);
+
+latex(A_0)
