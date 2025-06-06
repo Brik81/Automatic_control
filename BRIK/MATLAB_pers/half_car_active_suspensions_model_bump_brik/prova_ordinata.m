@@ -159,6 +159,7 @@ DE2_N = vpa(subs(DE2_0, vars , par), 6);
 % disp('Matrice numerica DE1:'); disp(DE1_N);
 % disp('Matrice numerica DE2:'); disp(DE2_N);
 disp('matrice A: '); disp(latex(A_0));
+
 disp('matrice B1: ');disp(latex(B1_0));
 disp('matrice B2: ');disp(latex(B2_0));
 disp('matrice C: ');disp(latex(C_0));

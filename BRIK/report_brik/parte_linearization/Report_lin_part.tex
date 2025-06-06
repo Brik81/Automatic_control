@@ -103,116 +103,113 @@ Neglecting second-order terms, the linearized system becomes the so-called \text
 This Linear Time-Invariant (LTI) approximation of the nonlinear model is valid in a neighborhood of the equilibrium point, enabling efficient analysis and controller design under small perturbations.\\
 
  
-	
+\paragraph{Matrix calculus}
+		For the matrix calculation, the procedure described in equations \eqref{eq:jacobians_compact_matrix}  was followed. By substituting the equilibrium triplet given in \eqref{eq:equilibrium_triplet}, obtaining the following matrices:
 		
-\textbf{TODO}: Inserire le matrici calcolate con matlab e verificare che rispettino quello che abbiamo scritto (verifica che il codice del .m e quello che fa rispetta queste cose dette nella aprte di teoria)		
-		
-		
-		
-\[
-A =
-\begin{bmatrix}
-	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	-\dfrac{2k}{m} & -\dfrac{2\beta}{m} & -\dfrac{(\mathrm{df} - \mathrm{dr})k}{m} & -\dfrac{(\mathrm{df} - \mathrm{dr})\beta}{m} & \dfrac{\mathrm{df}k}{m} & -\dfrac{\mathrm{dr}k}{m} & \dfrac{\mathrm{df}\beta}{m} & -\dfrac{\mathrm{dr}\beta}{m} \\
-	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-	-\dfrac{(\mathrm{df} - \mathrm{dr})k}{J} & -\dfrac{(\mathrm{df} - \mathrm{dr})\beta}{J} & -\dfrac{k(\mathrm{df}^2 + \mathrm{dr}^2)}{J} & -\dfrac{\beta(\mathrm{df}^2 + \mathrm{dr}^2)}{J} & \dfrac{k\mathrm{df}^2}{J} & \dfrac{k\mathrm{dr}^2}{J} & \dfrac{\beta\mathrm{df}^2}{J} & \dfrac{\beta\mathrm{dr}^2}{J} \\
-	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	A =
+	\begin{bmatrix}
+		0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		-\dfrac{2k}{m} & -\dfrac{2\beta}{m} & -\dfrac{(d_f - d_r)k}{m} & -\dfrac{(d_f - d_r)\beta}{m} & \dfrac{d_fk}{m} & -\dfrac{d_rk}{m} & \dfrac{d_f\beta}{m} & -\dfrac{d_r\beta}{m} \\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+		-\dfrac{(d_f - d_r)k}{J} & -\dfrac{(d_f - d_r)\beta}{J} & -\dfrac{k(d_f^2 + d_r^2)}{J} & -\dfrac{\beta(d_f^2 + d_r^2)}{J} & \dfrac{kd_f^2}{J} & \dfrac{kd_r^2}{J} & \dfrac{\beta d_f^2}{J} & \dfrac{\beta d_r^2}{J} \\
+		0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-B_1 =
-\begin{bmatrix}
-	0 & 0 \\
-	\dfrac{1}{m} & 0 \\
-	0 & 0 \\
-	0 & \dfrac{1}{J} \\
-	0 & 0 \\
-	0 & 0 \\
-	0 & 0 \\
-	0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	B_1 =
+	\begin{bmatrix}
+		0 & 0 \\
+		\dfrac{1}{m} & 0 \\
+		0 & 0 \\
+		0 & \dfrac{1}{J} \\
+		0 & 0 \\
+		0 & 0 \\
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-B_2 =
-\begin{bmatrix}
-	0 & 0 & 0 & 0 & 0 \\
-	-1.0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & \dfrac{\mathrm{ell}_0 - 0.177398}{J} & \dfrac{\mathrm{ell}_0 - 0.177398}{J} \\
-	0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 \\
-	0 & 1.0 & 0 & 0 & 0 \\
-	0 & 0 & 1.0 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	B_2 =
+	\begin{bmatrix}
+		0 & 0 & 0 & 0 & 0 \\
+		-1 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & \dfrac{\ell_0 - 0.177398}{J} & \dfrac{\ell_0 - 0.177398}{J} \\
+		0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-C =
-\begin{bmatrix}
-	0 & 0 & \dfrac{0.354795\,k}{m} & 0 & 0 & 0 & 0 & 0 \\
-	-\dfrac{2.0\,k}{m} & -\dfrac{2.0\,\beta}{m} & -\dfrac{(\mathrm{df} - \mathrm{dr})k}{m} & -\dfrac{(\mathrm{df} - \mathrm{dr})\beta}{m} & \dfrac{\mathrm{df}k}{m} & -\dfrac{\mathrm{dr}k}{m} & \dfrac{\mathrm{df}\beta}{m} & -\dfrac{\mathrm{dr}\beta}{m} \\
-	0 & 0 & 0 & 1.0 & 0 & 0 & 0 & 0 \\
-	1.0 & 0 & \mathrm{df} & 0 & -\mathrm{df} & 0 & 0 & 0 \\
-	1.0 & 0 & -\mathrm{dr} & 0 & 0 & \mathrm{dr} & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	C =
+	\begin{bmatrix}
+		0 & 0 & \dfrac{0.354795\,k}{m} & 0 & 0 & 0 & 0 & 0 \\
+		-\dfrac{2k}{m} & -\dfrac{2\beta}{m} & -\dfrac{(d_f - d_r)k}{m} & -\dfrac{(d_f - d_r)\beta}{m} & \dfrac{d_fk}{m} & -\dfrac{d_rk}{m} & \dfrac{d_f\beta}{m} & -\dfrac{d_r\beta}{m} \\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+		1 & 0 & d_f & 0 & -d_f & 0 & 0 & 0 \\
+		1 & 0 & -d_r & 0 & 0 & d_r & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-D_1 =
-\begin{bmatrix}
-	0 & 0 \\
-	\dfrac{1}{m} & 0 \\
-	0 & 0 \\
-	0 & 0 \\
-	0 & 0 \\
-	0 & 0 \\
-	0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	D_1 =
+	\begin{bmatrix}
+		0 & 0 \\
+		\dfrac{1}{m} & 0 \\
+		0 & 0 \\
+		0 & 0 \\
+		0 & 0 \\
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-D_2 =
-\begin{bmatrix}
-	\dfrac{1}{m} & \dfrac{1}{m} & 1 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 1 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 1 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 1 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 1 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	D_2 =
+	\begin{bmatrix}
+		\dfrac{1}{m} & \dfrac{1}{m} & 1 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-\mathrm{CE} =
-\begin{bmatrix}
-	1.0 & 0 & 0 & 0 & -\dfrac{\mathrm{df}\,\mathrm{dr}}{\mathrm{df} + \mathrm{dr}} & \dfrac{\mathrm{df}\,\mathrm{dr}}{\mathrm{df} + \mathrm{dr}} & 0 & 0 \\
-	0 & 0 & \dfrac{|\!m\!|\left(6.39142 \times 10^{15}\,k + 1.80144 \times 10^{16}\,u_1\right)}{m \left|6.39142 \times 10^{15}\,k + 1.80144 \times 10^{16}\,u_1\right|} & 0 & 0 & 0 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	\mathrm{CE} =
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 & -\dfrac{d_f d_r}{d_f + d_r} & \dfrac{d_f d_r}{d_f + d_r} & 0 & 0 \\
+		0 & 0 & \dfrac{|m|(6.39142 \times 10^{15}\,k + 1.80144 \times 10^{16}\,u_1)}{m \left|6.39142 \times 10^{15}\,k + 1.80144 \times 10^{16}\,u_1\right|} & 0 & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-\mathrm{DE}_1 =
-\begin{bmatrix}
-	0 & 0 \\
-	0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	\mathrm{DE}_1 =
+	\begin{bmatrix}
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\end{equation}
 
-\[
-\mathrm{DE}_2 =
-\begin{bmatrix}
-	0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	\dfrac{2.81853\,|m|}{m\,|k|} & \dfrac{2.81853\,|m|}{m\,|k|} & \dfrac{2.81853\,|m|}{|k|} & 0 & 0 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	\mathrm{DE}_2 =
+	\begin{bmatrix}
+		0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		\dfrac{2.81853\,|m|}{m\,|k|} & \dfrac{2.81853\,|m|}{m\,|k|} & \dfrac{2.81853\,|m|}{|k|} & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 
 
 	
