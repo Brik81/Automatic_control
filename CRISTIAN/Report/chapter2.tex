@@ -188,75 +188,6 @@ Suspension forces are modeled as spring-damper systems:
 
 \subsection{Sensor Model}
 
-The vehicle is equipped with a set of onboard sensors that provide real-time measurements required for control and state estimation. These sensors include two accelerometers, a gyroscope, and two suspension potentiometers. The complete sensor output is gathered in the measurement vector:
-
-\begin{align}
-	y = \begin{bmatrix}
-		y_y \\ y_z \\ y_g \\ y_l \\ y_r
-	\end{bmatrix} =
-	\begin{bmatrix}
-		\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/m \\
-		\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/m \\
-		x_4 \\
-		s_1 \\
-		s_3
-	\end{bmatrix} + \nu
-\end{align}
-
-\paragraph{Accelerometers.}
-The first two components of the vector, $y_y$ and $y_z$, correspond to the lateral and vertical accelerations measured in the vehicle's body-fixed frame. These quantities are nonlinear combinations of the vertical acceleration of the center of mass and the contributions from external lateral forces, projected into the rotating frame of the vehicle using the pitch angle $x_3 = \theta$. These measurements reflect how the vehicle responds dynamically to road inputs and control actions, and are essential for estimating the apparent pitch felt by passengers.
-
-\paragraph{Gyroscope.}
-The third measurement, $y_g$, provides a direct reading of the pitch rate $\dot{\theta}$ (i.e., $x_4$). This is obtained from a gyroscope mounted on the vehicle, and it offers high-frequency dynamic information critical for closed-loop control, especially in active suspension systems that respond rapidly to body motion.
-
-\paragraph{Suspension Potentiometers.}
-The last two measurements, $y_l$ and $y_r$, represent the deflections of the left and right suspensions, respectively. These are measured via linear potentiometers or displacement sensors mounted along each suspension strut. The quantities $s_1$ and $s_3$ represent how much each suspension has compressed or extended relative to its rest position. These values reflect road unevenness and the vehicle's dynamic posture (e.g., roll or pitch), and are fundamental for both control and diagnostic purposes.
-
-\paragraph{Sensor Noise.}
-All measurements are affected by additive noise $\nu = [\nu_y, \nu_z, \nu_g, \nu_l, \nu_r]^T$, which accounts for sensor imperfections, electrical disturbances, or vibration-induced errors. The presence of noise highlights the importance of robust control and filtering strategies in practical implementations.
-
-\newpage
-\subsection{Control Objectives}
-
-We define the apparent pitch angle $\theta_a$ using accelerometer data:
-
-\begin{align}
-	\theta_a = \sin^{-1} \left( \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \right)
-\end{align}
-
-The control error vector is defined as:
-
-\begin{align}
-	e = \begin{bmatrix}
-		\frac{y_f d_r + y_r d_f}{d_r + d_f} - r_z \\
-		\theta_a - r_\theta
-	\end{bmatrix}
-\end{align}
-
-This error describes deviations from the desired vertical height and perceived pitch. The control task is to design $u$ to drive $e \rightarrow 0$ in the presence of disturbances and noise.
-
-The second component of the error vector $he(x,u,w)$ captures the deviation from a desired apparent pitch angle $\theta_a$, which reflects the passenger-perceived acceleration. It is defined through the nonlinear relationship:
-\[
-\sin(\theta_a) = \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \quad \Rightarrow \quad \theta_a = \sin^{-1}\left(\frac{y_y}{\sqrt{y_y^2 + y_z^2}}\right),
-\]
-where $y_y$ and $y_z$ are the accelerometer outputs along the body-frame $y$ and $z$ axes, respectively. This formulation provides an estimate of the pitch experienced by passengers during acceleration, braking, or uneven ground contact.
-
-
-The complete output error function thus becomes:
-\[
-he(x, u, w) =
-\begin{bmatrix}
-	\displaystyle \frac{(s_1 + \nu_f) d_r + (s_3 + \nu_r) d_f}{d_r + d_f} - r_z \\
-	\displaystyle \sin^{-1}\left( \frac{h_1 + \nu_y}{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}} \right) - r_\theta
-\end{bmatrix},
-\]
-where $s_1$, $s_3$ are suspension deflections, $h_1$, $h_2$ are derived from dynamic equations, and $\nu_i$ are sensor noise terms. This formulation ensures the controller minimizes both height and perceptual pitch deviations.
-
-\section{Proposed Solution}
-Here describe the proposed solution: Control system architecture (draw a block scheme!), mathematical description of the solution, listings of the MATLAB code implemented to obtain the solution
-
-\subsection{Sensor Model}
-
 The effectiveness of the control architecture relies heavily on the accurate and timely acquisition of physical quantities related to the vehicle's motion and posture. To this end, the half-car system is equipped with a set of onboard sensors, specifically selected to ensure observability of the dynamic model and to allow real-time feedback control.
 
 \paragraph{Measurement Vector.}
@@ -311,13 +242,49 @@ While alternative sensors such as LIDAR, GPS, or magnetometers could enhance loc
 
 The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
 
-\newpage
+
+\paragraph{Control Objectives.}
+
+We define the apparent pitch angle $\theta_a$ using accelerometer data:
+
+\begin{align}
+	\theta_a = \sin^{-1} \left( \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \right)
+\end{align}
+
+The control error vector is defined as:
+
+\begin{align}
+	e = \begin{bmatrix}
+		\frac{y_f d_r + y_r d_f}{d_r + d_f} - r_z \\
+		\theta_a - r_\theta
+	\end{bmatrix}
+\end{align}
+
+This error describes deviations from the desired vertical height and perceived pitch. The control task is to design $u$ to drive $e \rightarrow 0$ in the presence of disturbances and noise.
+
+The second component of the error vector $he(x,u,w)$ captures the deviation from a desired apparent pitch angle $\theta_a$, which reflects the passenger-perceived acceleration. It is defined through the nonlinear relationship:
+\[
+\sin(\theta_a) = \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \quad \Rightarrow \quad \theta_a = \sin^{-1}\left(\frac{y_y}{\sqrt{y_y^2 + y_z^2}}\right),
+\]
+where $y_y$ and $y_z$ are the accelerometer outputs along the body-frame $y$ and $z$ axes, respectively. This formulation provides an estimate of the pitch experienced by passengers during acceleration, braking, or uneven ground contact.
+
+
+The complete output error function thus becomes:
+\[
+he(x, u, w) =
+\begin{bmatrix}
+	\displaystyle \frac{(s_1 + \nu_f) d_r + (s_3 + \nu_r) d_f}{d_r + d_f} - r_z \\
+	\displaystyle \sin^{-1}\left( \frac{h_1 + \nu_y}{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}} \right) - r_\theta
+\end{bmatrix},
+\]
+where $s_1$, $s_3$ are suspension deflections, $h_1$, $h_2$ are derived from dynamic equations, and $\nu_i$ are sensor noise terms. This formulation ensures the controller minimizes both height and perceptual pitch deviations.
+
 
 \subsection{Linear Model Analysis}
 
-To facilitate controller design and gain analytical insight into the system's dynamic behavior, we consider a linearized version of the half-car model about a nominal equilibrium. This equilibrium corresponds to the vehicle at rest, with zero pitch angle, and no vertical or angular velocity. The analysis focuses on the open-loop behavior of the vehicle body, excluding actuator dynamics and wheel flexibility.
+To support the development of an effective suspension controller and gain insight into the vehicle's dynamic behavior, we examine a linearized model of a half-car system. This analysis is performed around a nominal equilibrium point, where the vehicle is at rest with zero pitch angle and no vertical or angular velocities. The focus is on the open-loop dynamics of the vehicle body, excluding actuator behavior and wheel compliance.
 
-The linearized dynamics retain the essential vertical (heave) and rotational (pitch) motion of the chassis. Let the state vector be:
+The model captures the essential vertical (heave) and angular (pitch) motions of the chassis. The state vector is defined as:
 
 \[
 x = \begin{bmatrix}
@@ -328,50 +295,51 @@ x = \begin{bmatrix}
 \end{bmatrix}
 \]
 
-where \( z_0 \) is the static vertical equilibrium position of the vehicle's center of mass, and \( \theta = 0 \) denotes level pitch. The governing state-space model is given by:
+where \( z_0 \) is the vertical position of the center of mass at static equilibrium, and \( \theta \) denotes the pitch angle of the chassis. The state-space representation of the system is given by:
 
 \[
-\dot{x} = A x
+\dot{x} = A_{\text{int}} x
 \]
 
-with the system matrix:
-
+We are gonna analyze this reduced 4x4 matrix, ignoring the 4 exogenous states, the reason behind this is explained later in the Reachability chapter.\textbf{INCLUDI NUMERO CAPITOLO}  All parameters used to find the numeric matrixes are based on the Tesla Model S, a car suitable for this type of active suspensions and with same suspension paramethers on front and rear axle, this simplifies slighlty our model:
 \[
-A =
+A_{\text{int}} =
 \begin{bmatrix}
 	0 & 1 & 0 & 0 \\
-	-40 & -3 & 0 & 0 \\
+	-55.2995 & -3.68664 & 6.52535 & 0.435023 \\
 	0 & 0 & 0 & 1 \\
-	0 & 0 & -160 & -12
+	1.4538 & 0.0969199 & -27.158 & -1.81053 
 \end{bmatrix}
 \]
 
-This matrix is block diagonal in structure, reflecting the decoupled nature of vertical and pitch dynamics in the absence of actuation. Specifically, the first \( 2 \times 2 \) block corresponds to the vertical motion, and the lower \( 2 \times 2 \) block represents pitch dynamics.
+This matrix characterizes the coupled dynamics of the system, with off-diagonal elements indicating interaction between vertical and angular motions. Such coupling arises naturally in a physical half-car system, where vertical displacements can induce pitching, and vice versa.
 
 \subsubsection{Open-Loop Dynamics}
 
-To characterize the system's response, we compute the eigenvalues of the matrix \( A \) by solving:
+To evaluate the system's stability and transient behavior, we compute the eigenvalues of the matrix \( A_{\text{int}} \) by solving the characteristic equation:
 
 \[
-\det(A - \lambda I) = 0
+\det(A_{\text{int}} - \lambda I) = 0
 \]
 
 The resulting eigenvalues are:
 
 \[
-\lambda_{1,2} = -1.5 \pm j6.15, \quad \lambda_{3,4} = -6 \pm j11.14
+\lambda_{1,2} = -1.55 \pm j6.28, \quad \lambda_{3,4} = -2.47 \pm j5.10
 \]
 
-These complex-conjugate pairs have strictly negative real parts, indicating that the system is asymptotically stable in open loop. The imaginary components reflect oscillatory behavior, with damping ratios and natural frequencies determined by each eigenpair.
+These eigenvalues form two complex-conjugate pairs, each with negative real parts. This indicates that the system is asymptotically stable in open loop. The imaginary components represent oscillatory behavior in the system's response to disturbances.
 
 \begin{itemize}
-	\item The eigenvalues \( \lambda_{1,2} \) are associated with vertical (heave) dynamics.
-	\item The eigenvalues \( \lambda_{3,4} \) correspond to pitch motion.
+	\item The eigenvalues \( \lambda_{1,2} \) correspond to a lightly damped oscillatory mode with a higher frequency.
+	\item The eigenvalues \( \lambda_{3,4} \) correspond to a more heavily damped mode with a lower oscillation frequency.
 \end{itemize}
 
-The heave mode is more lightly damped and slower, suggesting that vertical oscillations persist longer than pitch responses. This insight is critical for controller design, as it implies that control strategies may require separate tuning for heave and pitch channels, potentially with higher bandwidth for the pitch mode.
+Due to the coupling present in \( A_{\text{int}} \), these modes represent mixed heave-pitch dynamics rather than purely vertical or angular motions. This hybrid behavior implies that any disturbance in one degree of freedom can propagate to the other, necessitating a control strategy that accounts for this interaction.
 
-Overall, while the passive system returns to equilibrium following perturbations, the oscillatory transients—especially in the vertical direction—can compromise ride comfort. Active suspension control is thus motivated to attenuate these oscillations, reduce settling time, and enhance both comfort and handling.
+The system’s open-loop stability ensures that disturbances decay over time, but the oscillatory nature of the transients may degrade ride comfort and vehicle handling. Therefore, active suspension control is warranted to suppress these vibrations more rapidly, reduce settling time, and improve overall vehicle performance.
+
+In summary, the linearized model described by \( A_{\text{int}} \) reveals a stable but dynamically coupled system with oscillatory characteristics. These insights are essential for the design of coordinated control strategies that enhance both ride quality and dynamic response.
 
 
 
