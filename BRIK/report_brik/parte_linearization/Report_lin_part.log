@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.3.28)  5 JUN 2025 13:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.3.28)  6 JUN 2025 10:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -373,21 +373,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 103--104
  []
 
 
-Overfull \hbox (91.93642pt too wide) detected at line 124
-\OML/cmm/m/it/10 A \OT1/cmr/m/n/10 = []
+Overfull \hbox (72.10072pt too wide) detected at line 121
+[][][]\OML/cmm/m/it/10 A \OT1/cmr/m/n/10 = []
  []
 
 [2]
-Overfull \hbox (16.54877pt too wide) detected at line 165
-\OML/cmm/m/it/10 C \OT1/cmr/m/n/10 = []
+Overfull \hbox (2.30347pt too wide) detected at line 162
+[][][]\OML/cmm/m/it/10 C \OT1/cmr/m/n/10 = []
  []
 
-
-Overfull \hbox (55.68404pt too wide) detected at line 199
-[] \OT1/cmr/m/n/10 = []
+[3]
+Overfull \hbox (50.50572pt too wide) detected at line 196
+[][][][] \OT1/cmr/m/n/10 = []
  []
 
-[3] [4] (Report_lin_part.aux)
+[4] (Report_lin_part.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
@@ -396,10 +396,10 @@ Package rerunfilecheck Info: File `Report_lin_part.out' has not changed.
 (rerunfilecheck)             Checksum: 8BBFC5BD7114A89AFFFD8CA8B3C8BDB6;265.
  ) 
 Here is how much of TeX's memory you used:
- 9199 strings out of 475248
- 143185 string characters out of 5757813
- 1948785 words of memory out of 5000000
- 30602 multiletter control sequences out of 15000+600000
+ 9207 strings out of 475248
+ 143266 string characters out of 5757813
+ 1949785 words of memory out of 5000000
+ 30600 multiletter control sequences out of 15000+600000
  566885 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,655b,454s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -419,9 +419,9 @@ C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr
 msfonts/cm/cmsy10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1
 /public/amsfonts/cm/cmsy7.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fon
 ts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Report_lin_part.pdf (6 pages, 177632 bytes).
+Output written on Report_lin_part.pdf (6 pages, 181027 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
- 15 named destinations out of 1000 (max. 500000)
+ 133 PDF objects out of 1000 (max. 8388607)
+ 25 named destinations out of 1000 (max. 500000)
  17 words of extra memory for PDF output out of 10000 (max. 10000000)
 
