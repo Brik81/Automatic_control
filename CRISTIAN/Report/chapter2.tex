@@ -19,7 +19,11 @@ A.A. 202X-202X}}
 \maketitle
 
 \begin{abstract}
-	Here briefly detail  the aims of the project.
+This report presents the modeling, design, and simulation of an active suspension control system aimed at improving ride comfort and handling performance in passenger vehicles. The study focuses on a half-car model that includes both front and rear suspension dynamics, allowing the analysis of vertical and pitch motion of the vehicle body. Unlike passive suspension systems, which rely solely on spring-damper elements, the active suspension system introduced here incorporates actuators capable of generating controlled forces to counteract road disturbances in real time.
+
+To achieve the desired ride quality, a control strategy based on Proportional-Integral-Derivative (PID) controllers is developed.  Additionally, a state estimation technique using a Kalman observer is incorporated to provide real-time estimates of the states, helping to adapt to acceleration and road profile in a faster and more effective way.
+
+The performance of the control system is evaluated through simulations conducted in MATLAB/Simulink. Results show a significant reduction in body acceleration and pitch angle variation when compared to a passive suspension system, demonstrating the effectiveness of the proposed approach in enhancing ride comfort. This project perfectly demonstrates, once again, the massive importance of active control strategies in automotive suspension design.
 \end{abstract}
 
 \chapter{Introduction}
@@ -646,23 +650,36 @@ Using MATLAB, we compute:
 	rank(O)
 \end{verbatim}
 
-If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order Luenberger observer:
-\textbf{DA CAMBIARE CON FORMULA KALMAN FILTER?}
+If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order \textbf{Kalman filter} (optimal observer):
+
 \[
-\dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_O(y - C_{\text{int}} \hat{x}_{\text{int}})
+\dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_f(y - C_{\text{int}} \hat{x}_{\text{int}})
 \]
 
-where $K_O$ is the observer gain. By properly choosing $K_O$, the eigenvalues of $(A_{\text{int}} - K_O C_{\text{int}})$ can be placed in the left half-plane to make the observer error dynamics stable. That is, the matrix must be \textbf{Hurwitz} to ensure convergence of the estimate $\hat{x}_{\text{int}}$ to the true internal state $\tilde{x}_{\text{int}}$.
+where $K_f$ is the \textbf{Kalman gain}, computed to optimally minimize the estimation error covariance under the assumption of white Gaussian process and measurement noise. The Kalman gain is derived from the steady-state solution of the continuous-time algebraic Riccati equation:
 
-We check observability with MATLAB:
+\[
+A_{\text{int}} P + P A_{\text{int}}^T - P C_{\text{int}}^T R^{-1} C_{\text{int}} P + Q = 0
+\]
 
-\begin{verbatim}
-	O = obsv(A_int, C_int);
-	rank(O)
-\end{verbatim}
+\[
+K_f = P C_{\text{int}}^T R^{-1}
+\]
 
-\textbf{Conclusion:}  
-The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}. This implies that there exists a matrix $K_O$ such that the observer error dynamics matrix $A_{\text{int}} - K_O C_{\text{int}}$ is \textbf{Hurwitz}.
+Here:
+\begin{itemize}
+	\item $Q$ is the covariance matrix of the process noise,
+	\item $R$ is the covariance matrix of the measurement noise,
+	\item $P$ is the steady-state error covariance matrix.
+\end{itemize}
+
+By solving the Riccati equation with appropriately chosen $Q$ and $R$, the filter gain $K_f$ ensures that the estimation error converges in a statistically optimal sense, even in the presence of measurement and process disturbances.
+
+
+
+\textbf{Conclusion:} \\
+The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}, and a Kalman filter can be designed. This guarantees that despite partial measurements, the entire internal state vector $\tilde{x}_{\text{int}}$ can be optimally reconstructed for control and estimation purposes.
+
 
 
 This observability ensures that despite partial measurements, the entire controllable state can be reconstructed and regulated accordingly.
