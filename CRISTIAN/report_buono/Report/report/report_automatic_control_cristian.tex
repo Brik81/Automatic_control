@@ -1,10 +1,12 @@
 \documentclass[]{report}
 \usepackage{amsmath,amsfonts}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{url}
-\usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
 \usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
 \usetikzlibrary{arrows.meta, decorations.pathreplacing, decorations.pathmorphing}
 
 % Title Page
@@ -41,7 +43,57 @@
 	Describe what the reader finds in each of the Sections of this manuscript.
 	
 	\section{List of the symbols}
-	Here list all the symbols used in the manuscript and add a description to each of them (Use the International System of Units \url{https://en.wikipedia.org/wiki/International_System_of_Units}).
+\begin{table}[H]
+	\centering
+	\caption{Symbol Table}
+	\begin{tabular}{lll}
+		\toprule
+		\textbf{Symbol} & \textbf{Description} & \textbf{Dimension} \\
+		\midrule
+		$x$ & State vector & $\mathbb{R}^n$ \\
+		$u$ & Control input vector & $\mathbb{R}^p$ \\
+		$y$ & Measured output vector & $\mathbb{R}^q$ \\
+		$e$ & Control error (goal) & $\mathbb{R}^{l_m}$ \\
+		$d$ & Disturbance vector & $\mathbb{R}^{l_d}$ \\
+		$r$ & Reference signal & $\mathbb{R}^{l_r}$ \\
+		$\nu$ & Sensor noise & $\mathbb{R}^q$ \\
+		$w$ & Exogenous input, $w = \text{col}(d, \nu, r)$ & --- \\
+		$z$ & Vertical displacement of vehicle CoM & --- \\
+		$z_g$ & Vertical displacement of the road surface & --- \\
+		$\theta$ & Vehicle pitch angle & --- \\
+		$\dot{\theta}$ & Angular velocity of pitch & --- \\
+		$\theta_{gf}$ & Road pitch angle at front axle & --- \\
+		$\omega_{gf}$ & Rate of change of front road pitch & --- \\
+		$\theta_{gr}$ & Road pitch angle at rear axle & --- \\
+		$\omega_{gr}$ & Rate of change of rear road pitch & --- \\
+		$x_i$ & Component of state vector $x$, $i = 1,\dots,8$ & --- \\
+		$u_1$ & Vertical force component of actuator input & --- \\
+		$u_2$ & Pitch moment component of actuator input & --- \\
+		$f_{af}, f_{ar}$ & Forces from front and rear actuators & --- \\
+		$d_f, d_r$ & Distances from CoM to front and rear axles & --- \\
+		$f_2$ & Net vertical acceleration of vehicle body & --- \\
+		$f_4$ & Pitch angular acceleration & --- \\
+		$\ddot{z}_g$ & Vertical acceleration of road surface & --- \\
+		$\alpha_{gf}, \alpha_{gr}$ & Angular accelerations of road at front and rear axles & --- \\
+		$s_1, s_3$ & Suspension deflections (front, rear) & --- \\
+		$s_2, s_4$ & Suspension velocities (front, rear) & --- \\
+		$f_s(p, v)$ & Suspension force: $-kp - \beta v$ & --- \\
+		$k$ & Suspension stiffness & --- \\
+		$\beta$ & Suspension damping coefficient & --- \\
+		$y_y, y_z$ & Lateral and vertical accelerometer readings & --- \\
+		$y_g$ & Gyroscope reading (pitch rate) & --- \\
+		$y_l, y_r$ & Suspension potentiometer readings (front, rear) & --- \\
+		$\nu_y, \nu_z, \nu_g, \nu_l, \nu_r$ & Sensor noise components & --- \\
+		$\theta_a$ & Apparent pitch angle from accelerometers & --- \\
+		$r_z, r_\theta$ & Reference vertical height and pitch angle & --- \\
+		$f_{sf}, f_{sr}$ & Suspension spring forces (front, rear) & --- \\
+		$f_{wf}, f_{wr}$ & Wheel forces (front, rear) & --- \\
+		$l_f, l_r$ & Lever arms of wheel forces for torque calculation & --- \\
+		$E(y)$ & Map from output to control error & --- \\
+		$g$ & Gravitational constant & --- \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 	
 	\chapter{MAIN BODY}
 	Change the title with the name of the selected application
