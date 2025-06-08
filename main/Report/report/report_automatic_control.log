@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.3.28)  8 JUN 2025 11:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.3.28)  8 JUN 2025 12:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./chapter2.tex
-(chapter2.tex
+**./report_automatic_control.tex
+(report_automatic_control.tex
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
 (C:\Users\alex2\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
@@ -627,8 +627,8 @@ tex.def
 File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count306
 \l__pdf_internal_box=\box65
-) (chapter2.aux)
-\openout1 = `chapter2.aux'.
+) (report_automatic_control.aux)
+\openout1 = `report_automatic_control.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
@@ -675,9 +675,9 @@ fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 19.
- (chapter2.out) (chapter2.out)
+ (report_automatic_control.out) (report_automatic_control.out)
 \@outlinefile=\write4
-\openout4 = `chapter2.out'.
+\openout4 = `report_automatic_control.out'.
 
 LaTeX Font Info:    Trying to load font information for U+msa on input line 21.
 
@@ -698,65 +698,106 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.28 \end{abstract}
-                    [1]
+l.28 	\end{abstract}
+                     [1]
 Chapter 1.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.46 \chapter
-             {MAIN BODY} [1
+l.46 	\chapter
+              {MAIN BODY} [1
 
 ]
 Chapter 2.
 [2
 
 ] [3] [4] [5] [6] [7] [8]
-Overfull \hbox (25.77802pt too wide) in paragraph at lines 372--373
+Overfull \hbox (11.35706pt too wide) detected at line 408
+[][][][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 427--428
+
+ []
+
+[9]
+Overfull \hbox (64.39925pt too wide) detected at line 446
+[][][]\OML/cmm/m/it/10 A \OT1/cmr/m/n/10 = []
+ []
+
+[10]
+Overfull \hbox (260.02972pt too wide) detected at line 562
+\OML/cmm/m/it/10 A \OT1/cmr/m/n/10 = []
+ []
+
+
+Overfull \hbox (85.15602pt too wide) detected at line 596
+\OML/cmm/m/it/10 B[] \OT1/cmr/m/n/10 = []
+ []
+
+
+Overfull \hbox (50.64108pt too wide) detected at line 608
+\OML/cmm/m/it/10 C \OT1/cmr/m/n/10 = []
+ []
+
+[11]
+Overfull \hbox (198.62798pt too wide) detected at line 636
+\OML/cmm/m/it/10 D[] \OT1/cmr/m/n/10 = []
+ []
+
+
+Overfull \hbox (290.20015pt too wide) detected at line 658
+\OML/cmm/m/it/10 D[] \OT1/cmr/m/n/10 = []
+ []
+
+[12]
+Overfull \hbox (25.77802pt too wide) in paragraph at lines 689--690
 \OT1/cmr/m/n/10 states, the rea-son be-hind this is ex-plained later in the Rea
 ch-a-bil-ity chap-ter.\OT1/cmr/bx/n/10 INCLUDI
  []
 
-[9] [10]
-Overfull \hbox (70.27867pt too wide) detected at line 454
+[13] [14]
+Overfull \hbox (70.27867pt too wide) detected at line 771
 \OML/cmm/m/it/10 A \OT1/cmr/m/n/10 = []
  []
 
-[11] [12] [13] [14] [15]
+[15] [16] [17] [18] [19]
 Chapter 3.
-[16
+[20
 
 ]
 Chapter 4.
-[17
+[21
 
-] [18
+] [22
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 773--774
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
 
  []
 
-[19
+[23
 
-] (chapter2.aux)
+] (report_automatic_control.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
-Package rerunfilecheck Info: File `chapter2.out' has not changed.
-(rerunfilecheck)             Checksum: AAA5B766A465BEE335122E971969C5DC;2708.
+Package rerunfilecheck Info: File `report_automatic_control.out' has not change
+d.
+(rerunfilecheck)             Checksum: A7D1E9339F7926B95B7C5C9D3085C4B9;2873.
  ) 
 Here is how much of TeX's memory you used:
- 20730 strings out of 475248
- 402100 string characters out of 5757813
- 1936785 words of memory out of 5000000
- 41830 multiletter control sequences out of 15000+600000
- 569192 words of font info for 79 fonts, out of 8000000 for 9000
+ 20769 strings out of 475248
+ 403085 string characters out of 5757813
+ 1952785 words of memory out of 5000000
+ 41843 multiletter control sequences out of 15000+600000
+ 569538 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,15n,89p,611b,703s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,15n,89p,665b,703s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\alex2\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -775,11 +816,13 @@ public/amsfonts/cm/cmr7.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmr9.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTe
 X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/alex2/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/alex2/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/alex2/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on chapter2.pdf (21 pages, 290559 bytes).
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alex2/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users
+/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10
+.pfb>
+Output written on report_automatic_control.pdf (25 pages, 321262 bytes).
 PDF statistics:
- 322 PDF objects out of 1000 (max. 8388607)
- 79 named destinations out of 1000 (max. 500000)
- 157 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 374 PDF objects out of 1000 (max. 8388607)
+ 104 named destinations out of 1000 (max. 500000)
+ 165 words of extra memory for PDF output out of 10000 (max. 10000000)
 

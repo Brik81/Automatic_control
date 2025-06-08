@@ -60,12 +60,10 @@ y = [sin(ptheta)*(f2 + g) + cos(ptheta) * ((fwrear + fwfront) / m) + nuy;
      cos(ptheta)*(f2 + g) - sin(ptheta) * ((fwrear + fwfront) / m) + nuz; 
      vtheta + nug;
      s1 + nuf;
-     s3 + nur;
-     rz;
-     rtheta];
+     s3 + nur];
 
 % Errori (usati per feedback)
-e = [(s1*dr + s3*df)/(dr + df) - rz;
+e = [((s1+nuf)*dr + (s3+nur)*df)/(dr + df) - rz;
      asin((y(1)) / sqrt(y(1)^2 + y(2)^2)) - rtheta];
 
 %% Linearizzazione simbolica (matrici Jacobiane)
@@ -75,7 +73,7 @@ states = [pz, vz, ptheta, vtheta, thetaroad_f, thetaroad_r, zroad_f,zroad_r];
 inputs1 = [u1, u2];
 u0 = [0; k * Delta0 * (df - dr)];
 inputs2 = [zgsecond, alphag_f,alphag_r, fwfront, fwrear];
-disturb_vars = [fwrear, fwfront, nuy, nuz, nug, nuf, nur];
+disturb_vars = [zgsecond, alphag_f,alphag_r,fwrear, fwfront, nuy, nuz, nug, nuf, nur, rz, rtheta];
 disturb_vals = zeros(size(disturb_vars));
 
 A = jacobian(f, states);
@@ -110,7 +108,7 @@ B2_0  = vpa(subs(B2,  [pz, ptheta, thetaroad_f, thetaroad_r], [Delta0, 0, 0, 0])
 C_0 = vpa(subs(C, [linear_point, fwrear, fwfront, u1, u2], [linear_value, 0, 0, u0(1), u0(2)]), 6);
 D1_0  = vpa(subs(D1,  [linear_point, u1, u2], [linear_value, u0(1), u0(2)]), 6);
 D2_0  = subs(D2,  linear_point, linear_value);
-CE_0  = vpa(simplify(subs(CE,  [linear_point, disturb_vars], [linear_value, disturb_vals])), 6);
+CE_0  = vpa(simplify(subs(CE,  [linear_point, disturb_vars, u1, u2], [linear_value, disturb_vals, u0(1), u0(2)])), 6);
 DE1_0 = vpa(simplify(subs(DE1, [linear_point, disturb_vars], [linear_value, disturb_vals])), 6);
 DE2_0 = vpa(simplify(subs(DE2, [linear_point, disturb_vars, u1, u2], [linear_value, disturb_vals,u0(1), u0(2)])), 6);
 
@@ -127,16 +125,16 @@ DE2_0 = vpa(simplify(subs(DE2, [linear_point, disturb_vars, u1, u2], [linear_val
 % disp('Matrice simbolica DE1:'); disp(DE1);
 % disp('Matrice simbolica DE2:'); disp(DE2);
 
-%% Visualizzazione matrici simboliche in X0
-disp('Matrice simbolica A:'); disp(A_0);
-disp('Matrice simbolica B1:'); disp(B1_0);
-disp('Matrice simbolica B2:'); disp(B2_0);
-disp('Matrice simbolica C:'); disp(C_0);
-disp('Matrice simbolica D1:'); disp(D1_0);
-disp('Matrice simbolica D2:'); disp(D2_0);
-disp('Matrice simbolica CE:'); disp(CE_0);
-disp('Matrice simbolica DE1:'); disp(DE1_0);
-disp('Matrice simbolica DE2:'); disp(DE2_0);
+% %% Visualizzazione matrici simboliche in X0
+% disp('Matrice simbolica A:'); disp(A_0);
+% disp('Matrice simbolica B1:'); disp(B1_0);
+% disp('Matrice simbolica B2:'); disp(B2_0);
+% disp('Matrice simbolica C:'); disp(C_0);
+% disp('Matrice simbolica D1:'); disp(D1_0);
+% disp('Matrice simbolica D2:'); disp(D2_0);
+% disp('Matrice simbolica CE:'); disp(CE_0);
+% disp('Matrice simbolica DE1:'); disp(DE1_0);
+% disp('Matrice simbolica DE2:'); disp(DE2_0);
 
 %% matrici numeriche
 A_N = vpa(subs(A_0, vars , par), 6);
@@ -149,22 +147,36 @@ CE_N = vpa(subs(CE_0, vars , par), 6);
 DE1_N = vpa(subs(DE1_0, vars , par), 6);
 DE2_N = vpa(subs(DE2_0, vars , par), 6);
 
-% disp('Matrice numerica A:'); disp(A_N);
-% disp('Matrice numerica B1:'); disp(B1_N);
-% disp('Matrice numerica B2:'); disp(B2_N);
-% disp('Matrice numerica C:'); disp(C_N);
-% disp('Matrice numerica D1:'); disp(D1_N);
-% disp('Matrice numerica D2:'); disp(D2_N);
-% disp('Matrice numerica CE:'); disp(CE_N);
-% disp('Matrice numerica DE1:'); disp(DE1_N);
-% disp('Matrice numerica DE2:'); disp(DE2_N);
-disp('matrice A: '); disp(latex(A_0));
+disp('Matrice numerica A:'); disp(A_N);
+disp('Matrice numerica B1:'); disp(B1_N);
+disp('Matrice numerica B2:'); disp(B2_N);
+disp('Matrice numerica C:'); disp(C_N);
+disp('Matrice numerica D1:'); disp(D1_N);
+disp('Matrice numerica D2:'); disp(D2_N);
+disp('Matrice numerica CE:'); disp(CE_N);
+disp('Matrice numerica DE1:'); disp(DE1_N);
+disp('Matrice numerica DE2:'); disp(DE2_N);
 
-disp('matrice B1: ');disp(latex(B1_0));
-disp('matrice B2: ');disp(latex(B2_0));
-disp('matrice C: ');disp(latex(C_0));
-disp('matrice D1: ');disp(latex(D1_0));
-disp('matrice D2: ');disp(latex(D2_0));
-disp('matrice CE: ');disp(latex(CE_0));
-disp('matrice DE1: ');disp(latex(DE1_0));
-disp('matrice DE2: ');disp(latex(DE2_0));
+
+% disp('matrice A: '); disp(latex(A_0));
+% 
+% disp('matrice B1: ');disp(latex(B1_0));
+% disp('matrice B2: ');disp(latex(B2_0));
+% disp('matrice C: ');disp(latex(C_0));
+% disp('matrice D1: ');disp(latex(D1_0));
+% disp('matrice D2: ');disp(latex(D2_0));
+% disp('matrice CE: ');disp(latex(CE_0));
+% disp('matrice DE1: ');disp(latex(DE1_0));
+% disp('matrice DE2: ');disp(latex(DE2_0));
+
+% 
+% disp('matrice A: '); disp(latex(A_N));
+% disp('matrice B1: '); disp(latex(B1_N));
+% disp('matrice B2: '); disp(latex(B2_N));
+% disp('matrice C: '); disp(latex(C_N));
+% disp('matrice D1: '); disp(latex(D1_N));
+% disp('matrice D2: '); disp(latex(D2_N));
+% disp('matrice CE: '); disp(latex(CE_N));
+% disp('matrice DE1: '); disp(latex(DE1_N));
+% disp('matrice DE2: '); disp(latex(DE2_N));
+

@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage{tikz}
+\usepackage{amsmath}
 \usetikzlibrary{arrows.meta, decorations.pathreplacing, decorations.pathmorphing}
 
 % Title Page
@@ -286,7 +287,7 @@ The fourth and fifth entries $y_l$ and $y_r$ are deflection measurements of the 
 
 These readings give direct insight into the interaction between the vehicle and the road surface, reflecting terrain irregularities, road disturbances, and load shifts. Additionally, they are fundamental to compute control actions that regulate ride comfort and load distribution.
 
-\paragraph{Noise Modeling.}
+\paragraph{Noise Modeling}
 All sensor measurements are corrupted by additive noise:
 
 \[
@@ -333,13 +334,15 @@ where $y_y$ and $y_z$ are the accelerometer outputs along the body-frame $y$ and
 
 
 The complete output error function thus becomes:
-\[
-he(x, u, w) =
+
+\begin{equation}
+	he(x, u, w) =
 \begin{bmatrix}
 	\displaystyle \frac{(s_1 + \nu_f) d_r + (s_3 + \nu_r) d_f}{d_r + d_f} - r_z \\
 	\displaystyle \sin^{-1}\left( \frac{h_1 + \nu_y}{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}} \right) - r_\theta
-\end{bmatrix},
-\]
+\end{bmatrix}
+\end{equation}
+
 where $s_1$, $s_3$ are suspension deflections, $h_1$, $h_2$ are derived from dynamic equations, and $\nu_i$ are sensor noise terms. This formulation ensures the controller minimizes both height and perceptual pitch deviations.
 
 
@@ -349,20 +352,22 @@ To support the development of an effective suspension controller and gain insigh
 
 The model captures the essential vertical (heave) and angular (pitch) motions of the chassis. The state vector is defined as:
 
-\[
+\begin{equation}	
 x = \begin{bmatrix}
 	z - z_0 \\
 	\dot{z} \\
 	\theta \\
 	\dot{\theta}
 \end{bmatrix}
-\]
+\end{equation}
+
 
 where \( z_0 \) is the vertical position of the center of mass at static equilibrium, and \( \theta \) denotes the pitch angle of the chassis. The state-space representation of the system is given by:
 
-\[
-\dot{x} = A_{\text{int}} x
-\]
+\begin{equation}
+	\dot{x} = A_{\text{int}} x
+\end{equation}
+
 
 We are gonna analyze this reduced 4x4 matrix, ignoring the 4 exogenous states, the reason behind this is explained later in the Reachability chapter.\textbf{INCLUDI NUMERO CAPITOLO}  All parameters used to find the numeric matrixes are based on the Tesla Model S, a car suitable for this type of active suspensions and with same suspension paramethers on front and rear axle, this simplifies slighlty our model:
 \[
@@ -377,7 +382,7 @@ A_{\text{int}} =
 
 This matrix characterizes the coupled dynamics of the system, with off-diagonal elements indicating interaction between vertical and angular motions. Such coupling arises naturally in a physical half-car system, where vertical displacements can induce pitching, and vice versa.
 
-\subsubsection{Open-Loop Dynamics}
+\subsection{Open-Loop Dynamics}
 
 To evaluate the system's stability and transient behavior, we compute the eigenvalues of the matrix \( A_{\text{int}} \) by solving the characteristic equation:
 
