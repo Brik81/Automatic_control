@@ -174,6 +174,7 @@
 	This formulation enables the model to capture the full set of dynamics necessary for accurate representation of vehicle behavior under road disturbances and control inputs.
 	
 	\begin{center}
+		\hspace{-1.5cm}
 		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
 			
 			% Coordinate axes
@@ -591,32 +592,52 @@ D_2 =
 		0 & 0 & 0 & \frac{1}{mg} & \frac{1}{mg} & \frac{1}{g} & 0 & 0 & 0 & 0 & 0 & -1
 	\end{array}\right] 
 \end{equation}
-	
+	\vspace{0.5cm}
 	%MATRICI NUMERICHE
 	\subparagraph{Numerical Matrices}
-	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study:\\
-	*tabella* o reference
-	\\
-	\hspace{-0.8cm}
-\begin{minipage}{0.45\textwidth}
+	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study: All parameters used to find the numeric matrices are based on the Tesla Model S, a car suitable for this type of active suspensions and with same suspension paramethers on front and rear axle, this simplifies slighlty our model:\\
+	
+	\vspace{1cm}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|l|c|c|}
+			\hline
+			\textbf{Simbolo} & \textbf{Descrizione} & \textbf{Valore} & \textbf{Unità} \\
+			\hline
+			$m$     & Total mass of the car             & 1085   & kg \\
+			$k$     & Suspension stiffness              & 30000  & N/m \\
+			$\beta$ & Estimated damping coefficient   & 2000   & N/(m/s) \\
+			$\ell_0$ & Suspension height at rest     & 0.5    & m \\
+			$g$     & Gravitational force          & 9.81   & m/s\textsuperscript{2} \\
+			$d_f$   & Front axle distance from CoM & 1.362  & m \\
+			$d_r$   & Rear axle distance from CoM & 1.598 & m \\
+			$J$     & Pitch moment of inertia         & 4870   & kg·m\textsuperscript{2} \\
+			\hline
+		\end{tabular}
+		\caption{Dynamic model parameters of a Tesla Model S}
+		\label{tab:parametri_tesla}
+	\end{table}
+
 	\[
+	\hspace{-1cm}
 A =
 \begin{bmatrix}
-	0 & 1.0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
 	-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
-	0 & 0 & 0 & 1.0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
 	1.4538 & 0.0969199 & -27.158 & -1.81053 & 11.4274 & 15.7306 & 0.761825 & 1.04871 \\
-	0 & 0 & 0 & 0 & 1.0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 1.0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
 	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
 \end{bmatrix}
 	\]
-\end{minipage}
 
-\hspace{-1cm}
+
+
 \begin{minipage}{0.45\textwidth}
 	\[
+	\hspace{-2cm}
 	B_1 =
 	\begin{bmatrix}
 		0 & 0 \\
@@ -631,36 +652,38 @@ A =
 	\]
 \end{minipage}
 \noindent
-\hspace{1cm}
 \begin{minipage}{0.45\textwidth}
 	\[
+	\hspace{-0.5cm}
 	B_2 =
 	\begin{bmatrix}
 		0 & 0 & 0 & 0 & 0 \\
-		-1.0 & 0 & 0 & 0 & 0 \\
+		-1 & 0 & 0 & 0 & 0 \\
 		0 & 0 & 0 & 0 & 0 \\
 		0 & 0 & 0 & 0.0000662428 & 0.0000662428 \\
 		0 & 0 & 0 & 0 & 0 \\
 		0 & 0 & 0 & 0 & 0 \\
-		0 & 1.0 & 0 & 0 & 0 \\
-		0 & 0 & 1.0 & 0 & 0
+		0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0
 	\end{bmatrix}
 	\]
 \end{minipage}
 
 \[
+\hspace{-0.5cm}
 C =
 \begin{bmatrix}
 	0 & 0 & 9.81 & 0 & 0 & 0 & 0 & 0 \\
 	-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
-	0 & 0 & 0 & 1.0 & 0 & 0 & 0 & 0 \\
-	1.0 & 0 & 1.362 & 0 & -1.362 & 0 & 0 & 0 \\
-	1.0 & 0 & -1.598 & 0 & 0 & 1.598 & 0 & 0
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+	1 & 0 & 1.362 & 0 & -1.362 & 0 & 0 & 0 \\
+	1 & 0 & -1.598 & 0 & 0 & 1.598 & 0 & 0
 \end{bmatrix}
 \]
-\hspace{-1.8cm}
+
 \begin{minipage}{0.45\textwidth}
 	\[
+	\hspace{-4.5cm}
 	D_1 =
 	\begin{bmatrix}
 		0 & 0 \\
@@ -672,17 +695,17 @@ C =
 	\]
 \end{minipage}
 \noindent
-\hspace{-1cm}
+\hspace{-3cm}
 \begin{minipage}{0.45\textwidth}
 \[
 D_2 =
 \left[
 \begin{array}{cccccccccccc}
-	0 & 0 & 0 & 0.000921659 & 0.000921659 & 1.0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 1.0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 0   & 1.0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 1.0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 0   & 1.0 & 0 & 0
+	0 & 0 & 0 & 0.000921659 & 0.000921659 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0           & 0           & 0   & 1 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0           & 0           & 0   & 0   & 1 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 1 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 0   & 1 & 0 & 0
 \end{array}
 \right]
 \]
@@ -692,8 +715,8 @@ D_2 =
 	\[
 	C_e =
 	\begin{bmatrix}
-		1.0 & 0 & 0 & 0 & -0.735296 & 0.735296 & 0 & 0 \\
-		0 & 0 & 1.0 & 0 & 0 & 0 & 0 & 0
+		1 & 0 & 0 & 0 & -0.735296 & 0.735296 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0
 	\end{bmatrix}
 	\]
 
@@ -703,8 +726,8 @@ D_2 =
 D_{e2} =
 \left[
 \begin{array}{cccccccccccc}
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0.539865 & 0.460135 & -1.0 & 0 \\
-	0 & 0 & 0 & 0.000093951 & 0.000093951 & 0.101937 & 0 & 0 & 0 & 0 & 0 & -1.0
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0.539865 & 0.460135 & -1 & 0 \\
+	0 & 0 & 0 & 0.000093951 & 0.000093951 & 0.101937 & 0 & 0 & 0 & 0 & 0 & -1
 \end{array}
 \right]
 \]
@@ -738,7 +761,7 @@ D_{e2} =
 	\end{equation}
 	
 	
-	We are gonna analyze this reduced 4x4 matrix, ignoring the 4 exogenous states, the reason behind this is explained later in the Reachability chapter.\textbf{INCLUDI NUMERO CAPITOLO}  All parameters used to find the numeric matrixes are based on the Tesla Model S, a car suitable for this type of active suspensions and with same suspension paramethers on front and rear axle, this simplifies slighlty our model:
+	We are gonna analyze this reduced 4x4 matrix, ignoring the 4 exogenous states, the reason behind this is explained later in the Reachability chapter.\textbf{INCLUDI NUMERO CAPITOLO}  
 	\[
 	A_{\text{int}} =
 	\begin{bmatrix}
@@ -808,35 +831,7 @@ D_{e2} =
 	However, the states related to the road excitation are not directly controllable. As such, only a subset of the full state vector can be affected by $\tilde{u}$. Upon computation of the reachability matrix $\mathcal{R}$ using the specific system matrices $A$ and $B_1$, we obtain:
 	
 	
-	\[
-	A =
-	\begin{bmatrix}
-		0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
-		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-		1.4538 & 0.0969199 & -27.158 & -1.81053 & 11.4274 & 15.7306 & 0.761825 & 1.04871 \\
-		0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 
-	\end{bmatrix}
-	\]
-	
-	\[
-	B_1 =
-	\begin{bmatrix}
-		0 & 0 \\
-		0.000921659 & 0  \\
-		0 & 0 \\
-		0 & 0.000205339 \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0 \\
-		
-	\end{bmatrix}
-	\]
-	
+
 	
 	\begin{verbatim}
 		R = ctrb(A, B1);
