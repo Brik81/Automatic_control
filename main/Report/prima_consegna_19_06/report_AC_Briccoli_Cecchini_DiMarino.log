@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.3.28)  18 JUN 2025 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.3.28)  6 JUL 2025 11:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./report_automatic_control_cristian.tex
-(report_automatic_control_cristian.tex
+**./report_AC_Briccoli_Cecchini_DiMarino.tex
+(report_AC_Briccoli_Cecchini_DiMarino.tex
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
 (C:\Users\alex2\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
@@ -656,8 +656,8 @@ tex.def
 File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count311
 \l__pdf_internal_box=\box67
-) (report_automatic_control_cristian.aux)
-\openout1 = `report_automatic_control_cristian.aux'.
+) (report_AC_Briccoli_Cecchini_DiMarino.aux)
+\openout1 = `report_AC_Briccoli_Cecchini_DiMarino.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
@@ -704,10 +704,10 @@ fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 21.
- (report_automatic_control_cristian.out)
-(report_automatic_control_cristian.out)
+ (report_AC_Briccoli_Cecchini_DiMarino.out)
+(report_AC_Briccoli_Cecchini_DiMarino.out)
 \@outlinefile=\write4
-\openout4 = `report_automatic_control_cristian.out'.
+\openout4 = `report_AC_Briccoli_Cecchini_DiMarino.out'.
 
 LaTeX Font Info:    Trying to load font information for U+msa on input line 25.
 
@@ -746,18 +746,18 @@ Overfull \hbox (10.49403pt too wide) detected at line 311
  []
 
 [7]
-<img/LIS3DH.png, id=145, 448.67625pt x 348.55219pt>
+<img/LIS3DH.png, id=129, 448.67625pt x 348.55219pt>
 File: img/LIS3DH.png Graphic file (type png)
 <use img/LIS3DH.png>
 Package pdftex.def Info: img/LIS3DH.png  used on input line 348.
 (pdftex.def)             Requested size: 103.50105pt x 80.40463pt.
-<img/LIS3DH1.png, id=147, 442.65375pt x 400.49625pt>
+<img/LIS3DH1.png, id=131, 442.65375pt x 400.49625pt>
 File: img/LIS3DH1.png Graphic file (type png)
 <use img/LIS3DH1.png>
 Package pdftex.def Info: img/LIS3DH1.png  used on input line 360.
 (pdftex.def)             Requested size: 103.50105pt x 93.63997pt.
  [8 <./img/LIS3DH.png>]
-<img/LIS3DH2.png, id=158, 394.47375pt x 469.00218pt>
+<img/LIS3DH2.png, id=142, 394.47375pt x 469.00218pt>
 File: img/LIS3DH2.png Graphic file (type png)
 <use img/LIS3DH2.png>
 Package pdftex.def Info: img/LIS3DH2.png  used on input line 372.
@@ -783,7 +783,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 632--633
 
  []
 
-<img/tesla.png, id=211, 916.1728pt x 518.6878pt>
+<img/tesla.png, id=195, 916.1728pt x 518.6878pt>
 File: img/tesla.png Graphic file (type png)
 <use img/tesla.png>
 Package pdftex.def Info: img/tesla.png  used on input line 656.
@@ -816,72 +816,50 @@ Overfull \hbox (274.64455pt too wide) detected at line 772
 \OML/cmm/m/it/10 D[] \OT1/cmr/m/n/10 = []
  []
 
-[16] [17] [18] [19] [20] [21] [22] [23] (report_automatic_control_cristian.aux)
+[16] [17] [18] [19] [20] [21] [22] [23]
+(report_AC_Briccoli_Cecchini_DiMarino.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
-
-Package rerunfilecheck Warning: File `report_automatic_control_cristian.out' ha
-s changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `report_automatic_control_cristian.o
-ut':
-(rerunfilecheck)             Before: A893D4364048AB3B8968F1E09CE87D24;2379
-(rerunfilecheck)             After:  5B0051B8F7227B15164D4D1D042EC400;1729.
+Package rerunfilecheck Info: File `report_AC_Briccoli_Cecchini_DiMarino.out' ha
+s not changed.
+(rerunfilecheck)             Checksum: 5B0051B8F7227B15164D4D1D042EC400;1729.
  ) 
 Here is how much of TeX's memory you used:
- 20979 strings out of 475248
- 406712 string characters out of 5757813
+ 20984 strings out of 475248
+ 406812 string characters out of 5757813
  1951785 words of memory out of 5000000
- 42030 multiletter control sequences out of 15000+600000
+ 42026 multiletter control sequences out of 15000+600000
  569239 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,15n,89p,674b,809s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{chapter.93} has been referenced but does not exist,
- replaced by a fixed one
-
-
-pdfTeX warning (dest): name{section.92} has been referenced but does not exist,
- replaced by a fixed one
-
-
-pdfTeX warning (dest): name{section.91} has been referenced but does not exist,
- replaced by a fixed one
-
-
-pdfTeX warning (dest): name{chapter.90} has been referenced but does not exist,
- replaced by a fixed one
-
- <C:\Users\alex2\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm10
-00.pk><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmbx12.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/typ
-e1/public/amsfonts/cm/cmex10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/alex2/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/alex2/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/alex2/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/ale
-x2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/U
-sers/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.p
-fb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
-/cmr12.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
-fonts/cm/cmr17.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmr7.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmr9.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/alex2/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/alex2/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alex2/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/a
-lex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.p
-fb>
-Output written on report_automatic_control_cristian.pdf (25 pages, 1377037 byte
-s).
+ 84i,15n,89p,677b,809s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\alex2\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
+1000.pk><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmex10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/alex2/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/alex2/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/alex2/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/a
+lex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:
+/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10
+.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmr12.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/cm/cmr17.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmr7.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/alex2/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/alex2/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alex2/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users
+/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10
+.pfb>
+Output written on report_AC_Briccoli_Cecchini_DiMarino.pdf (25 pages, 1377087 b
+ytes).
 PDF statistics:
- 389 PDF objects out of 1000 (max. 8388607)
- 119 named destinations out of 1000 (max. 500000)
- 161 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 388 PDF objects out of 1000 (max. 8388607)
+ 128 named destinations out of 1000 (max. 500000)
+ 129 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -971,51 +971,51 @@ such that the closed-loop matrix:
 	While the stabilizer matrix $K_S$ ensures the stability of the internal system under feedback control, an integral action is required to eliminate steady-state error in the presence of unknown constant disturbances $\tilde{w}$.
 	
 	The regulated error $\tilde{e}$ is defined as:
-	\[
-	\tilde{e} = C_e \tilde{x} + D_{1e} \tilde{u} + D_{2e} \tilde{w}
-	\]
+	\begin{equation}
+		\tilde{e} = C_e \tilde{x} + D_{1e} \tilde{u} + D_{2e} \tilde{w}
+	\end{equation}
 	
 	To implement integral control, new integral state $\eta$ is introduced:
-	\[
-	\dot{\eta} = \tilde{e}
-	\]
+	\begin{equation}
+		\dot{\eta} = \tilde{e}
+	\end{equation}
 	
 	This leads to an extended state vector:
-	\[
-	x_e = \begin{bmatrix} \tilde{x} \\ \eta \end{bmatrix}
-	\]
+	\begin{equation}
+		x_e = \begin{bmatrix} \tilde{x} \\ \eta \end{bmatrix}
+	\end{equation}
 	
 	The extended system dynamics are:
-	\[
-	\dot{x}_e = \bar{A} x_e + \bar{B}_1 \tilde{u} + \bar{B}_2 \tilde{w}
-	\]
+	\begin{equation}
+		\dot{x}_e = \bar{A} x_e + \bar{B}_1 \tilde{u} + \bar{B}_2 \tilde{w}
+	\end{equation}
 	where
-	\[
-	\bar{A} = \begin{bmatrix}
-		A & 0 \\
-		C_e & 0
-	\end{bmatrix},
-	\quad
-	\bar{B}_1 = \begin{bmatrix}
-		B_1 \\
-		D_{1e}
-	\end{bmatrix},
-	\quad
-	\bar{B}_2 = \begin{bmatrix}
-		B_2 \\
-		D_{2e}
-	\end{bmatrix}
-	\]
+	\begin{equation}
+		\bar{A} = \begin{bmatrix}
+			A & 0 \\
+			C_e & 0
+		\end{bmatrix},
+		\quad
+		\bar{B}_1 = \begin{bmatrix}
+			B_1 \\
+			D_{1e}
+		\end{bmatrix},
+		\quad
+		\bar{B}_2 = \begin{bmatrix}
+			B_2 \\
+			D_{2e}
+		\end{bmatrix}
+	\end{equation}
 	
 	To verify whether the extended system is controllable (reachable), a reachability matrix is computed as:
-	\[
-	\mathcal{R}_e = \left[\bar{B}_1 \quad \bar{A}\bar{B}_1 \quad \bar{A}^2\bar{B}_1 \quad \cdots \quad \bar{A}^{n+q-1} \bar{B}_1 \right]
-	\]
+	\begin{equation}
+		\mathcal{R}_e = \left[\bar{B}_1 \quad \bar{A}\bar{B}_1 \quad \bar{A}^2\bar{B}_1 \quad \cdots \quad \bar{A}^{n+q-1} \bar{B}_1 \right]
+	\end{equation}
 	
 	where $n$ is the number of original state variables and $q$ is the number of integrator states. In this model, $n=4$ (excluding the four uncontrollable states) and $q=2$, so we expect:
-	\[
-	\text{rank}(\mathcal{R}_e) = 6
-	\]
+	\begin{equation}
+		\text{rank}(\mathcal{R}_e) = 6
+	\end{equation}
 	
 	The reachability matrix is constructed in MATLAB using:
 	
@@ -1031,31 +1031,32 @@ such that the closed-loop matrix:
 	
 	\textbf{Conclusion:}  
 	Since the extended system is reachable, it is possible to design a state feedback control law of the form:
-	\[
-	\tilde{u} = \bar{K} x_e = K_S \tilde{x} + K_I \eta
-	\]
+	\begin{equation}
+		\tilde{u} = \bar{K} x_e = K_S \tilde{x} + K_I \eta
+	\end{equation}
 	such that the closed-loop matrix $\bar{A} + \bar{B}_1 \bar{K}$ is Hurwitz. This guarantees asymptotic stability of the augmented system and drives the regulation error $\tilde{e}$ to zero.
 	
 	
 	
-	\subsubsection{Observability}
 	
-	Up to this point, the system state $\tilde{x}$ has been assumed to be known. However, this assumption is often unrealistic, particularly when some state variables are not directly measurable. For this reason, a state observer is required to estimate the internal states based on measurable outputs.
-	
-	Given that the last four states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
-	
-	Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
-	
-	\[
+\subsubsection{Observability}
+
+Up to this point, the system state $\tilde{x}$ has been assumed to be known. However, this assumption is often unrealistic, particularly when some state variables are not directly measurable. For this reason, a state observer is required to estimate the internal states based on measurable outputs.
+
+Given that the last four states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
+
+Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
+
+\begin{equation}
 	\mathcal{O} = \begin{bmatrix}
 		C_{\text{int}} \\
 		C_{\text{int}} A_{\text{int}} \\
 		C_{\text{int}} A_{\text{int}}^2 \\
 		C_{\text{int}} A_{\text{int}}^3 \\
 	\end{bmatrix}
-	\]
-	
-	\[
+\end{equation}
+
+\begin{equation}
 	C_{\text{int}} =
 	\begin{bmatrix}
 		0 & 0 & 9.81 & 0 \\
@@ -1066,48 +1067,45 @@ such that the closed-loop matrix:
 		0 & 0 & 0 & 0 \\
 		0 & 0 & 0 & 0 
 	\end{bmatrix}
-	\]
-	
+\end{equation}
+
 Using MATLAB, it is computed that:
-	
-	\begin{verbatim}
-		O = obsv(A_int, C_int);
-		rank(O)
-	\end{verbatim}
-	
-	If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order \textbf{Kalman filter} (optimal observer):
-	
-	\[
+
+\begin{verbatim}
+	O = obsv(A_int, C_int);
+	rank(O)
+\end{verbatim}
+
+If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order \textbf{Kalman filter} (optimal observer):
+
+\begin{equation}
 	\dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_f(y - C_{\text{int}} \hat{x}_{\text{int}})
-	\]
-	
-	where $K_f$ is the \textbf{Kalman gain}, computed to optimally minimize the estimation error covariance under the assumption of white Gaussian process and measurement noise. The Kalman gain is derived from the steady-state solution of the continuous-time algebraic Riccati equation:
-	
-	\[
+\end{equation}
+
+where $K_f$ is the \textbf{Kalman gain}, computed to optimally minimize the estimation error covariance under the assumption of white Gaussian process and measurement noise. The Kalman gain is derived from the steady-state solution of the continuous-time algebraic Riccati equation:
+
+\begin{equation}
 	A_{\text{int}} P + P A_{\text{int}}^T - P C_{\text{int}}^T R^{-1} C_{\text{int}} P + Q = 0
-	\]
-	
-	\[
+\end{equation}
+
+\begin{equation}
 	K_f = P C_{\text{int}}^T R^{-1}
-	\]
-	
-	Here:
-	\begin{itemize}
-		\item $Q$ is the covariance matrix of the process noise,
-		\item $R$ is the covariance matrix of the measurement noise,
-		\item $P$ is the steady-state error covariance matrix.
-	\end{itemize}
-	
-	By solving the Riccati equation with appropriately chosen $Q$ and $R$, the filter gain $K_f$ ensures that the estimation error converges in a statistically optimal sense, even in the presence of measurement and process disturbances.
-	
-	
-	
-	\textbf{Conclusion:} \\
-	The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}, and a Kalman filter can be designed. This guarantees that despite partial measurements, the entire internal state vector $\tilde{x}_{\text{int}}$ can be optimally reconstructed for control and estimation purposes.
-	
-	
-	
-	This observability ensures that despite partial measurements, the entire controllable state can be reconstructed and regulated accordingly.
+\end{equation}
+
+Here:
+\begin{itemize}
+	\item $Q$ is the covariance matrix of the process noise,
+	\item $R$ is the covariance matrix of the measurement noise,
+	\item $P$ is the steady-state error covariance matrix.
+\end{itemize}
+
+By solving the Riccati equation with appropriately chosen $Q$ and $R$, the filter gain $K_f$ ensures that the estimation error converges in a statistically optimal sense, even in the presence of measurement and process disturbances.
+
+\textbf{Conclusion:} \\
+The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}, and a Kalman filter can be designed. This guarantees that despite partial measurements, the entire internal state vector $\tilde{x}_{\text{int}}$ can be optimally reconstructed for control and estimation purposes.
+
+This observability ensures that despite partial measurements, the entire controllable state can be reconstructed and regulated accordingly.
+
 	
 	
 	
