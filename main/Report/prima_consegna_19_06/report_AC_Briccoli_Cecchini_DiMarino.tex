@@ -10,11 +10,11 @@
 \usetikzlibrary{arrows.meta, decorations.pathreplacing, decorations.pathmorphing}
 
 % Title Page
-\title{{\huge  Longitudinal Active Suspension Control in a Half-Car Model } \\
+\title{{\huge  Longitudinal Active Suspension Control in a Half-Car Model with Unsprang Masses} \\
 	{\small Automatic Control\\
 		Electronic Engineering for Intelligent Vehicles\\
 		University of Bologna\\
-		A.A. 2024-2025}}
+		A.A. 2025-2026}}
 \author{Alessandro Briccoli, Cristian Cecchini, Mario Di Marino}
 
 
@@ -102,220 +102,346 @@ The half-car model was chosen because it provides a good trade-off between model
 	\end{tabular}
 \end{table}
 	
-	\chapter{Active Suspensions Control System}
+%	\chapter{Active Suspensions Control System}
+%
+%	
+%	\section{Model and Problem Formulation}
+%	In this section, the formulation of the control problem for the active suspension system of a half-car model. This system aims to regulate both the vertical position and the perceived pitch angle of the vehicle body, enhancing ride comfort and handling. The model is described by a nonlinear dynamic system influenced by road disturbances, actuator forces, and sensor measurements.
+%	
+%	The general form of the system is expressed as:
+%	\begin{align}
+%		\dot{x} &= f(x, u, w) \\
+%		y &= h(x, u, w) \\
+%		e &= h_e(x, u, w)
+%	\end{align}
+%	
+%	Where:
+%	\begin{itemize}
+%		\item $x \in \mathbb{R}^n$ is the \textbf{state vector},
+%		\item $u \in \mathbb{R}^p$ is the \textbf{control input vector},
+%		\item $y \in \mathbb{R}^q$ is the \textbf{measured output vector},
+%		\item $e \in \mathbb{R}^{l_m}$ is the \textbf{control error (goal)},
+%		\item $d \in \mathbb{R}^{l_d}$ is the \textbf{disturbance vector},
+%		\item $r \in \mathbb{R}^{l_r}$ is the \textbf{reference signal},
+%		\item $\nu \in \mathbb{R}^q$ is the \textbf{sensor noise},
+%		\item $w = \text{col}(d, \nu, r)$ is the \textbf{exogenous input}.
+%	\end{itemize}
+%	\begin{equation}
+%		\label{eq:FormulaA}
+%		\begin{aligned}
+%			\dot{x} &= f(x,u) && x(t_0) = x_0
+%			\\
+%			y &= h(x,u)
+%		\end{aligned}
+%	\end{equation}
+%	\subsection*{Assumptions}
+%	
+%	To make the problem tractable and to ensure solvability of the control task, we impose the following assumptions:
+%	
+%	\begin{enumerate}
+%		\item The exogenous input $w$ is not directly measurable.
+%		\item Disturbances $d$ are bounded.
+%		\item Reference signal $r$ and its first derivatives are known.
+%		\item Bounded disturbances imply bounded internal states and outputs.
+%		\item The system has at least as many control inputs as control goals, i.e., $p \geq l_m$.
+%		\item The control error $e$ can be reconstructed from the output $y$: $\exists E$ such that $e = E(y)$.
+%	\end{enumerate}
+%	
+%	These assumptions lay the theoretical foundation required to design a control law capable of driving the error $e$ to zero despite the presence of unknown disturbances and sensor noise.
+%	
+%	\section{Model Analysis}
+%	\subsection{Dynamic Model}
+%	
+%	The state vector describes the dynamic behavior of the half-car model, capturing both translational and rotational motion of the vehicle body as well as road-induced pitch disturbances at the front and rear axles. The state vector consists of eight components and is expressed as follows:
+%	\begin{align}
+%		x = \begin{bmatrix}
+%			x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
+%		\end{bmatrix} =
+%		\begin{bmatrix}
+%			z - z_g \\
+%			\dot{z} - \dot{z}_g \\
+%			\theta \\
+%			\dot{\theta} \\
+%			\theta_{gf} \\
+%			\omega_{gf} \\
+%			\theta_{gr} \\
+%			\omega_{gr}
+%		\end{bmatrix}
+%	\end{align}
+%	
+%	Here:
+%	\begin{itemize}
+%		\item $z$ is the vertical displacement of the vehicle’s center of mass (CoM), and $z_g$ is the vertical displacement of the road surface.
+%		\item $\dot{z}$ and $\dot{z}_g$ are the vertical velocities of the vehicle body and road, respectively.
+%		\item $\theta$ is the pitch angle of the vehicle body, and $\dot{\theta}$ its angular velocity.
+%		\item $\theta_{gf}$ and $\omega_{gf}$ are the road pitch angle and its rate of change at the front axle.
+%		\item $\theta_{gr}$ and $\omega_{gr}$ are the corresponding quantities at the rear axle.
+%	\end{itemize}
+%	
+%	This formulation enables the model to capture the full set of dynamics necessary for accurate representation of vehicle behavior under road disturbances and control inputs.
+%	\begin{figure}[H] 
+%	\begin{center}
+%		\hspace{-1.5cm}
+%		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+%			
+%			% Coordinate axes
+%			\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_I$};
+%			\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_I$};
+%			\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_I$};
+%			
+%			% Sprung mass (body)
+%			\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
+%			\node at (-1,1.75) {$J, m$};
+%			
+%			% Center of mass
+%			\draw[fill=red] (0.5,1.6) circle (0.07);
+%			\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
+%			
+%			% pitch angle psi
+%			\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
+%			\node at (0.7,1.9) {$\theta$};
+%			
+%			% Front suspension
+%			\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
+%			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
+%			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
+%			\node[left] at (-1.5,0.6) {$k$};
+%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
+%			\node[left] at (-1.5,-0.4) {$\beta$};
+%			\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
+%			
+%			% Rear suspension
+%			\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
+%			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
+%			\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
+%			\node[right] at (2.5,0.6) {$k$};
+%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
+%			\node[right] at (2.5,-0.4) {$\beta$};
+%			\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
+%			
+%			% Front and rear wheel forces
+%			\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
+%			\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
+%			
+%			% Ground heights
+%			\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
+%			\node[left] at (-2.5,-0.6) {$p_f$};
+%			\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
+%			\node[left] at (1.5,-0.6) {$p_r$};
+%			
+%			% Distances df and dr
+%			\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
+%			\node[below] at (-0.5,1.2) {$d_f$};
+%			\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
+%			\node[below] at (1.5,1.2) {$d_r$};
+%			
+%			% Labels z
+%			\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
+%			\node[right] at (3.2,1.6) {$z$};
+%			
+%		\end{tikzpicture}
+%	\end{center}
+%	
+%	\caption{Half-car model used for the longitudinal active suspensions control}
+%	\label{fig:halfcar_model}
+%	\end{figure}
+%	The suspension system in the half-car model is influenced by two actuators, one at the front and one at the rear. These actuators generate forces that contribute to both the vertical and rotational dynamics of the vehicle body. The control input vector is defined as:
+%	
+%	
+%	\begin{align}
+%		u = \begin{bmatrix}
+%			u_1 \\
+%			u_2
+%		\end{bmatrix} =
+%		\begin{bmatrix}
+%			f_{af} + f_{ar} \\
+%			f_{af} d_f - f_{ar} d_r
+%		\end{bmatrix}
+%	\end{align}
+%	
+%	In this expression, $f_{af}$ and $f_{ar}$ are the forces generated by the front and rear suspension actuators, respectively. The parameters $d_f$ and $d_r$ denote the distances from the vehicle's center of mass to the front and rear axles. The first control input, $u_1$, represents the total vertical force acting on the vehicle body due to both actuators. The second input, $u_2$, represents the net moment about the vehicle’s center of mass generated by these forces, which directly influences the pitch motion.
+%	
+%	
+%	The evolution of the system over time is governed by a set of first-order differential equations derived from Newton’s laws for both translational and rotational motion. The dynamic model is expressed as:
+%	
+%	\begin{align}
+%		\dot{x} = \begin{bmatrix}
+%			x_2 \\
+%			f_2 - \ddot{z}_g \\
+%			x_4 \\
+%			f_4 \\
+%			x_6 \\
+%			\alpha_{gf} \\
+%			x_8 \\
+%			\alpha_{gr}
+%		\end{bmatrix}
+%	\end{align}
+%	
+%	Where:
+%	\begin{itemize}
+%		\item $f_2$ is the net vertical acceleration of the vehicle body due to suspension forces, gravity, and actuator inputs.
+%		\item $f_4$ is the pitch angular acceleration about the vehicle’s center of mass.
+%		\item $\ddot{z}_g$ is the vertical acceleration of the road surface.
+%		\item $\alpha_{gf}$ and $\alpha_{gr}$ are the angular accelerations of the road surface at the front and rear axles, respectively.
+%	\end{itemize}
+%	
+%	These dynamics describe how the vehicle responds to both internal control actions and external disturbances, including variations in road pitch encountered at different points along the vehicle chassis.
+%	
+%	In this representation, $f_2$ is given by:
+%	
+%	
+%		\begin{equation}
+%			f_2 = -g + \frac{1}{m}(f_{sf} + f_{sr}) + \frac{u_1}{m} 
+%		\end{equation}
+%	\vspace{0.2mm}
+%	
+%	The pitch angular acceleration $f_4$ is given by:
+%	
+%	\begin{equation}	
+%		f_4 = \frac{1}{J}(f_{sf} d_f - f_{sr} d_r + u_2 + f_{wf} l_{f} + f_{wr} l_{r})
+%	\end{equation}
+%	\vspace{0.2mm}
+%	
+%	The suspension deflections and velocities are:
+%\begin{align}	
+%	s_1 &= (z - z_g) + d_f(\sin\theta - \sin\theta_{gf}), &
+%	s_3 &= (z - z_g) - d_r(\sin\theta - \sin\theta_{gr}) \\[4pt]
+%	s_2 &= (\dot{z} - \dot{z}_g) + d_f(\dot{\theta} \cos\theta - \omega_{gf} \cos\theta_{gf}), &
+%	s_4 &= (\dot{z} - \dot{z}_g) - d_r(\dot{\theta} \cos\theta - \omega_{gr} \cos\theta_{gr})
+%\end{align}
+%
+%	
+%	Suspension forces are modeled as spring-damper systems:
+%	
+%	\begin{equation}
+%		f_s(p, v) = -k p - \beta v
+%	\end{equation}
+	
+	
+	
+\subsection{Dynamic Model}
 
-	
-	\section{Model and Problem Formulation}
-	In this section, the formulation of the control problem for the active suspension system of a half-car model. This system aims to regulate both the vertical position and the perceived pitch angle of the vehicle body, enhancing ride comfort and handling. The model is described by a nonlinear dynamic system influenced by road disturbances, actuator forces, and sensor measurements.
-	
-	The general form of the system is expressed as:
-	\begin{align}
-		\dot{x} &= f(x, u, w) \\
-		y &= h(x, u, w) \\
-		e &= h_e(x, u, w)
-	\end{align}
-	
-	Where:
-	\begin{itemize}
-		\item $x \in \mathbb{R}^n$ is the \textbf{state vector},
-		\item $u \in \mathbb{R}^p$ is the \textbf{control input vector},
-		\item $y \in \mathbb{R}^q$ is the \textbf{measured output vector},
-		\item $e \in \mathbb{R}^{l_m}$ is the \textbf{control error (goal)},
-		\item $d \in \mathbb{R}^{l_d}$ is the \textbf{disturbance vector},
-		\item $r \in \mathbb{R}^{l_r}$ is the \textbf{reference signal},
-		\item $\nu \in \mathbb{R}^q$ is the \textbf{sensor noise},
-		\item $w = \text{col}(d, \nu, r)$ is the \textbf{exogenous input}.
-	\end{itemize}
-	\begin{equation}
-		\label{eq:FormulaA}
-		\begin{aligned}
-			\dot{x} &= f(x,u) && x(t_0) = x_0
-			\\
-			y &= h(x,u)
-		\end{aligned}
-	\end{equation}
-	\subsection*{Assumptions}
-	
-	To make the problem tractable and to ensure solvability of the control task, we impose the following assumptions:
-	
-	\begin{enumerate}
-		\item The exogenous input $w$ is not directly measurable.
-		\item Disturbances $d$ are bounded.
-		\item Reference signal $r$ and its first derivatives are known.
-		\item Bounded disturbances imply bounded internal states and outputs.
-		\item The system has at least as many control inputs as control goals, i.e., $p \geq l_m$.
-		\item The control error $e$ can be reconstructed from the output $y$: $\exists E$ such that $e = E(y)$.
-	\end{enumerate}
-	
-	These assumptions lay the theoretical foundation required to design a control law capable of driving the error $e$ to zero despite the presence of unknown disturbances and sensor noise.
-	
-	\section{Model Analysis}
-	\subsection{Dynamic Model}
-	
-	The state vector describes the dynamic behavior of the half-car model, capturing both translational and rotational motion of the vehicle body as well as road-induced pitch disturbances at the front and rear axles. The state vector consists of eight components and is expressed as follows:
-	\begin{align}
-		x = \begin{bmatrix}
-			x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8
-		\end{bmatrix} =
-		\begin{bmatrix}
-			z - z_g \\
-			\dot{z} - \dot{z}_g \\
-			\theta \\
-			\dot{\theta} \\
-			\theta_{gf} \\
-			\omega_{gf} \\
-			\theta_{gr} \\
-			\omega_{gr}
-		\end{bmatrix}
-	\end{align}
-	
-	Here:
-	\begin{itemize}
-		\item $z$ is the vertical displacement of the vehicle’s center of mass (CoM), and $z_g$ is the vertical displacement of the road surface.
-		\item $\dot{z}$ and $\dot{z}_g$ are the vertical velocities of the vehicle body and road, respectively.
-		\item $\theta$ is the pitch angle of the vehicle body, and $\dot{\theta}$ its angular velocity.
-		\item $\theta_{gf}$ and $\omega_{gf}$ are the road pitch angle and its rate of change at the front axle.
-		\item $\theta_{gr}$ and $\omega_{gr}$ are the corresponding quantities at the rear axle.
-	\end{itemize}
-	
-	This formulation enables the model to capture the full set of dynamics necessary for accurate representation of vehicle behavior under road disturbances and control inputs.
-	\begin{figure}[H] 
-	\begin{center}
-		\hspace{-1.5cm}
-		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
-			
-			% Coordinate axes
-			\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_I$};
-			\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_I$};
-			\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_I$};
-			
-			% Sprung mass (body)
-			\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
-			\node at (-1,1.75) {$J, m$};
-			
-			% Center of mass
-			\draw[fill=red] (0.5,1.6) circle (0.07);
-			\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
-			
-			% pitch angle psi
-			\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
-			\node at (0.7,1.9) {$\theta$};
-			
-			% Front suspension
-			\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
-			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
-			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
-			\node[left] at (-1.5,0.6) {$k$};
-			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
-			\node[left] at (-1.5,-0.4) {$\beta$};
-			\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
-			
-			% Rear suspension
-			\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
-			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
-			\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
-			\node[right] at (2.5,0.6) {$k$};
-			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
-			\node[right] at (2.5,-0.4) {$\beta$};
-			\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
-			
-			% Front and rear wheel forces
-			\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
-			\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
-			
-			% Ground heights
-			\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
-			\node[left] at (-2.5,-0.6) {$p_f$};
-			\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
-			\node[left] at (1.5,-0.6) {$p_r$};
-			
-			% Distances df and dr
-			\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
-			\node[below] at (-0.5,1.2) {$d_f$};
-			\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
-			\node[below] at (1.5,1.2) {$d_r$};
-			
-			% Labels z
-			\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
-			\node[right] at (3.2,1.6) {$z$};
-			
-		\end{tikzpicture}
-	\end{center}
-	
-	\caption{Half-car model used for the longitudinal active suspensions control}
-	\label{fig:halfcar_model}
-	\end{figure}
-	The suspension system in the half-car model is influenced by two actuators, one at the front and one at the rear. These actuators generate forces that contribute to both the vertical and rotational dynamics of the vehicle body. The control input vector is defined as:
-	
-	
-	\begin{align}
-		u = \begin{bmatrix}
-			u_1 \\
-			u_2
-		\end{bmatrix} =
-		\begin{bmatrix}
-			f_{af} + f_{ar} \\
-			f_{af} d_f - f_{ar} d_r
-		\end{bmatrix}
-	\end{align}
-	
-	In this expression, $f_{af}$ and $f_{ar}$ are the forces generated by the front and rear suspension actuators, respectively. The parameters $d_f$ and $d_r$ denote the distances from the vehicle's center of mass to the front and rear axles. The first control input, $u_1$, represents the total vertical force acting on the vehicle body due to both actuators. The second input, $u_2$, represents the net moment about the vehicle’s center of mass generated by these forces, which directly influences the pitch motion.
-	
-	
-	The evolution of the system over time is governed by a set of first-order differential equations derived from Newton’s laws for both translational and rotational motion. The dynamic model is expressed as:
-	
-	\begin{align}
-		\dot{x} = \begin{bmatrix}
-			x_2 \\
-			f_2 - \ddot{z}_g \\
-			x_4 \\
-			f_4 \\
-			x_6 \\
-			\alpha_{gf} \\
-			x_8 \\
-			\alpha_{gr}
-		\end{bmatrix}
-	\end{align}
-	
-	Where:
-	\begin{itemize}
-		\item $f_2$ is the net vertical acceleration of the vehicle body due to suspension forces, gravity, and actuator inputs.
-		\item $f_4$ is the pitch angular acceleration about the vehicle’s center of mass.
-		\item $\ddot{z}_g$ is the vertical acceleration of the road surface.
-		\item $\alpha_{gf}$ and $\alpha_{gr}$ are the angular accelerations of the road surface at the front and rear axles, respectively.
-	\end{itemize}
-	
-	These dynamics describe how the vehicle responds to both internal control actions and external disturbances, including variations in road pitch encountered at different points along the vehicle chassis.
-	
-	In this representation, $f_2$ is given by:
-	
-	
-		\begin{equation}
-			f_2 = -g + \frac{1}{m}(f_{sf} + f_{sr}) + \frac{u_1}{m} 
-		\end{equation}
-	\vspace{0.2mm}
-	
-	The pitch angular acceleration $f_4$ is given by:
-	
-	\begin{equation}	
-		f_4 = \frac{1}{J}(f_{sf} d_f - f_{sr} d_r + u_2 + f_{wf} l_{f} + f_{wr} l_{r})
-	\end{equation}
-	\vspace{0.2mm}
-	
-	The suspension deflections and velocities are:
-\begin{align}	
-	s_1 &= (z - z_g) + d_f(\sin\theta - \sin\theta_{gf}), &
-	s_3 &= (z - z_g) - d_r(\sin\theta - \sin\theta_{gr}) \\[4pt]
-	s_2 &= (\dot{z} - \dot{z}_g) + d_f(\dot{\theta} \cos\theta - \omega_{gf} \cos\theta_{gf}), &
-	s_4 &= (\dot{z} - \dot{z}_g) - d_r(\dot{\theta} \cos\theta - \omega_{gr} \cos\theta_{gr})
+The considered dynamic model represents a longitudinal half-car vehicle equipped with two active suspensions, accounting for both the vertical and pitch dynamics of the sprung mass, as well as the vertical motion of the unsprung masses at the front and rear axles. Unlike simplified rigid-body formulations, the inclusion of unsprung masses and tire stiffness enables the model to capture wheel--road interaction effects and high-frequency vertical dynamics, which are particularly relevant when road disturbances are present.
+
+The system dynamics are described using a state vector composed of twelve states:
+\begin{align}
+	x =
+	\begin{bmatrix}
+		x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8 \\ x_9 \\ x_{10} \\ x_{11} \\ x_{12}
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		z_s \\
+		\dot z_s \\
+		\theta \\
+		\dot\theta \\
+		z_{wf} \\
+		\dot z_{wf} \\
+		z_{wr} \\
+		\dot z_{wr} \\
+		\theta_{gf} \\
+		\theta_{gr} \\
+		z_{gf} \\
+		z_{gr}
+	\end{bmatrix}
 \end{align}
 
-	
-	Suspension forces are modeled as spring-damper systems:
-	
-	\begin{equation}
-		f_s(p, v) = -k p - \beta v
-	\end{equation}
+The first four states describe the motion of the sprung mass: the vertical displacement and velocity of the vehicle body center of mass, together with the pitch angle and pitch rate. States $z_{wf}$ and $z_{wr}$, along with their time derivatives, represent the vertical motion of the front and rear unsprung masses. Finally, the remaining states model the road excitation at the front and rear contact points in terms of vertical displacement and local pitch angle, allowing the road profile to be treated as an external disturbance.
+
+The suspension system is actuated independently at the front and rear axles. For control purposes, the input vector is defined as:
+\begin{align}
+	u =
+	\begin{bmatrix}
+		u_1 \\
+		u_2
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		f_{af} + f_{ar} \\
+		f_{af} d_f - f_{ar} d_r
+	\end{bmatrix}
+\end{align}
+
+where $u_1$ represents the resultant vertical force acting on the sprung mass, while $u_2$ corresponds to the pitching moment about the center of mass. This choice of inputs decouples the heave and pitch control objectives and simplifies the controller design.
+
+The system dynamics are expressed in first-order nonlinear state-space form as:
+\begin{align}
+	\dot{x} =
+	\begin{bmatrix}
+		x_2 \\
+		f_2 \\
+		x_4 \\
+		f_4 \\
+		x_6 \\
+		f_{wf} \\
+		x_8 \\
+		f_{wr} \\
+		\alpha_{gf} \\
+		\alpha_{gr} \\
+		\dot z_{gf} \\
+		\dot z_{gr}
+	\end{bmatrix}
+\end{align}
+
+where $f_2$ and $f_4$ denote the vertical and pitch accelerations of the sprung mass, while $f_{wf}$ and $f_{wr}$ are the vertical accelerations of the front and rear unsprung masses, respectively. The quantities $\alpha_{gf}$ and $\alpha_{gr}$ represent the temporal variations of the road pitch profiles, and $\dot z_{gf}$ and $\dot z_{gr}$ describe the vertical velocities of the road surface at the wheel contact points.
+
+The vertical acceleration of the sprung mass is obtained from Newton’s second law as:
+\begin{equation}
+	f_2 = -g + \frac{1}{m}\left(f_{sf} + f_{sr} + u_1\right)
+\end{equation}
+
+where the gravitational acceleration acts downward, while the suspension forces and the control input contribute to the vertical force balance.
+
+Similarly, the pitch angular acceleration about the vehicle center of mass is given by:
+\begin{equation}
+	f_4 = \frac{1}{J}\left(d_f f_{sf} - d_r f_{sr} + u_2\right)
+\end{equation}
+
+which expresses the balance of moments generated by the front and rear suspension forces and the control-induced pitching moment.
+
+The suspension deflections and relative velocities are defined as:
+\begin{align}
+	s_1 &= (z_s - z_{wf}) + d_f(\theta - \theta_{gf}), &
+	s_3 &= (z_s - z_{wr}) - d_r(\theta + \theta_{gr}) \\[4pt]
+	s_2 &= (\dot z_s - \dot z_{wf}) + d_f(\dot\theta - \dot\theta_{gf}), &
+	s_4 &= (\dot z_s - \dot z_{wr}) - d_r(\dot\theta - \dot\theta_{gr})
+\end{align}
+
+These expressions account for both the translational and rotational motion of the sprung mass relative to the unsprung masses, including the effect of road pitch disturbances.
+
+The suspension forces are modeled as linear spring-damper elements:
+\begin{equation}
+	f_{sf} = -k s_1 - \beta s_2, \qquad
+	f_{sr} = -k s_3 - \beta s_4
+\end{equation}
+
+where $k$ and $\beta$ denote the suspension stiffness and damping coefficients, respectively.
+
+The tire--road interaction is modeled using linear tire stiffness:
+\begin{equation}
+	f_{tf} = k_{tf}(z_{gf} - z_{wf}), \qquad
+	f_{tr} = k_{tr}(z_{gr} - z_{wr})
+\end{equation}
+
+which relates the tire forces to the relative displacement between the road surface and the unsprung masses.
+
+The dynamics of the unsprung masses are governed by:
+\begin{align}
+	f_{wf} &= \frac{1}{m_{wf}}\left(f_{tf} - f_{sf} - f_{af} - m_{wf} g\right) \\
+	f_{wr} &= \frac{1}{m_{wr}}\left(f_{tr} - f_{sr} - f_{ar} - m_{wr} g\right)
+\end{align}
+
+where each unsprung mass is subjected to the tire force, suspension force, actuator force, and gravity.
+
+Finally, the actuator forces applied at the front and rear suspensions are recovered from the control inputs as:
+\begin{align}
+	f_{af} &= \frac{d_r u_1 + u_2}{d_f + d_r}, \\
+	f_{ar} &= \frac{d_f u_1 - u_2}{d_f + d_r}
+\end{align}
+
+This formulation provides a complete nonlinear state-space description of the half-car dynamics, explicitly capturing the coupled behavior of the vehicle body, suspensions, unsprung masses, and road disturbances.
+
+
 	
 	\subsection{Sensor Model}
 	
@@ -514,7 +640,7 @@ The half-car model was chosen because it provides a good trade-off between model
 	This Linear Time-Invariant (LTI) approximation of the nonlinear model is valid in a neighborhood of the equilibrium point, enabling efficient analysis and controller design under small perturbations.\\
 	
 	
-	\paragraph{Matrix calculus}
+	\paragraph{Matrix calculus todo: ricalcolare}
 	For the matrix calculation, the procedure described in equations \eqref{eq:jacobians_compact_matrix}  was followed. By substituting the equilibrium triplet given in \eqref{eq:equilibrium_triplet}, obtaining the following matrices:
 	
 \begin{center}
@@ -801,7 +927,7 @@ D_{e2} =
 	
 	
 	Analysis of this reduced 4x4 matrix will be performed, ignoring the 4 exogenous states, the reason behind this is explained later in chapter \ref{reach_ch} (Reachability)
-
+\textbf{todo: ricalcolare}
 \begin{equation}
 		A_{\text{int}} =
 	\begin{bmatrix}
@@ -825,8 +951,10 @@ D_{e2} =
 	\end{equation}
 	
 	
-	The resulting eigenvalues are:
+	The resulting eigenvalues are:\\
 	
+	
+\textbf{todo: ricalcolare}
 	
 	\begin{equation}
 		\lambda_{1,2} = -1.55 \pm j6.28, \quad \lambda_{3,4} = -2.47 \pm j5.10
@@ -878,7 +1006,8 @@ The eigenvalues form two pairs of complex conjugates, each with negative real pa
 	
 	In our case, the system has $n = 8$ state variables. These include both the vehicle body dynamics (vertical position and velocity, pitch angle and rate) and road-related exogenous components (front and rear road pitch angles and their derivatives). The control input $\tilde{u} \in \mathbb{R}^2$ acts through actuators located at the front and rear suspensions, influencing primarily the body dynamics of the vehicle.
 	
-	However, the states related to the road excitation are not directly controllable. As such, only a subset of the full state vector can be affected by $\tilde{u}$. Upon computation of the reachability matrix $\mathcal{R}$ using the specific system matrices $A$ and $B_1$, we obtain:
+	However, the states related to the road excitation are not directly controllable. As such, only a subset of the full state vector can be affected by $\tilde{u}$. Upon computation of the reachability matrix $\mathcal{R}$ using the specific system matrices $A$ and $B_1$, we obtain: \\
+	\textbf{todo: ricalcolare}
 	
 	
 
@@ -903,7 +1032,8 @@ The eigenvalues form two pairs of complex conjugates, each with negative real pa
 	
 	Therefore,  reachability analysis is performed only on the first four states, which represent the internal vehicle dynamics and are influenced by control inputs. Let $A_{\text{int}}$ and $B_{1, \text{int}}$ be the upper-left $4 \times 4$ and $4 \times 2$ blocks of matrices $A$ and $B_1$:
 	
-	
+	\\
+	\textbf{todo: ricalcolare}
 	\begin{equation}
 		A_{\text{int}} =
 	\begin{bmatrix}
@@ -921,7 +1051,7 @@ The eigenvalues form two pairs of complex conjugates, each with negative real pa
 		0 & 0 \\
 		0.000921659 & 0  \\
 		0 & 0 \\
-		0 & 0.000205339 
+		0 & 0.000205339 \\ 
 		
 	\end{bmatrix}	
 \end{equation}
@@ -1047,6 +1177,8 @@ Given that the last four states of $\tilde{x}$ are exogenous and not influenced 
 
 Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
 
+\\
+\textbf{todo: ricalcolare}
 \begin{equation}
 	\mathcal{O} = \begin{bmatrix}
 		C_{\text{int}} \\
@@ -1109,11 +1241,75 @@ This observability ensures that despite partial measurements, the entire control
 	
 	
 	
+	
+	\chapter{Application}
+	
+	\section{Simulator description}
+	\begin{center}
+		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+			
+			% Coordinate axes
+			\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
+			\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
+			\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
+			
+			% Sprung mass (body)
+			\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
+			\node at (-1,1.75) {$J, m$};
+			
+			% Center of mass
+			\draw[fill=red] (0.5,1.6) circle (0.07);
+			\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
+			
+			% pitch angle psi
+			\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
+			\node at (0.7,1.9) {$\theta$};
+			
+			% Front suspension
+			\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
+			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
+			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
+			\node[left] at (-1.5,0.6) {$k$};
+			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
+			\node[left] at (-1.5,-0.4) {$\beta$};
+			\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
+			
+			% Rear suspension
+			\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
+			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
+			\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
+			\node[right] at (2.5,0.6) {$k$};
+			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
+			\node[right] at (2.5,-0.4) {$\beta$};
+			\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
+			
+			% Front and rear wheel forces
+			\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
+			\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
+			
+			% Ground heights
+			\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
+			\node[left] at (-2.5,-0.6) {$p_f$};
+			\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
+			\node[left] at (1.5,-0.6) {$p_r$};
+			
+			% Distances df and dr
+			\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
+			\node[below] at (-0.5,1.2) {$d_f$};
+			\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
+			\node[below] at (1.5,1.2) {$d_r$};
+			
+			% Labels z
+			\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
+			\node[right] at (3.2,1.6) {$z$};
+			
+		\end{tikzpicture}
+	\end{center}
+	
+	
 %	
-%	\chapter{Application}
-%	
-%	\section{Simulator description}
 %	\begin{center}
+%		
 %		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
 %			
 %			% Coordinate axes
@@ -1129,37 +1325,53 @@ This observability ensures that despite partial measurements, the entire control
 %			\draw[fill=red] (0.5,1.6) circle (0.07);
 %			\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
 %			
-%			% pitch angle psi
+%			% pitch angle theta
 %			\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
 %			\node at (0.7,1.9) {$\theta$};
 %			
-%			% Front suspension
+%			% --- Front suspension ---
 %			\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
+%			% Molla sospensione k
 %			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
-%			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
 %			\node[left] at (-1.5,0.6) {$k$};
-%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
-%			\node[left] at (-1.5,-0.4) {$\beta$};
+%			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.1);
+%			% Smorzatore beta
+%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.1) -- (-1.5,-0.5);
+%			\node[left] at (-1.5,-0.3) {$\beta$};
+%			\draw[thick, red] (-1.5,-0.5) -- (-1.5,-0.7);
+%			% NUOVA: Molla pneumatico kt
+%			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,-0.7) -- (-1.5,-1.2);
+%			\node[left] at (-1.5,-0.95) {$k_t$};
+%			\draw[thick, red] (-1.5,-1.2) -- (-1.5,-1.3);
+%			
 %			\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
 %			
-%			% Rear suspension
+%			% --- Rear suspension ---
 %			\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
+%			% Molla sospensione k
 %			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
-%			\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
 %			\node[right] at (2.5,0.6) {$k$};
-%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
-%			\node[right] at (2.5,-0.4) {$\beta$};
+%			\draw[thick, red] (2.5,0.3) -- (2.5,-0.1);
+%			% Smorzatore beta
+%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.1) -- (2.5,-0.5);
+%			\node[right] at (2.5,-0.3) {$\beta$};
+%			\draw[thick, red] (2.5,-0.5) -- (2.5,-0.7);
+%			% NUOVA: Molla pneumatico kt
+%			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,-0.7) -- (2.5,-1.2);
+%			\node[right] at (2.5,-0.95) {$k_t$};
+%			\draw[thick, red] (2.5,-1.2) -- (2.5,-1.3);
+%			
 %			\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
 %			
-%			% Front and rear wheel forces
-%			\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
-%			\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
+%			% Front and rear wheel forces (posizionate a fine kt)
+%			\draw[->, thick, red] (-1.5,-1.3) -- (-0.75,-1.3) node[midway,below] {$f_{wf}$};
+%			\draw[->, thick, red] (2.5,-1.3) -- (3.25,-1.3) node[midway,below] {$f_{wr}$};
 %			
 %			% Ground heights
-%			\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
-%			\node[left] at (-2.5,-0.6) {$p_f$};
-%			\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
-%			\node[left] at (1.5,-0.6) {$p_r$};
+%			\draw[dashed, red] (-1.5,-1.3) -- (-2.5,-1.3);
+%			\node[left] at (-2.5,-1.3) {$p_f$};
+%			\draw[dashed, red] (2.5,-1.3) -- (1.5,-1.3);
+%			\node[left] at (1.5,-1.3) {$p_r$};
 %			
 %			% Distances df and dr
 %			\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
@@ -1172,25 +1384,207 @@ This observability ensures that despite partial measurements, the entire control
 %			\node[right] at (3.2,1.6) {$z$};
 %			
 %		\end{tikzpicture}
-%	\end{center}
-%	Copy and past the Simulink block scheme and describe what each block does. Describe the set-up MATLAB file, where and how to change the parameters of the simulations. Remember to include also the sensor noises and realistic external disturbances.
-%	
-%	\section{Simulation results}
-%	Describe the simulation scenario: initial conditions, purpose of the simulation. Describe the results: are the results coherent with the expectation? If not why? Investigate the tuning: how the performance are affected by the selection of the parameters at disposal of the designer?
-%	
-%	\chapter{Conclusions and further investigation}
-%	Recap the main results obtained in the project and highlight eventual further investigation directions alogn which the performance could be improved. 
-%	
-%	\newpage
-%	\chapter*{Bibliography}
-%	List the papers/books cited.
-%	
-%	
-%	\newpage
-%	\appendix
-%	\chapter*{Appendix}
-%	Use appendices to add technical parts which are instrumental for the completeness of the manuscript but are too heavy to be included inside the main text. Basically, appendices are exploited to let the main text cleaner and smoother. As example, the complete MATLAB listings can be reported in appendix.\\
-%	
-%	HO
+		
+		\begin{center}
+	
+		
+		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+		
+		% Coordinate axes
+		\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
+		\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
+		\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
+		
+		% Sprung mass (body)
+		\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
+		\node at (-1,1.75) {$J, m$};
+		
+		% Center of mass
+		\draw[fill=red] (0.5,1.6) circle (0.07);
+		\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
+		
+		% pitch angle theta
+		\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
+		\node at (0.7,1.9) {$\theta$};
+		
+		% --- Front suspension ---
+		\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
+		% Molla sospensione k
+		\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
+		\node[left] at (-1.5,0.6) {$k$};
+		\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.1);
+		% Smorzatore beta
+		\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.1) -- (-1.5,-0.5);
+		\node[left] at (-1.5,-0.3) {$\beta$};
+		\draw[thick, red] (-1.5,-0.5) -- (-1.5,-0.7);
+		% NUOVA: Molla pneumatico kt
+		\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,-0.7) -- (-1.5,-1.2);
+		\node[left] at (-1.5,-0.95) {$k_t$};
+		\draw[thick, red] (-1.5,-1.2) -- (-1.5,-1.3);
+		
+		\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
+		
+		% --- Rear suspension ---
+		\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
+		% Molla sospensione k
+		\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
+		\node[right] at (2.5,0.6) {$k$};
+		\draw[thick, red] (2.5,0.3) -- (2.5,-0.1);
+		% Smorzatore beta
+		\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.1) -- (2.5,-0.5);
+		\node[right] at (2.5,-0.3) {$\beta$};
+		\draw[thick, red] (2.5,-0.5) -- (2.5,-0.7);
+		% NUOVA: Molla pneumatico kt
+		\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,-0.7) -- (2.5,-1.2);
+		\node[right] at (2.5,-0.95) {$k_t$};
+		\draw[thick, red] (2.5,-1.2) -- (2.5,-1.3);
+		
+		\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
+		
+		% Front and rear wheel forces (posizionate a fine kt)
+		\draw[->, thick, red] (-1.5,-1.3) -- (-0.75,-1.3) node[midway,below] {$f_{wf}$};
+		\draw[->, thick, red] (2.5,-1.3) -- (3.25,-1.3) node[midway,below] {$f_{wr}$};
+		
+		% Ground heights
+		\draw[dashed, red] (-1.5,-1.3) -- (-2.5,-1.3);
+		\node[left] at (-2.5,-1.3) {$p_f$};
+		\draw[dashed, red] (2.5,-1.3) -- (1.5,-1.3);
+		\node[left] at (1.5,-1.3) {$p_r$};
+		
+		% Distances df and dr
+		\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
+		\node[below] at (-0.5,1.2) {$d_f$};
+		\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
+		\node[below] at (1.5,1.2) {$d_r$};
+		
+		% Labels z
+		\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
+		\node[right] at (3.2,1.6) {$z$};
+		
+		\end{tikzpicture}
+	\end{center}
+	
+	
+	
+	
+	\textbf{todo: finire sto disegno}
+
+	
+	\begin{center} 
+\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+	% Coordinate axes - Spostati per non interferire
+	\draw[->, thick, red] (-4,-3.5) -- (-4,3.5) node[above] {$z_l$};
+	\draw[->, thick, red] (-4,-3.5) -- (-3,-3.5) node[right] {$y_l$};
+	\filldraw[red] (-4,-3.5) circle (2pt) node[below left] {$O_l$};
+	
+	% --- SPRUNG MASS (Body) ---
+	\filldraw[color=red!80, fill=red!10, very thick] (-2,2.5) rectangle (3,3.1);
+	\node at (0.5,2.8) {$J, m$};
+	
+	% CM and Gravity
+	\draw[fill=red] (0.5,2.6) circle (0.07);
+	\draw[->, thick, red] (0.5,2.6) -- (0.5,0.8) node[right, near end] {$mg$};
+	
+	% Pitch angle theta
+	\draw[->, red, thick] (0.2,2.5) arc[start angle=180, end angle=130, radius=0.6];
+	\node at (0,2.8) {$\theta$};
+	
+	% --- FRONT SUSPENSION (Left) ---
+	\def\xf{-1.5}
+	% Connection to body
+	\draw[thick, red] (\xf,2.5) -- (\xf,2.2);
+	\draw[thick, red] (\xf-0.6,2.2) -- (\xf+0.6,2.2);
+	
+	% Sospensione superiore (k e beta parallelo) - DISTESA
+	\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xf-0.4,2.2) -- (\xf-0.4,0.8);
+	\node[left=2pt] at (\xf-0.4,1.5) {$k$};
+	
+	% Damper (beta)
+	\draw[thick, red] (\xf+0.4,2.2) -- (\xf+0.4,1.8);
+	\draw[thick, red] (\xf+0.2,1.8) -- (\xf+0.6,1.8); % Top cylinder
+	\draw[thick, red] (\xf+0.2,1.8) -- (\xf+0.2,1.2) -- (\xf+0.6,1.2) -- (\xf+0.6,1.8); % Cylinder body
+	\draw[thick, red] (\xf+0.25,1.5) -- (\xf+0.55,1.5); % Piston
+	\draw[thick, red] (\xf+0.4,1.5) -- (\xf+0.4,0.8); % Rod
+	\node[right=2pt] at (\xf+0.6,1.5) {$\beta$};
+	
+	\draw[thick, red] (\xf-0.6,0.8) -- (\xf+0.6,0.8);
+	\draw[thick, red] (\xf,0.8) -- (\xf,0.5);
+	
+	% UNSPRUNG MASS (mw)
+	\filldraw[color=red!80, fill=red!10, thick] (\xf-0.6,-0.1) rectangle (\xf+0.6,0.5);
+	\node at (\xf, 0.2) {$m_w$};
+	
+	% TIRE STIFFNESS (kt) - DISTESA
+	\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xf,-0.1) -- (\xf,-1.5);
+	\node[left=3pt] at (\xf,-0.8) {$k_t$};
+	
+	% --- REAR SUSPENSION (Right) ---
+	\def\xr{2.5}
+	% Connection to body
+	\draw[thick, red] (\xr,2.5) -- (\xr,2.2);
+	\draw[thick, red] (\xr-0.6,2.2) -- (\xr+0.6,2.2);
+	
+	% Sospensione superiore (k e beta parallelo)
+	\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xr-0.4,2.2) -- (\xr-0.4,0.8);
+	\node[left=2pt] at (\xr-0.4,1.5) {$k$};
+	
+	% Damper (beta)
+	\draw[thick, red] (\xr+0.4,2.2) -- (\xr+0.4,1.8);
+	\draw[thick, red] (\xr+0.2,1.8) -- (\xr+0.6,1.8); 
+	\draw[thick, red] (\xr+0.2,1.8) -- (\xr+0.2,1.2) -- (\xr+0.6,1.2) -- (\xr+0.6,1.8); 
+	\draw[thick, red] (\xr+0.25,1.5) -- (\xr+0.55,1.5); 
+	\draw[thick, red] (\xr+0.4,1.5) -- (\xr+0.4,0.8); 
+	\node[right=2pt] at (\xr+0.6,1.5) {$\beta$};
+	
+	\draw[thick, red] (\xr-0.6,0.8) -- (\xr+0.6,0.8);
+	\draw[thick, red] (\xr,0.8) -- (\xr,0.5);
+	
+	% UNSPRUNG MASS (mw)
+	\filldraw[color=red!80, fill=red!10, thick] (\xr-0.6,-0.1) rectangle (\xr+0.6,0.5);
+	\node at (\xr, 0.2) {$m_w$};
+	
+	% TIRE STIFFNESS (kt)
+	\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xr,-0.1) -- (\xr,-1.5);
+	\node[right=3pt] at (\xr,-0.8) {$k_t$};
+	
+	% --- FORCES AND GROUND ---
+	% Ground forces
+	\draw[->, thick, red] (\xf,-1.5) -- (\xf+1,-1.5) node[right] {$f_{wf}$};
+	\draw[->, thick, red] (\xr,-1.5) -- (\xr+1,-1.5) node[right] {$f_{wr}$};
+	
+	% Ground inputs pf, pr
+	\draw[dashed, red] (\xf,-1.5) -- (\xf-1.2,-1.5) node[left] {$p_f$};
+	\draw[dashed, red] (\xr,-1.5) -- (\xr-1.2,-1.5) node[left] {$p_r$};
+	
+	% Distances df, dr
+	\draw[<->, red] (0.5,2.0) -- (\xf,2.0) node[midway,above] {$d_f$};
+	\draw[<->, red] (0.5,2.0) -- (\xr,2.0) node[midway,above] {$d_r$};
+	
+	% Active forces f_af, f_ar
+	\draw[->, thick, red] (\xf,2.8) -- (\xf,1.8) node[midway,left] {$f_{af}$};
+	\draw[->, thick, red] (\xr,2.8) -- (\xr,1.8) node[midway,right] {$f_{ar}$};
+	
+	% Reference height
+	\draw[dashed, red] (3,2.8) -- (4,2.8) node[right] {$z$};
+\end{tikzpicture}
+	\end{center}
+	Copy and past the Simulink block scheme and describe what each block does. Describe the set-up MATLAB file, where and how to change the parameters of the simulations. Remember to include also the sensor noises and realistic external disturbances.
+	
+	\section{Simulation results}
+	Describe the simulation scenario: initial conditions, purpose of the simulation. Describe the results: are the results coherent with the expectation? If not why? Investigate the tuning: how the performance are affected by the selection of the parameters at disposal of the designer?
+	
+	\chapter{Conclusions and further investigation}
+	Recap the main results obtained in the project and highlight eventual further investigation directions alogn which the performance could be improved. 
+	
+	\newpage
+	\chapter*{Bibliography}
+	List the papers/books cited.
+	
+	
+	\newpage
+	\appendix
+	\chapter*{Appendix}
+	Use appendices to add technical parts which are instrumental for the completeness of the manuscript but are too heavy to be included inside the main text. Basically, appendices are exploited to let the main text cleaner and smoother. As example, the complete MATLAB listings can be reported in appendix.\\
+	
 	
 \end{document}          
