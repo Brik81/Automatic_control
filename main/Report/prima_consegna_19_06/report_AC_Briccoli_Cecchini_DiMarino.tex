@@ -6,6 +6,7 @@
 \usepackage{tikz}
 \usepackage{amsmath}
 \usepackage{booktabs}
+\setcounter{MaxMatrixCols}{13}
 \usepackage[hidelinks,hypertexnames=false]{hyperref}
 \usetikzlibrary{arrows.meta, decorations.pathreplacing, decorations.pathmorphing}
 
@@ -49,7 +50,10 @@ The half-car model was chosen because it provides a good trade-off between model
 %	\section{Organisation of the manuscript}
 %	Describe what the reader finds in each of the Sections of this manuscript.
 	
-	\section{List of the symbols}
+
+
+
+\section{List of the symbols}
 \begin{table}[H]
 	\centering
 	\caption{Symbol Table}
@@ -57,50 +61,76 @@ The half-car model was chosen because it provides a good trade-off between model
 		\toprule
 		\textbf{Symbol} & \textbf{Description} & \textbf{Dimension} \\
 		\midrule
-		$x$ & State vector & $\mathbb{R}^n$ \\
-		$u$ & Control input vector & $\mathbb{R}^p$ \\
-		$y$ & Measured output vector & $\mathbb{R}^q$ \\
-		$e$ & Control error (goal) & $\mathbb{R}^{l_m}$ \\
-		$d$ & Disturbance vector & $\mathbb{R}^{l_d}$ \\
-		$r$ & Reference signal & $\mathbb{R}^{l_r}$ \\
-		$\nu$ & Sensor noise & $\mathbb{R}^q$ \\
-		$w$ & Exogenous input, $w = \text{col}(d, \nu, r)$ & --- \\
-		$z$ & Vertical displacement of vehicle CoM & --- \\
-		$z_g$ & Vertical displacement of the road surface & --- \\
-		$\theta$ & Vehicle pitch angle & --- \\
-		$\dot{\theta}$ & Angular velocity of pitch & --- \\
-		$\theta_{gf}$ & Road pitch angle at front axle & --- \\
-		$\omega_{gf}$ & Rate of change of front road pitch & --- \\
-		$\theta_{gr}$ & Road pitch angle at rear axle & --- \\
-		$\omega_{gr}$ & Rate of change of rear road pitch & --- \\
-		$x_i$ & Component of state vector $x$, $i = 1,\dots,8$ & --- \\
-		$u_1$ & Vertical force component of actuator input & --- \\
-		$u_2$ & Pitch moment component of actuator input & --- \\
-		$f_{af}, f_{ar}$ & Forces from front and rear actuators & --- \\
-		$d_f, d_r$ & Distances from CoM to front and rear axles & --- \\
-		$f_2$ & Net vertical acceleration of vehicle body & --- \\
-		$f_4$ & Pitch angular acceleration & --- \\
-		$\ddot{z}_g$ & Vertical acceleration of road surface & --- \\
-		$\alpha_{gf}, \alpha_{gr}$ & Angular accelerations of road at front and rear axles & --- \\
-		$s_1, s_3$ & Suspension deflections (front, rear) & --- \\
-		$s_2, s_4$ & Suspension velocities (front, rear) & --- \\
-		$f_s(p, v)$ & Suspension force: $-kp - \beta v$ & --- \\
-		$k$ & Suspension stiffness & --- \\
-		$\beta$ & Suspension damping coefficient & --- \\
-		$y_y, y_z$ & Lateral and vertical accelerometer readings & --- \\
-		$y_g$ & Gyroscope reading (pitch rate) & --- \\
-		$y_l, y_r$ & Suspension potentiometer readings (front, rear) & --- \\
-		$\nu_y, \nu_z, \nu_g, \nu_l, \nu_r$ & Sensor noise components & --- \\
-		$\theta_a$ & Apparent pitch angle from accelerometers & --- \\
-		$r_z, r_\theta$ & Reference vertical height and pitch angle & --- \\
-		$f_{sf}, f_{sr}$ & Suspension spring forces (front, rear) & --- \\
-		$f_{wf}, f_{wr}$ & Wheel forces (front, rear) & --- \\
-		$l_f, l_r$ & Lever arms of wheel forces for torque calculation & --- \\
-		$E(y)$ & Map from output to control error & --- \\
-		$g$ & Gravitational constant & --- \\
+		$x$ & State vector & $\mathbb{R}^{12}$ \\
+		$u$ & Control input vector $[u_1\;u_2]^T$ & $\mathbb{R}^{2}$ \\
+		$y$ & Measured output vector & $\mathbb{R}^{5}$ \\
+		$e$ & Control error vector & $\mathbb{R}^{2}$ \\
+		$d$ & Disturbance vector & $\mathbb{R}^{6}$ \\
+		$r$ & Reference vector $[r_z\; r_\theta]^T$ & $\mathbb{R}^{2}$ \\
+		$\nu$ & Sensor noise vector & $\mathbb{R}^{5}$ \\
+		$w$ & Exogenous input $w=\mathrm{col}(d,\nu,r)$ & --- \\
+		
+		$p_z$ & Vertical displacement of vehicle CoM & m \\
+		$v_z$ & Vertical velocity of vehicle CoM & m/s \\
+		$\theta$ & Pitch angle of vehicle body & rad \\
+		$\dot{\theta}$ & Pitch angular velocity & rad/s \\
+		
+		$h_{wf}, h_{wr}$ & Front and rear wheel vertical displacement & m \\
+		$\dot{h}_{wf}, \dot{h}_{wr}$ & Front and rear wheel vertical velocity & m/s \\
+		
+		$\theta_{gf}, \theta_{gr}$ & Road pitch angle at front and rear axle & rad \\
+		$z_{gf}, z_{gr}$ & Road vertical displacement at front and rear axle & m \\
+		
+		$u_1$ & Total vertical actuator force & N \\
+		$u_2$ & Pitch moment component of actuator input & Nm \\
+		$f_{af}, f_{ar}$ & Front and rear actuator forces & N \\
+		
+		$d_f, d_r$ & Distance from CoM to front and rear axle & m \\
+		$h_{cg}$ & Height of vehicle center of mass & m \\
+		
+		$m$ & Sprung mass (vehicle body) & kg \\
+		$m_{wf}, m_{wr}$ & Front and rear unsprung mass & kg \\
+		$J$ & Pitch moment of inertia & kg\,m$^2$ \\
+		
+		$k_f, k_r$ & Front and rear suspension stiffness & N/m \\
+		$\beta_f, \beta_r$ & Front and rear suspension damping & N\,s/m \\
+		
+		$k_{tf}, k_{tr}$ & Front and rear tire stiffness & N/m \\
+		
+		$s_1, s_3$ & Front and rear suspension deflection & m \\
+		$s_2, s_4$ & Front and rear suspension velocity & m/s \\
+		
+		$f_{sf}, f_{sr}$ & Front and rear suspension forces & N \\
+		$f_{wf}, f_{wr}$ & Front and rear wheel dynamics forces & N \\
+		
+		$f_{x f}, f_{x r}$ & Longitudinal forces at front and rear axle & N \\
+		$F_x$ & Total longitudinal force $F_x=f_{xf}+f_{xr}$ & N \\
+		
+		$f_2$ & Vertical acceleration of vehicle body & m/s$^2$ \\
+		$f_4$ & Pitch angular acceleration & rad/s$^2$ \\
+		
+		$\alpha_{gf}, \alpha_{gr}$ & Road pitch angular acceleration (front, rear) & rad/s$^2$ \\
+		$\dot{z}_{gf}, \dot{z}_{gr}$ & Road vertical velocity (front, rear) & m/s \\
+		
+		$y_x$ & Longitudinal accelerometer output & m/s$^2$ \\
+		$y_z$ & Vertical accelerometer output & m/s$^2$ \\
+		$y_\theta$ & Gyroscope pitch-rate measurement & rad/s \\
+		$y_f, y_r$ & Front and rear suspension sensors & m \\
+		
+		$\nu_y, \nu_z, \nu_g, \nu_f, \nu_r$ & Sensor noise components & --- \\
+		
+		$r_z$ & Reference vertical position & m \\
+		$r_\theta$ & Reference pitch angle & rad \\
+		
+		$g$ & Gravitational acceleration & m/s$^2$ \\
+		$\gamma_f$ & Anti-Dive suspension inclination & --- \\
+		$\gamma_r$ & Anti-Squat suspension inclination & --- \\
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+
+
 	
 %	\chapter{Active Suspensions Control System}
 %
@@ -321,250 +351,266 @@ The half-car model was chosen because it provides a good trade-off between model
 	
 \subsection{Dynamic Model}
 
-The considered dynamic model represents a longitudinal half-car vehicle equipped with two active suspensions, accounting for both the vertical and pitch dynamics of the sprung mass, as well as the vertical motion of the unsprung masses at the front and rear axles. Unlike simplified rigid-body formulations, the inclusion of unsprung masses and tire stiffness enables the model to capture wheel--road interaction effects and high-frequency vertical dynamics, which are particularly relevant when road disturbances are present.
+The considered vehicle model is a nonlinear longitudinal half-car representation equipped with two independently actuated suspensions. The model captures the vertical and pitch dynamics of the sprung mass, as well as the vertical dynamics of the front and rear unsprung masses. Tire compliance is explicitly included through linear tire stiffness, allowing the interaction between the wheels and the road profile to be accurately represented.
 
-The system dynamics are described using a state vector composed of twelve states:
-\begin{align}
+The sprung mass is assumed to be a rigid body with two degrees of freedom: vertical translation and pitch rotation. Each unsprung mass is modeled as a single vertical degree of freedom. Road excitations are treated as external inputs acting at the tire--road contact points and are not included as dynamic states.
+
+\subsubsection*{State vector}
+The system state vector is defined as:
+\begin{equation}
 	x =
 	\begin{bmatrix}
-		x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8 \\ x_9 \\ x_{10} \\ x_{11} \\ x_{12}
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		z_s \\
-		\dot z_s \\
-		\theta \\
-		\dot\theta \\
-		z_{wf} \\
-		\dot z_{wf} \\
-		z_{wr} \\
-		\dot z_{wr} \\
-		\theta_{gf} \\
-		\theta_{gr} \\
-		z_{gf} \\
-		z_{gr}
-	\end{bmatrix}
-\end{align}
+		z_s &
+		\dot z_s &
+		\theta &
+		\dot \theta &
+		z_{wf} &
+		\dot z_{wf} &
+		z_{wr} &
+		\dot z_{wr}
+	\end{bmatrix}^T
+	\in \mathbb{R}^8
+\end{equation}
+where $z_s$ and $\dot z_s$ denote the vertical displacement and velocity of the sprung mass center of mass, $\theta$ and $\dot\theta$ are the pitch angle and pitch rate, while $z_{wf}$, $z_{wr}$ and their time derivatives describe the vertical motion of the front and rear unsprung masses.
 
-The first four states describe the motion of the sprung mass: the vertical displacement and velocity of the vehicle body center of mass, together with the pitch angle and pitch rate. States $z_{wf}$ and $z_{wr}$, along with their time derivatives, represent the vertical motion of the front and rear unsprung masses. Finally, the remaining states model the road excitation at the front and rear contact points in terms of vertical displacement and local pitch angle, allowing the road profile to be treated as an external disturbance.
-
-The suspension system is actuated independently at the front and rear axles. For control purposes, the input vector is defined as:
-\begin{align}
+\subsubsection*{Control inputs}
+The active suspension system is driven by two control inputs:
+\begin{equation}
 	u =
 	\begin{bmatrix}
 		u_1 \\
 		u_2
 	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		f_{af} + f_{ar} \\
-		f_{af} d_f - f_{ar} d_r
-	\end{bmatrix}
-\end{align}
-
-where $u_1$ represents the resultant vertical force acting on the sprung mass, while $u_2$ corresponds to the pitching moment about the center of mass. This choice of inputs decouples the heave and pitch control objectives and simplifies the controller design.
-
-The system dynamics are expressed in first-order nonlinear state-space form as:
-\begin{align}
-	\dot{x} =
-	\begin{bmatrix}
-		x_2 \\
-		f_2 \\
-		x_4 \\
-		f_4 \\
-		x_6 \\
-		f_{wf} \\
-		x_8 \\
-		f_{wr} \\
-		\alpha_{gf} \\
-		\alpha_{gr} \\
-		\dot z_{gf} \\
-		\dot z_{gr}
-	\end{bmatrix}
-\end{align}
-
-where $f_2$ and $f_4$ denote the vertical and pitch accelerations of the sprung mass, while $f_{wf}$ and $f_{wr}$ are the vertical accelerations of the front and rear unsprung masses, respectively. The quantities $\alpha_{gf}$ and $\alpha_{gr}$ represent the temporal variations of the road pitch profiles, and $\dot z_{gf}$ and $\dot z_{gr}$ describe the vertical velocities of the road surface at the wheel contact points.
-
-The vertical acceleration of the sprung mass is obtained from Newton’s second law as:
-\begin{equation}
-	f_2 = -g + \frac{1}{m}\left(f_{sf} + f_{sr} + u_1\right)
 \end{equation}
-
-where the gravitational acceleration acts downward, while the suspension forces and the control input contribute to the vertical force balance.
-
-Similarly, the pitch angular acceleration about the vehicle center of mass is given by:
-\begin{equation}
-	f_4 = \frac{1}{J}\left(d_f f_{sf} - d_r f_{sr} + u_2\right)
-\end{equation}
-
-which expresses the balance of moments generated by the front and rear suspension forces and the control-induced pitching moment.
-
-The suspension deflections and relative velocities are defined as:
-\begin{align}
-	s_1 &= (z_s - z_{wf}) + d_f(\theta - \theta_{gf}), &
-	s_3 &= (z_s - z_{wr}) - d_r(\theta + \theta_{gr}) \\[4pt]
-	s_2 &= (\dot z_s - \dot z_{wf}) + d_f(\dot\theta - \dot\theta_{gf}), &
-	s_4 &= (\dot z_s - \dot z_{wr}) - d_r(\dot\theta - \dot\theta_{gr})
-\end{align}
-
-These expressions account for both the translational and rotational motion of the sprung mass relative to the unsprung masses, including the effect of road pitch disturbances.
-
-The suspension forces are modeled as linear spring-damper elements:
-\begin{equation}
-	f_{sf} = -k s_1 - \beta s_2, \qquad
-	f_{sr} = -k s_3 - \beta s_4
-\end{equation}
-
-where $k$ and $\beta$ denote the suspension stiffness and damping coefficients, respectively.
-
-The tire--road interaction is modeled using linear tire stiffness:
-\begin{equation}
-	f_{tf} = k_{tf}(z_{gf} - z_{wf}), \qquad
-	f_{tr} = k_{tr}(z_{gr} - z_{wr})
-\end{equation}
-
-which relates the tire forces to the relative displacement between the road surface and the unsprung masses.
-
-The dynamics of the unsprung masses are governed by:
-\begin{align}
-	f_{wf} &= \frac{1}{m_{wf}}\left(f_{tf} - f_{sf} - f_{af} - m_{wf} g\right) \\
-	f_{wr} &= \frac{1}{m_{wr}}\left(f_{tr} - f_{sr} - f_{ar} - m_{wr} g\right)
-\end{align}
-
-where each unsprung mass is subjected to the tire force, suspension force, actuator force, and gravity.
-
-Finally, the actuator forces applied at the front and rear suspensions are recovered from the control inputs as:
+where $u_1$ represents the total vertical force applied to the sprung mass, and $u_2$ is the pitching moment about the center of mass. The corresponding actuator forces at the front and rear suspensions are obtained through the static force distribution:
 \begin{align}
 	f_{af} &= \frac{d_r u_1 + u_2}{d_f + d_r}, \\
-	f_{ar} &= \frac{d_f u_1 - u_2}{d_f + d_r}
+	f_{ar} &= \frac{d_f u_1 - u_2}{d_f + d_r},
+\end{align}
+with $d_f$ and $d_r$ denoting the distances from the center of mass to the front and rear axles, respectively.
+
+\subsubsection*{Suspension kinematics}
+The suspension deflections and relative velocities are given by:
+\begin{align}
+	s_1 &= z_s + d_f \sin\theta - z_{wf}, &
+	s_3 &= z_s - d_r \sin\theta - z_{wr}, \\
+	s_2 &= \dot z_s + d_f \dot\theta \cos\theta - \dot z_{wf}, &
+	s_4 &= \dot z_s - d_r \dot\theta \cos\theta - \dot z_{wr}.
+\end{align}
+These expressions account for both the translational motion of the sprung mass and the geometric contribution due to pitch rotation.
+
+\subsubsection*{Suspension and tire forces}
+The suspension forces are modeled as linear spring--damper elements:
+\begin{align}
+	f_{sf} &= -k_f s_1 - \beta_f s_2, \\
+	f_{sr} &= -k_r s_3 - \beta_r s_4,
+\end{align}
+where $k_f$, $k_r$ and $\beta_f$, $\beta_r$ are the stiffness and damping coefficients of the front and rear suspensions.
+
+The tire--road interaction is described using linear tire stiffness:
+\begin{align}
+	f_{tf} &= k_{tf}(z_{rf} - z_{wf}), \\
+	f_{tr} &= k_{tr}(z_{rr} - z_{wr}),
+\end{align}
+with $z_{rf}$ and $z_{rr}$ denoting the vertical road displacements at the front and rear contact points.
+
+\subsubsection*{Sprung mass dynamics}
+The vertical acceleration of the sprung mass follows from Newton’s second law:
+\begin{equation}
+	\ddot z_s = -g + \frac{1}{m}\left(f_{sf} + f_{sr} + f_{af} + f_{ar}\right).
+\end{equation}
+
+The pitch dynamics about the center of mass are governed by:
+\begin{equation}
+	\ddot\theta =
+	\frac{1}{J}
+	\left(
+	d_f (f_{sf} + f_{af})
+	-
+	d_r (f_{sr} + f_{ar})
+	+
+	h_{cg} F_x
+	\right),
+\end{equation}
+where $J$ is the pitch moment of inertia, $h_{cg}$ is the height of the center of mass, and
+\begin{equation}
+	F_x = F_{xf} + F_{xr}
+\end{equation}
+is the resultant longitudinal force acting on the vehicle. This term accounts for the coupling between longitudinal forces and pitch dynamics through load transfer effects.
+
+\subsubsection*{Unsprung mass dynamics}
+The vertical dynamics of the front and rear unsprung masses are given by:
+\begin{align}
+	\ddot z_{wf} &= \frac{1}{m_{wf}}\left(f_{tf} - f_{sf} - f_{af} - m_{wf} g\right), \\
+	\ddot z_{wr} &= \frac{1}{m_{wr}}\left(f_{tr} - f_{sr} - f_{ar} - m_{wr} g\right).
 \end{align}
 
-This formulation provides a complete nonlinear state-space description of the half-car dynamics, explicitly capturing the coupled behavior of the vehicle body, suspensions, unsprung masses, and road disturbances.
+\subsubsection*{State-space representation}
+Collecting all terms, the nonlinear vehicle dynamics can be written in first-order state-space form as:
+\begin{equation}
+	\dot x = f(x,u,w,road),
+\end{equation}
+where $w$ represents external longitudinal force disturbances and $road$ collects the road profile inputs at the wheel contact points.
+
+This formulation provides a complete nonlinear description of the vertical and pitch dynamics of the vehicle, forming the basis for linearization, controller synthesis, and observer design.
 
 
+	\newpage
 	
 	\subsection{Sensor Model}
 	
-	The effectiveness of the control architecture relies heavily on the accurate and timely acquisition of physical quantities related to the vehicle's motion and posture. To this end, the half-car system is equipped with a set of onboard sensors, specifically selected to ensure observability of the dynamic model and to allow real-time feedback control.
+	The control architecture relies on a set of onboard sensors that provide real-time measurements of the vehicle vertical and pitch dynamics. The selected sensor suite is designed to ensure observability of the nonlinear half-car model and to provide sufficient information for feedback control in the presence of road disturbances and measurement noise.
 	
-	\paragraph{Measurement Vector}
-	The complete sensor output is gathered in the measurement vector:
+	All sensor measurements are assumed to be affected by additive noise and are expressed in the vehicle body-fixed reference frame.
 	
+	\subsubsection*{Measurement Vector}
+	
+	The complete measurement vector is defined as:
 	\begin{align}
-		y = \begin{bmatrix}
-			y_y \\ y_z \\ y_g \\ y_l \\ y_r
-		\end{bmatrix} =
+		y =
+		\renewcommand{\arraystretch}{1.3}
 		\begin{bmatrix}
-			\sin x_3(f_2 + g) + \cos x_3(f_{wr} + f_{wf})/m \\
-			\cos x_3(f_2 + g) - \sin x_3(f_{wr} + f_{wf})/m \\
-			x_4 \\
+			y_y \\ y_z \\ y_g \\ y_f \\ y_r
+		\end{bmatrix}
+		=
+		\renewcommand{\arraystretch}{1.4}
+		\begin{bmatrix}
+			\sin(\theta)(f_2 + g) + \cos(\theta)\tfrac{F_x}{m} \\
+			\cos(\theta)(f_2 + g) - \sin(\theta)\tfrac{F_x}{m} \\
+			\dot{\theta} \\
 			s_1 \\
 			s_3
-		\end{bmatrix} + \nu
+		\end{bmatrix}
+		+
+		\begin{bmatrix}
+			\nu_y \\ \nu_z \\ \nu_g \\ \nu_f \\ \nu_r
+		\end{bmatrix}.
 	\end{align}
 	
-	This vector includes measurements from two accelerometers, one gyroscope, and two linear potentiometers, all subject to additive noise $\nu$.
+	This vector includes measurements from two accelerometers, one gyroscope, and two suspension displacement sensors.
 	
-	\paragraph{Accelerometers}
-	The first two components $y_y$ and $y_z$ represent the lateral and vertical accelerations measured in the vehicle’s body-fixed reference frame. These measurements are obtained via two MEMS accelerometers mounted at the vehicle's center of mass. Due to the non-inertial frame of reference, the accelerations are nonlinear combinations of translational and rotational dynamics and include the gravitational component projected along the vehicle's pitch angle $x_3 = \theta$.
+	\subsubsection*{Accelerometer Model}
 	
-	These measurements are used to estimate the apparent pitch angle $\theta_a$, which is a key feedback signal for pitch stabilization control. We assume a typical sensor such as the \textbf{STMicroelectronics LIS3DH}, offering 12-bit resolution, low noise density ($\sim50~\mu g/\sqrt{Hz}$), and a digital output interface.
+	The first two outputs $y_y$ and $y_z$ represent the longitudinal and vertical accelerations measured in the body-fixed reference frame. These signals are obtained from MEMS accelerometers mounted near the vehicle center of mass.
+	
+	The accelerometer outputs are nonlinear functions of the vehicle dynamics and include both inertial and gravitational contributions. The term $f_2 + g$ corresponds to the absolute vertical acceleration of the sprung mass, while $F_x/m$ represents the longitudinal acceleration induced by external forces.
+	
+	The trigonometric terms $\sin(\theta)$ and $\cos(\theta)$ account for the projection of the acceleration vector onto the body-fixed axes due to the pitch angle, resulting in an intrinsic coupling between vertical and pitch dynamics.
+	
+	A typical automotive-grade device is the \textbf{STMicroelectronics LIS3DH}, providing 12-bit resolution and low noise density.
+	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.3\linewidth]{img/LIS3DH}
-		\caption{STM LIS3DH Sensor used as accelerometer}
-		\label{fig:lis3dh}
+		\caption{MEMS accelerometer LIS3DH}
 	\end{figure}
 	
+	\subsubsection*{Gyroscope Model}
 	
-	\paragraph{Gyroscope.}
-	The third component $y_g$ corresponds to the pitch angular rate $\dot{\theta}$, measured directly by a gyroscope mounted on the vehicle frame. This measurement provides high-frequency information essential for dynamic feedback control and stability monitoring.
+	The third measurement $y_g$ corresponds to the pitch angular rate:
+	\begin{equation}
+		y_g = \dot{\theta} + \nu_g .
+	\end{equation}
 	
-	A typical device used could be the \textbf{Bosch BMI160} inertial measurement unit (IMU), with integrated accelerometer and gyroscope, capable of delivering low-latency angular rate data with high sensitivity (16-bit ADC) and low drift. The sensor is assumed to be rigidly fixed to the main chassis near the center of rotation to minimize errors due to offset and vibration. 
+	This signal is provided by a gyroscope rigidly attached to the vehicle body and delivers high-bandwidth information essential for pitch stabilization and transient response improvement.
+	
+	A representative sensor is the \textbf{Bosch BMI160}, integrating accelerometer and gyroscope within a compact IMU package.
+	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.3\linewidth]{img/LIS3DH1}
-		\caption{Bosch  BMI160 soldered in a circuit used as a gyroscope}
-		\label{fig:lis3dh1}
+		\caption{Bosch BMI160 IMU}
 	\end{figure}
 	
+	\subsubsection*{Suspension Deflection Sensors}
 	
-	\paragraph{Suspension Potentiometers.}
-	The fourth and fifth entries $y_l$ and $y_r$ are deflection measurements of the front and rear suspension struts, modeled by the quantities $s_1$ and $s_3$. These values are acquired via linear position sensors (e.g., \textbf{SLS190}) mounted along the suspension path to detect extension or compression relative to the static rest position.
+	The last two measurements $y_f$ and $y_r$ correspond to the front and rear suspension deflections:
+	\begin{equation}
+		y_f = s_1 + \nu_f, \qquad
+		y_r = s_3 + \nu_r.
+	\end{equation}
 	
-	These readings give direct insight into the interaction between the vehicle and the road surface, reflecting terrain irregularities, road disturbances, and load shifts. Additionally, they are fundamental to compute control actions that regulate ride comfort and load distribution.
+	The deflections are defined as:
+	\begin{align}
+		s_1 &= (z_s + d_f \sin\theta) - z_{wf}, \\
+		s_3 &= (z_s - d_r \sin\theta) - z_{wr},
+	\end{align}
+	and represent the relative displacement between the sprung mass and the unsprung masses. These measurements provide direct information on road excitation and wheel--body interaction.
+	
+	Linear potentiometers such as the \textbf{SLS190} are assumed.
+	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.3\linewidth]{img/LIS3DH2}
-		\caption{Linear Potentiometer SLS190}
-		\label{fig:lis3dh2}
+		\caption{Linear suspension potentiometer}
 	\end{figure}
+	
 	\newpage
-	\paragraph{Noise Modeling}
-	All sensor measurements are corrupted by additive noise:
+	\subsubsection*{Noise Modeling}
 	
-	\[
-	\nu = \begin{bmatrix}
-		\nu_y & \nu_z & \nu_g & \nu_l & \nu_r
-	\end{bmatrix}^T
-	\]
-	
-	A Gaussian-distributed noise is assumed with known standard deviations derived from the sensor datasheets. Noise in the accelerometers and gyroscope may include both white noise and low-frequency bias drift, while potentiometers may exhibit quantization and thermal noise. These uncertainties justify the implementation of robust filtering (e.g., Kalman filters) and noise-resilient control laws.
-	
-	\paragraph{Sensor Placement and Observability}
-	The sensor configuration is designed to ensure full observability of the system state vector $x$ required for control. The accelerometers and gyroscope reconstruct the translational and rotational dynamics, while the suspension sensors resolve wheel-body interactions. This sensor suite has been tested in simulation to confirm that it enables estimation of all states through standard observers.
-	
-	\paragraph{Practical Considerations}
-	While alternative sensors such as LIDAR, GPS, or magnetometers could enhance localization in other contexts, they are not considered here due to their inadequacy in indoor or suspension-focused scenarios. For example, GPS is unsuitable for fine-grained control of vertical dynamics or in indoor testing environments, and magnetometers are highly susceptible to interference from ferromagnetic chassis components and electromagnetic noise from motors.
-	
-	The selected sensor set offers a balance between cost, precision, and real-time capability, making it well-suited for embedded automotive platforms focused on suspension control and ride dynamics.
-	
-	
-	\paragraph{Control Objectives}
-	
-	We define the apparent pitch angle $\theta_a$ using accelerometer data:
-	
-	\begin{align}
-		\theta_a = \sin^{-1} \left( \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \right)
-	\end{align}
-	
-	The control error vector is defined as:
-	
-	\begin{align}
-		e = \begin{bmatrix}
-			\frac{y_f d_r + y_r d_f}{d_r + d_f} - r_z \\
-			\theta_a - r_\theta
-		\end{bmatrix}
-	\end{align}
-	
-	This error describes deviations from the desired vertical height and perceived pitch. The control task is to design $u$ to drive $e \rightarrow 0$ in the presence of disturbances and noise.
-	
-	The second component of the error vector $he(x,u,w)$ captures the deviation from a desired apparent pitch angle $\theta_a$, which reflects the passenger-perceived acceleration. It is defined through the nonlinear relationship:
-	
-\begin{equation}
-		\sin(\theta_a) = \frac{y_y}{\sqrt{y_y^2 + y_z^2}} \quad \Rightarrow \quad \theta_a = \sin^{-1}\left(\frac{y_y}{\sqrt{y_y^2 + y_z^2}}\right)
-\end{equation}
-	
-	where $y_y$ and $y_z$ are the accelerometer outputs along the body-frame $y$ and $z$ axes, respectively. This formulation provides an estimate of the pitch experienced by passengers during acceleration, braking, or uneven ground contact.
-	
-	
-	The complete output error function thus becomes:
-	
+	All sensor measurements are affected by additive noise:
 	\begin{equation}
-		he(x, u, w) =
+		\nu =
 		\begin{bmatrix}
-			\displaystyle \frac{(s_1 + \nu_f) d_r + (s_3 + \nu_r) d_f}{d_r + d_f} - r_z \\
-			\displaystyle \sin^{-1}\left( \frac{h_1 + \nu_y}{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}} \right) - r_\theta
-		\end{bmatrix}
+			\nu_y & \nu_z & \nu_g & \nu_f & \nu_r
+		\end{bmatrix}^T.
 	\end{equation}
 	
-	where $s_1$, $s_3$ are suspension deflections, $h_1$, $h_2$ are derived from dynamic equations, and $\nu_i$ are sensor noise terms. This formulation ensures the controller minimizes both height and perceptual pitch deviations. 
+	Noise components are modeled as zero-mean Gaussian processes with variances derived from typical automotive sensor specifications. Accelerometers and gyroscopes include white noise and bias drift, while suspension sensors are mainly affected by quantization and thermal noise.
 	
+	\subsubsection*{Control Objectives}
+	
+	The control objective is defined in terms of vertical position and perceived pitch regulation.  
+	An apparent pitch angle $\theta_a$ is reconstructed from accelerometer data as:
+	\begin{equation}
+		\theta_a =
+		\sin^{-1}
+		\left(
+		\frac{y_y}{\sqrt{y_y^2 + y_z^2}}
+		\right).
+	\end{equation}
+	
+	The control error vector is defined as:
+	\begin{align}
+		e =
+		\begin{bmatrix}
+			\dfrac{(s_1 + \nu_f)d_r + (s_3 + \nu_r)d_f}{d_r + d_f} - r_z \\
+			\theta_a - r_\theta
+		\end{bmatrix},
+	\end{align}
+	where $r_z$ and $r_\theta$ denote the desired vertical position and pitch angle references.
+	
+	The first component regulates the vehicle vertical displacement through a weighted average of suspension deflections, while the second penalizes deviations from the perceived pitch angle experienced by passengers.
+	
+	\subsubsection*{Output Error Function}
+	
+	The complete nonlinear output error function used for control design is:
+	\begin{equation}
+		he(x,u,w) =
+		\begin{bmatrix}
+			\displaystyle
+			\frac{(s_1 + \nu_f)d_r + (s_3 + \nu_r)d_f}{d_r + d_f} - r_z \\
+			\displaystyle
+			\sin^{-1}
+			\left(
+			\frac{h_1 + \nu_y}
+			{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}}
+			\right)
+			- r_\theta
+		\end{bmatrix},
+	\end{equation}
+	where $h_1$ and $h_2$ represent the ideal accelerometer outputs derived from the system dynamics.
+	
+	\subsubsection*{Observability Considerations}
+	
+	The selected sensor configuration ensures observability of the states relevant for control. Accelerometer and gyroscope measurements capture translational and rotational dynamics, while suspension deflection sensors resolve wheel--body interaction and road-induced disturbances, enabling reliable state estimation through standard observers.
+	
+	\newpage
 	\subsection{System Linearization}
 	
 	To facilitate the control design of the longitudinal half-car model equipped with active front and rear suspension systems, the initial step involves the linearization of the nonlinear system dynamics. This process is performed by identifying appropriate steady-state operating points \((x^*, y^*, w^*)\), which characterize representative conditions under which the vehicle is expected to operate. Linearizing the system around these equilibrium points enables the derivation of a time-invariant linear approximation of the vehicle dynamics, thereby simplifying the synthesis and analysis of control strategies.
 	
-	\subsubsection{Linearization Around the Operating Point}
+	\subsubsection*{Linearization Around the Operating Point}
 	
 	Consider the nonlinear system model:
 	\begin{equation}
@@ -640,26 +686,40 @@ This formulation provides a complete nonlinear state-space description of the ha
 	This Linear Time-Invariant (LTI) approximation of the nonlinear model is valid in a neighborhood of the equilibrium point, enabling efficient analysis and controller design under small perturbations.\\
 	
 	
-	\paragraph{Matrix calculus todo: ricalcolare}
+	\subsubsection*{Matrix calculus }
 	For the matrix calculation, the procedure described in equations \eqref{eq:jacobians_compact_matrix}  was followed. By substituting the equilibrium triplet given in \eqref{eq:equilibrium_triplet}, obtaining the following matrices:
 	
-\begin{center}
-	\begin{equation}
-	A =
-	\begin{bmatrix}
-		0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		-\dfrac{2k}{m} & -\dfrac{2\beta}{m} & -\dfrac{d_fk - d_rk}{m} & -\dfrac{\beta d_f - \beta d_r}{m} & \dfrac{d_fk}{m} & -\dfrac{d_rk}{m} & \dfrac{\beta d_f}{m} & -\dfrac{\beta d_r}{m} \\
-		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-		-\dfrac{d_fk - d_rk}{J} & -\dfrac{\beta d_f - \beta d_r}{J} & -\dfrac{k d_f^2 + k d_r^2}{J} & -\dfrac{\beta d_f^2 + \beta d_r^2}{J} & \dfrac{k d_f^2}{J} & \dfrac{k d_r^2}{J} & \dfrac{\beta d_f^2}{J} & \dfrac{\beta d_r^2}{J} \\
-		0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-	\end{bmatrix}
-\end{equation}
-\end{center}
 
-	
+\begin{equation}
+	\makebox[\textwidth][c]{ % Forza il centramento rispetto alla pagina
+		\resizebox{1.3\textwidth}{!}{% <-- Puoi regolare 1.1 o 1.2 in base a quanto vuoi che sia grande
+			$
+			A = \begin{bmatrix}
+				0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+				-\frac{k_f+k_r}{m} & -\frac{\beta_f+\beta_r}{m} & -\frac{d_f k_f-d_r k_r}{m} & -\frac{\beta_f d_f-\beta_r d_r}{m} & \frac{k_f}{m} & \frac{\beta_f}{m} & \frac{k_r}{m} & \frac{\beta_r}{m} & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+				-\frac{d_f k_f-d_r k_r}{J} & -\frac{\beta_f d_f-\beta_r d_r}{J} & -\frac{k_f d_f^2+k_r d_r^2}{J} & -\frac{\beta_f d_f^2+\beta_r d_r^2}{J} & \frac{d_f k_f}{J} & \frac{\beta_f d_f}{J} & -\frac{d_r k_r}{J} & -\frac{\beta_r d_r}{J} & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+				\frac{k_f}{m_{wf}} & \frac{\beta_f}{m_{wf}} & \frac{d_f k_f}{m_{wf}} & \frac{\beta_f d_f}{m_{wf}} & -\frac{k_f+k_{tf}}{m_{wf}} & -\frac{\beta_f}{m_{wf}} & 0 & 0 & 0 & 0 & \frac{k_{tf}}{m_{wf}} & 0 \\
+				0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+				\frac{k_r}{m_{wr}} & \frac{\beta_r}{m_{wr}} & -\frac{d_r k_r}{m_{wr}} & -\frac{\beta_r d_r}{m_{wr}} & 0 & 0 & -\frac{k_r+k_{tr}}{m_{wr}} & -\frac{\beta_r}{m_{wr}} & 0 & 0 & 0 & \frac{k_{tr}}{m_{wr}} \\
+				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+			\end{bmatrix}
+			$
+		}
+	}
+\end{equation}
+
+
+
+
+
+
+
+
 \begin{equation}
 	B_1 =
 	\begin{bmatrix}
@@ -668,41 +728,58 @@ This formulation provides a complete nonlinear state-space description of the ha
 		0 & 0 \\
 		0 & \dfrac{1}{J} \\
 		0 & 0 \\
+		-\dfrac{d_r}{m_{wf}(d_f+d_r)} &
+		-\dfrac{1}{m_{wf}(d_f+d_r)} \\
+		0 & 0 \\
+		-\dfrac{d_f}{m_{wr}(d_f+d_r)} &
+		\dfrac{1}{m_{wr}(d_f+d_r)} \\
+		0 & 0 \\
 		0 & 0 \\
 		0 & 0 \\
 		0 & 0
 	\end{bmatrix}
 \end{equation}
 
-	
-	\begin{equation}
-		B_2 =
-		\begin{bmatrix}
-			0 & 0 & 0 & 0 & 0 \\
-			-1 & 0 & 0 & 0 & 0 \\
-			0 & 0 & 0 & 0 & 0 \\
-			0 & 0 & 0 & \dfrac{\ell_0 +\Delta_0}{J} & \dfrac{\ell_0 +\Delta_0}{J} \\
-			0 & 0 & 0 & 0 & 0 \\
-			0 & 0 & 0 & 0 & 0 \\
-			0 & 1 & 0 & 0 & 0 \\
-			0 & 0 & 1 & 0 & 0
-		\end{bmatrix}
-	\end{equation}
+
+\begin{equation}
+	B_2 =
+	\begin{bmatrix}
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & \dfrac{h_{cg}}{J} & \dfrac{h_{cg}}{J} \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 & 0 \\
+		1 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
 	
 	
 \begin{equation}
-	\hspace*{-2cm}
 	C =
 	\begin{bmatrix}
-		0 & 0 & g & 0 & 0 & 0 & 0 & 0 \\
-		-\dfrac{2k}{m} & -\dfrac{2\beta}{m} & -\dfrac{(d_f k - d_r k)}{m} & -\dfrac{(\beta d_f - \beta d_r)}{m} & \dfrac{d_f k}{m} & -\dfrac{d_r k}{m} & \dfrac{\beta d_f}{m} & -\dfrac{\beta d_r}{m} \\
-		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-		1 & 0 & d_f & 0 & -d_f & 0 & 0 & 0 \\
-		1 & 0 & -d_r & 0 & 0 & d_r & 0 & 0
+		0 & 0 & \dfrac{0.350357 (k_f+k_r)}{m} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		-\dfrac{k_f+k_r}{m} &
+		-\dfrac{\beta_f+\beta_r}{m} &
+		-\dfrac{d_f k_f-d_r k_r}{m} &
+		-\dfrac{\beta_f d_f-\beta_r d_r}{m} &
+		\dfrac{k_f}{m} &
+		\dfrac{\beta_f}{m} &
+		\dfrac{k_r}{m} &
+		\dfrac{\beta_r}{m} &
+		0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		1 & 0 & d_f & 0 & -1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		1 & 0 & -d_r & 0 & 0 & 0 & -1 & 0 & 0 & 0 & 0 & 0
 	\end{bmatrix}
 \end{equation}
 
-	
+
 	
 \begin{equation}
 	D_1 =
@@ -716,188 +793,217 @@ This formulation provides a complete nonlinear state-space description of the ha
 \end{equation}
 
 	
-	
 \begin{equation}
-D_2 =
-	\left[\begin{array}{cccccccccccc} 0 & 0 & 0 & \frac{1}{m} & \frac{1}{m} & 1 & 0 & 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\ 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 
-	\end{array}\right]
+	D_2 =
+	\begin{bmatrix}
+		0 & 0 & 0 & 0 & \dfrac{1}{m} & \dfrac{1}{m} & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	D_{e1} =
+	\begin{bmatrix}
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\end{equation}
+
+\begin{equation}
+	D_{e2} =
+	\begin{bmatrix}
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
+		\dfrac{d_r}{d_f+d_r} &
+		\dfrac{d_f}{d_f+d_r} &
+		-1 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & -1
+	\end{bmatrix}
 \end{equation}
 
 
 \begin{equation}
 	C_e =
 	\begin{bmatrix}
-		1 & 0 & 0 & 0 & -\frac{d_f d_r}{d_f + d_r} & \frac{d_f d_r}{d_f + d_r} & 0 & 0 \\
-		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0
+		1 & 0 & 0 & 0 &
+		-\dfrac{d_r}{d_f+d_r} &
+		0 &
+		-\dfrac{d_f}{d_f+d_r} &
+		0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
 	\end{bmatrix}
 \end{equation}
 
-
-	
-	\begin{equation}
-		\mathrm{D_e}_1 =
-		\begin{bmatrix}
-			0 & 0 \\
-			0 & 0
-		\end{bmatrix}
-	\end{equation}
-	
-
-
-\begin{equation}
-	D_{e2}
-	\left[ 
-	\begin{array}{cccccccccccc}
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{d_r}{d_f+d_r} & \frac{d_f}{d_f+d_r} & -1 & 0 \\
-		0 & 0 & 0 & \frac{1}{mg} & \frac{1}{mg} & \frac{1}{g} & 0 & 0 & 0 & 0 & 0 & -1
-	\end{array}\right] 
-\end{equation}
-	\vspace{0.5cm}
 	%MATRICI NUMERICHE
 	\subparagraph{Numerical Matrices}
 	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study: All parameters used to find the numeric matrices are based on the Tesla Model S, a car suitable for this type of active suspensions and with same suspension paramethers on front and rear axle, this simplifies slighlty our model:\\
 	
-	\vspace{1cm}
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{|c|l|c|c|}
-			\hline
-			\textbf{Simbolo} & \textbf{Descrizione} & \textbf{Valore} & \textbf{Unità} \\
-			\hline
-			$m$     & Total mass of the car             & 1085   & kg \\
-			$k$     & Suspension stiffness              & 30000  & N/m \\
-			$\beta$ & Estimated damping coefficient   & 2000   & N/(m/s) \\
-			$\ell_0$ & Suspension height at rest     & 0.5    & m \\
-			$g$     & Gravitational force          & 9.81   & m/s\textsuperscript{2} \\
-			$d_f$   & Front axle distance from CoM & 1.362  & m \\
-			$d_r$   & Rear axle distance from CoM & 1.598 & m \\
-			$J$     & Pitch moment of inertia         & 4870   & kg·m\textsuperscript{2} \\
-			\hline
-		\end{tabular}
-		\caption{Dynamic model parameters of a Tesla Model S}
-		\label{tab:parametri_tesla}
-	\end{table}
+\vspace{1cm}
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|l|c|c|}
+		\hline
+		\textbf{Symbol} & \textbf{Description} & \textbf{Value} & \textbf{Unit} \\
+		\hline
+		$m$      & Total mass of the vehicle                 & 2550  & kg \\
+		$g$      & Gravitational acceleration               & 9.81  & m/s\textsuperscript{2} \\
+		$h_{cg}$ & Height of center of gravity               & 0.60  & m \\
+		$d_f$    & Front axle distance from CoM              & 1.65  & m \\
+		$d_r$    & Rear axle distance from CoM               & 1.65  & m \\
+		$L$      & Wheelbase                                 & 3.30  & m \\
+		$J$      & Pitch moment of inertia                   & 4080  & kg·m\textsuperscript{2} \\
+		$k_f$    & Front suspension stiffness                & 35000 & N/m \\
+		$k_r$    & Rear suspension stiffness                 & 32000 & N/m \\
+		$\beta_f$& Front damping coefficient                 & 4200  & N·s/m \\
+		$\beta_r$& Rear damping coefficient                  & 4200  & N·s/m \\
+		$m_{wf}$ & Front unsprung mass                       & 48    & kg \\
+		$m_{wr}$ & Rear unsprung mass                        & 48    & kg \\
+		$k_{tf}$ & Front tire stiffness                      & 270000& N/m \\
+		$k_{tr}$ & Rear tire stiffness                       & 270000& N/m \\
+		$\ell_0$ & Static suspension height                  & 0.55  & m \\
+		\hline
+	\end{tabular}
+	\caption{Dynamic model parameters of a Rolls-Royce vehicle (Half-Car Model)}
+	\label{tab:parametri_rolls}
+\end{table}
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\linewidth]{img/tesla}
-	\caption{Tesla Model S}
-	\label{fig:tesla}
+	\includegraphics[width=0.7\linewidth]{img/ROLLL_RRROIS}
+	\caption{Rolls-Royce Ghost 6.7 V12}
+	\label{fig:rolllrrrois}
 \end{figure}
-	\[
-	\hspace{-1cm}
-A =
-\begin{bmatrix}
-	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
-	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-	1.4538 & 0.0969199 & -27.158 & -1.81053 & 11.4274 & 15.7306 & 0.761825 & 1.04871 \\
-	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-\end{bmatrix}
-	\]
 
 
+	
+\begin{equation}
+	\begin{gathered}
+		\makebox[\textwidth][c]{
+			\resizebox{1.1\textwidth}{!}{%
+				$ A = 10^{3} \begin{bmatrix}
+					0      & 0.0010 & 0      & 0      & 0      & 0      & 0      & 0      & 0 & 0 & 0 & 0 \\
+					-0.0280 & -0.0036 & -0.0009 &  0.0009 &  0.0164 &  0.0018 &  0.0116 &  0.0018 & 0 & 0 & 0 & 0 \\
+					0      & 0      & 0      & 0.0010 & 0      & 0      & 0      & 0      & 0 & 0 & 0 & 0 \\
+					-0.0004 &  0.0004 & -0.0340 & -0.0046 &  0.0105 &  0.0012 & -0.0101 & -0.0016 & 0 & 0 & 0 & 0 \\
+					0      & 0      & 0      & 0      & 0      & 0.0010 & 0      & 0      & 0 & 0 & 0 & 0 \\
+					0.9111 & 0.1000 & 1.2756 & 0.1400 & -7.1333 & -0.1000 & 0 & 0 & 0 & 0 & 6.2222 & 0 \\
+					0      & 0      & 0      & 0      & 0      & 0      & 0      & 0.0010 & 0 & 0 & 0 & 0 \\
+					0.6444 & 0.1000 & -1.2244 & -0.1900 & 0 & 0 & -6.8667 & -0.1000 & 0 & 0 & 0 & 6.2222 \\
+					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+				\end{bmatrix} $
+			}
+		} \\[10pt] % Aggiunge un po' di spazio verticale tra matrice e numero
+	\end{gathered}
+\end{equation}
 
-\begin{minipage}{0.45\textwidth}
-	\[
-	\hspace{-2cm}
-	B_1 =
-	\begin{bmatrix}
-		0 & 0 \\
-		0.000921659 & 0 \\
-		0 & 0 \\
-		0 & 0.000205339 \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0
-	\end{bmatrix}
-	\]
-\end{minipage}
 \noindent
-\begin{minipage}{0.45\textwidth}
-	\[
-	\hspace{-0.5cm}
-	B_2 =
-	\begin{bmatrix}
-		0 & 0 & 0 & 0 & 0 \\
-		-1 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0.0000662428 & 0.0000662428 \\
-		0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 \\
-		0 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 1 & 0 & 0
-	\end{bmatrix}
-	\]
+\begin{minipage}{0.48\textwidth}
+	\begin{equation}
+		\begin{gathered}
+			B_1 = \begin{bmatrix}
+				0 & 0 \\
+				0.000921659 & 0 \\
+				0 & 0 \\
+				0 & 0.000205339 \\
+				0 & 0 \\
+				0 & 0 \\
+				0 & 0 \\
+				0 & 0
+			\end{bmatrix}
+		\end{gathered}
+	\end{equation}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+	\begin{equation}
+		\begin{gathered}
+			B_2 = \begin{bmatrix}
+				0 & 0 & 0 & 0 & 0 \\
+				-1 & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0.0000662428 & 0.0000662428 \\
+				0 & 0 & 0 & 0 & 0 \\
+				0 & 0 & 0 & 0 & 0 \\
+				0 & 1 & 0 & 0 & 0 \\
+				0 & 0 & 1 & 0 & 0
+			\end{bmatrix}
+		\end{gathered}
+	\end{equation}
 \end{minipage}
 
-\[
-\hspace{-0.5cm}
-C =
-\begin{bmatrix}
-	0 & 0 & 9.81 & 0 & 0 & 0 & 0 & 0 \\
-	-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
-	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-	1 & 0 & 1.362 & 0 & -1.362 & 0 & 0 & 0 \\
-	1 & 0 & -1.598 & 0 & 0 & 1.598 & 0 & 0
-\end{bmatrix}
-\]
+\begin{equation}
+	\begin{gathered}
+		C = \begin{bmatrix}
+			0 & 0 & 9.81 & 0 & 0 & 0 & 0 & 0 \\
+			-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
+			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+			1 & 0 & 1.362 & 0 & -1.362 & 0 & 0 & 0 \\
+			1 & 0 & -1.598 & 0 & 0 & 1.598 & 0 & 0
+		\end{bmatrix}
+	\end{gathered}
+\end{equation}
 
-\begin{minipage}{0.45\textwidth}
-	\[
-	\hspace{-4.5cm}
-	D_1 =
-	\begin{bmatrix}
-		0 & 0 \\
-		0.000921659 & 0 \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0
-	\end{bmatrix}
-	\]
-\end{minipage}
+
+
 \noindent
-\hspace{-3cm}
-\begin{minipage}{0.45\textwidth}
-\[
-D_2 =
-\left[
-\begin{array}{cccccccccccc}
-	0 & 0 & 0 & 0.000921659 & 0.000921659 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 1 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 0   & 1 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 1 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 0   & 1 & 0 & 0
-\end{array}
-\right]
-\]
-
+\begin{minipage}{0.35\textwidth}
+	\begin{equation}
+		\begin{gathered}
+			D_1 = \begin{bmatrix}
+				0 & 0 \\
+				0.000921659 & 0 \\
+				0 & 0 \\
+				0 & 0 \\
+				0 & 0
+			\end{bmatrix}
+		\end{gathered}
+	\end{equation}
 \end{minipage}
-\vspace{0.4cm}
-	\[
-	C_e =
-	\begin{bmatrix}
-		1 & 0 & 0 & 0 & -0.735296 & 0.735296 & 0 & 0 \\
-		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0
-	\end{bmatrix}
-	\]
-
-\hspace{-1.7cm}
-\begin{minipage}{0.45\textwidth}
-\[
-D_{e2} =
-\left[
-\begin{array}{cccccccccccc}
-	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0.539865 & 0.460135 & -1 & 0 \\
-	0 & 0 & 0 & 0.000093951 & 0.000093951 & 0.101937 & 0 & 0 & 0 & 0 & 0 & -1
-\end{array}
-\right]
-\]
-
+\hfill
+\begin{minipage}{0.62\textwidth}
+	\begin{equation}
+		\begin{gathered}
+			\resizebox{1.2\textwidth}{!}{%
+				$D_2 = \begin{bmatrix}
+					0 & 0 & 0 & 0.000921659 & 0.000921659 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0           & 0           & 0   & 1 & 0 & 0 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0           & 0           & 0   & 0   & 1 & 0 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 1 & 0 & 0 & 0 \\
+					0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 0   & 1 & 0 & 0
+				\end{bmatrix}$%
+			}
+		\end{gathered}
+	\end{equation}
 \end{minipage}
+
+
+\begin{equation}
+	\begin{gathered}
+		C_e = \begin{bmatrix}
+			1 & 0 & 0 & 0 & -0.735296 & 0.735296 & 0 & 0 \\
+			0 & 0 & 1 & 0 & 0 & 0 & 0 & 0
+		\end{bmatrix}
+	\end{gathered}
+\end{equation}
+
+\begin{equation}
+	\begin{gathered}
+		\makebox[\textwidth][c]{
+			\resizebox{1.1\textwidth}{!}{%
+				$D_{e2} = \begin{bmatrix}
+					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0.539865 & 0.460135 & -1 & 0 \\
+					0 & 0 & 0 & 0.000093951 & 0.000093951 & 0.101937 & 0 & 0 & 0 & 0 & 0 & -1
+				\end{bmatrix}$%
+			}
+		}
+	\end{gathered}
+\end{equation}
+
+
 
 	
 	\newpage
@@ -1026,14 +1132,14 @@ The eigenvalues form two pairs of complex conjugates, each with negative real pa
 	
 	This indicates that the system is \textbf{not fully reachable}. Only the four states corresponding to the internal dynamics of the vehicle body are reachable, while the remaining four states — associated with the road profile — are uncontrollable and must be treated as external disturbances. Consequently, control strategies such as state feedback and optimal control (e.g., LQR) can only be designed for the reachable subspace.
 	
-	\paragraph{Reduced Reachability Analysis}
+	\subsubsection*{Reduced Reachability Analysis}
 	
 	In the present model, the state vector $\tilde{x} \in \mathbb{R}^8$ includes eight components. However, the last four states represent environmental or road-related variables (e.g., road profile curvature), which evolve independently of the control input $\tilde{u}$. These are known as \textbf{exogenous states} and are not directly controllable.
 	
 	Therefore,  reachability analysis is performed only on the first four states, which represent the internal vehicle dynamics and are influenced by control inputs. Let $A_{\text{int}}$ and $B_{1, \text{int}}$ be the upper-left $4 \times 4$ and $4 \times 2$ blocks of matrices $A$ and $B_1$:
 	
-	\\
-	\textbf{todo: ricalcolare}
+
+	\textbf{todo: ricalcolare}:
 	\begin{equation}
 		A_{\text{int}} =
 	\begin{bmatrix}
@@ -1177,8 +1283,7 @@ Given that the last four states of $\tilde{x}$ are exogenous and not influenced 
 
 Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
 
-\\
-\textbf{todo: ricalcolare}
+
 \begin{equation}
 	\mathcal{O} = \begin{bmatrix}
 		C_{\text{int}} \\

@@ -1,0 +1,225 @@
+clc
+close all
+clear all
+%% === PARAMETRI (Aggiunto hcg) ===
+syms m kf kr betaf betar ell0 g df dr J mwf mwr ktf ktr hcg real
+% Vettore parametri aggiornato
+vars = [m, kf, kr, betaf, betar, ell0, g, df, dr, J, mwf, mwr, ktf, ktr, hcg]; 
+%% Variabili di stato, input e disturbo
+syms pz vz ptheta vtheta hwheelf dhwheelf hwheelr dhwheelr real
+syms thetaroad_f zroad_f thetaroad_r zroad_r real
+syms u1 u2 real % u1 = Forza verticale totale, u2 = Momento attivo
+% Disturbi: fwfront e fwrear fungeranno da Fxf e Fxr
+syms zroad_f_dot zroad_r_dot alphag_f alphag_r fwfront fwrear real 
+syms nuy nug nuz nuf nur rz rtheta real             
+%% === CONDIZIONI DI EQUILIBRIO ===
+Delta0 = -(m)*g/(kf+kr);           
+Delta0_W = -(m+mwf+mwr)*g/(2*ktf); % Corretto per includere masse ruote totali
+% x0 rimane invariato nella struttura
+%% Cinematiche e Forze
+s1 = (pz + df * sin(ptheta)) - hwheelf; 
+s3 = (pz - dr * sin(ptheta)) - hwheelr;
+s2 = vz + df * vtheta * cos(ptheta) - dhwheelf;
+s4 = vz - dr * vtheta * cos(ptheta) - dhwheelr;
+fsf = -kf*s1 - betaf*s2;      
+fsr = -kr*s3 - betar*s4;      
+ftf =  ktf*(zroad_f - hwheelf); 
+ftr =  ktr*(zroad_r - hwheelr); 
+fmgf = - mwf * g;
+fmgr = - mwr * g;
+% Collegamento forze longitudinali ai disturbi w(5) e w(6)
+Fxf = fwfront; 
+Fxr = fwrear;
+F_tot_x = Fxf + Fxr;
+%% Dinamica: Attuatori e Corpo
+faf = ( dr*u1 + u2) / (df + dr);
+far = ( df*u1 - u2) / (df + dr);
+% Acc. verticale (z_ddot)
+f2 = -g + (fsf + fsr + faf + far)/m;
+% Acc. angolare (theta_ddot) - INCLUDE ORA IL MOMENTO DI ACCELERAZIONE
+f4 = (df*(fsf + faf) - dr*(fsr + far) + F_tot_x * hcg) / J;      
+%% Dinamica: Ruote
+f_wf = (ftf - fsf - faf + fmgf)/mwf;   
+f_wr = (ftr - fsr - far + fmgr)/mwr;
+% Vettore f (dx/dt) - 12 Stati
+f_sys = [vz; f2; vtheta; f4; dhwheelf; f_wf; dhwheelr; f_wr; ...
+         alphag_f; alphag_r; zroad_f_dot; zroad_r_dot];
+%% Output (Misurazioni con componenti longitudinali)
+% L'accelerometro orizzontale (y1) ora "sente" la spinta F_tot_x/m
+ax = F_tot_x / m; 
+az_rel = f2 + g; % Accelerazione verticale rispetto alla gravità
+y = [sin(ptheta)*(az_rel) + cos(ptheta)*(ax) + nuy; % Acc. longitudinale sensore
+     cos(ptheta)*(az_rel) - sin(ptheta)*(ax) + nuz; % Acc. verticale sensore
+     vtheta + nug;                                  % Velocità di pitch
+     s1 + nuf;                                      % Deflessione ant
+     s3 + nur];                                     % Deflessione post
+%% Errori
+e = [((s1+nuf)*dr + (s3+nur)*df)/(dr + df) - rz; 
+     ptheta - rtheta]; % Semplificato asin(ax/g) in ptheta per linearizzazione
+%% Linearizzazione simbolica
+states = [pz, vz, ptheta, vtheta, hwheelf, dhwheelf, hwheelr, dhwheelr, ...
+          thetaroad_f, thetaroad_r, zroad_f, zroad_r];
+inputs1 = [u1, u2]; 
+inputs2 = [zroad_f_dot, zroad_r_dot, alphag_f, alphag_r, fwfront, fwrear];
+disturb_vars = [zroad_f_dot, zroad_r_dot, alphag_f, alphag_r, fwfront, fwrear, ...
+                nuy, nuz, nug, nuf, nur, rz, rtheta];
+% Calcolo Jacobiane
+A   = jacobian(f_sys, states);
+B1  = jacobian(f_sys, inputs1);
+B2  = jacobian(f_sys, inputs2);
+C   = jacobian(y, states);
+D1  = jacobian(y, inputs1);
+D2  = jacobian(y, disturb_vars);
+CE  = jacobian(e, states);
+DE1 = jacobian(e, inputs1);
+DE2 = jacobian(e, disturb_vars);
+disp('Matrice A (12x12):'); disp(A);
+disp('Matrice B1 (12x2):'); disp(B1);
+disp('Matrice B2 (12x5):'); disp(B2);
+disp('Matrice C (5x12):'); disp(C);
+disp('Matrice D1 (5x2):'); disp(D1);
+disp('Matrice D2 (5x12):'); disp(D2);
+disp('Matrice CE (2x12):'); disp(CE);
+disp('Matrice DE1 (2x2):'); disp(DE1);
+disp('Matrice DE2 (2x12):'); disp(DE2);
+% Valori numerici dei parametri
+m    = 2500;      % [kg] massa carrozzeria
+kf   = 41000;     % [N/m] rigidezza sospensioni front
+kr   = 29000;     % [N/m] rigidezza sospensioni rear
+betaf = 4500;     % [N*s/m] smorzatore sospensioni front
+betar = 4500;     % [N*s/m] smorzatore sospensioni rear
+ell0 = 0.5;      % [m] offset statico potenziometro
+g    = 9.81;     % [m/s^2]
+df   = 1.4;        % [m] braccio anteriore (CG -> asse ant.)
+dr   = 1.9;        % [m] braccio posteriore (CG -> asse post.)
+J    = (( m * (df + dr)^2 ) / 12 ) * 2.4;      % [kg*m^2] inerzia in pitch (2.4 fattore correttivo sperimentale per veicoli reali)
+mwf  = 45;       % [kg] massa ruota anteriore
+mwr  = 45;       % [kg] massa ruota posteriore
+ktf  = 280000;   % [N/m] rigidezza pneumatico ant.
+ktr  = 280000;   % [N/m] rigidezza pneumatico post.
+hcg  = 0.55;     % [m] altezza del centro di massa.
+par_numeric = [m, kf, kr, betaf, betar, ell0, g, df, dr, J, mwf, mwr, ktf, ktr, hcg]; % Vettore di parametri numerici
+vehicle_speed = 20;
+rear_bump_time_delay = (df + dr) / vehicle_speed; % Tempo di distanza tra i due bump front e rear
+%% initial conditions
+x0_lin = [
+    0; %abbiamo messo +
+    0;
+    0;
+    0;
+    0;
+    0;
+    0;
+    0;
+    0;
+    0;
+    0;
+    0];
+% Condizioni iniziali numeirche (stessa definizione di prima ma fatta dopo
+% l'aggiunta dei numeri per avere l'assegnazione numerica
+Delta0_num = -(m)*g/(kf+kr);           % Deflessione statica sospensioni (simbolico)
+Delta0_W_num = -(m+mwf*2)*g/(2*ktf); % Deflessione statica pneumatici (simbolico)
+x0 = [  Delta0_num + Delta0_W_num;   % pz (z_s)
+        0;                           % vz
+        0;                           % ptheta
+        0;                           % vtheta
+        Delta0_W_num;                % hwheelf (z_wf)
+        0;                           % dhwheelf
+        Delta0_W_num;                % hwheelr (z_wr)
+        0];                          % dhwheelr
+% Ingressi di equilibrio
+u0 = [0; 0];
+% Matrici simboliche nel punto di equilibrio (X0)
+linear_point = states;
+linear_value = [Delta0_num + Delta0_W_num, 0, 0, 0, Delta0_W_num, 0, Delta0_W_num, 0, 0, 0, 0, 0]
+% Sostituzione e semplificazione
+A_0   = subs(A,   [linear_point, fwrear, fwfront, u1, u2], [linear_value, 0, 0, u0(1), u0(2)]);
+B1_0  = vpa(subs(B1,  [linear_point, u1, u2], [linear_value, u0(1), u0(2)]), 6);
+B2_0  = vpa(subs(B2,  [pz, ptheta, hwheelf, hwheelr, zroad_f, zroad_r, thetaroad_f, thetaroad_r], ...
+                      [Delta0_num + Delta0_W_num, 0, Delta0_W_num, Delta0_W_num, 0, 0, 0, 0]), 6);
+C_0   = vpa(subs(C,   [linear_point, fwrear, fwfront, u1, u2, alphag_f, alphag_r], [linear_value, 0, 0, u0(1), u0(2), 0, 0]), 6);
+D1_0  = vpa(subs(D1,  [linear_point, u1, u2], [linear_value, u0(1), u0(2)]), 6);
+D2_0  = subs(D2,  linear_point, linear_value);
+CE_0  = vpa(simplify(subs(CE,  [linear_point, disturb_vars, u1, u2], [linear_value, disturb_vars, u0(1), u0(2)])), 6);
+DE1_0 = vpa(simplify(subs(DE1, [linear_point, disturb_vars], [linear_value, disturb_vars])), 6);
+DE2_0 = vpa(simplify(subs(DE2, [linear_point, disturb_vars, u1, u2], [linear_value, disturb_vars,u0(1), u0(2)])), 6);
+disp('Matrice numerica A (12x12):'); disp(A_0);
+disp('Matrice numerica B1 (12x2):'); disp(B1_0);
+disp('Matrice numerica B2 (12x6):'); disp(B2_0);
+disp('Matrice numerica C (5x12):'); disp(C_0);
+disp('Matrice numerica D1 (5x2):'); disp(D1_0);
+disp('Matrice numerica D2 (5x12):'); disp(D2_0);
+disp('Matrice numerica CE (2x12):'); disp(CE_0);
+disp('Matrice numerica DE1 (2x2):'); disp(DE1_0);
+disp('Matrice numerica DE2 (2x12):'); disp(DE2_0);
+%% Matrici numeriche
+% --- CORREZIONE ERRORE SYMS/SUBS: Conversione in celle ---
+symbol_vars = num2cell(vars);
+numeric_vals = num2cell(par_numeric);
+% ---------------------------------------------------------
+A_N = double(vpa(subs(A_0, symbol_vars , numeric_vals), 6));
+B1_N = double(vpa(subs(B1_0, symbol_vars , numeric_vals), 6));
+B2_N = double(vpa(subs(B2_0, symbol_vars , numeric_vals), 6));
+C_N = double(vpa(subs(C_0, symbol_vars , numeric_vals), 6));
+D1_N = double(vpa(subs(D1_0, symbol_vars , numeric_vals), 6));
+D2_N = double(vpa(subs(D2_0, symbol_vars , numeric_vals), 6));
+CE_N = double(vpa(subs(CE_0, symbol_vars , numeric_vals), 6));
+DE1_N = double(vpa(subs(DE1_0, symbol_vars , numeric_vals), 6));
+DE2_N = double(vpa(subs(DE2_0, symbol_vars , numeric_vals), 6));
+disp('Matrice numerica brik A (12x12):'); disp(A_N);
+disp('Matrice numerica B1 (12x2):'); disp(B1_N);
+disp('Matrice numerica B2 (12x5):'); disp(B2_N);
+disp('Matrice numerica C (5x12):'); disp(C_N);
+disp('Matrice numerica D1 (5x2):'); disp(D1_N);
+disp('Matrice numerica D2 (5x12):'); disp(D2_N);
+disp('Matrice numerica CE (2x12):'); disp(CE_N);
+disp('Matrice numerica DE1 (2x2):'); disp(DE1_N);
+disp('Matrice numerica DE2 (2x12):'); disp(DE2_N);
+%% === CONTROLLI ===
+%% === SISTEMA DI STATO E POLI ===
+sys = ss(A_N, B1_N, C_N, D1_N);
+%% === POLE PLACEMENT SU SOTTO-SPAZIO CONTROLLABILE CORPO+PITCH ===
+A_c_sub = A_N(1:4, 1:4);
+B_c_sub = B1_N(1:4, :);
+desired_poles = [-5, -5.5, -7, -9];
+Ks_c = place(A_c_sub, B_c_sub, desired_poles);
+% Matrice per il sistema NON LINEARE
+Ks = [Ks_c, zeros(2, 4)]; 
+Ks_lin = [Ks_c, zeros(2, 4), zeros(2, 4)];
+%% === TUNING LQR PER MINIMIZZARE IL PITCH (Senza correzioni manuali) ===
+A_lqr = A_N(1:8, 1:8);
+B_lqr = B1_N(1:8, :);
+% Pesi Q (Rimaniamo aggressivi sul pitch)
+q_pz      = 2e8;    
+q_vz      = 8e5;    
+q_ptheta  = 3e9; 
+q_vtheta  = 3e6;    
+q_unsprung = 1e2;   
+Q_8 = diag([q_pz, q_vz, q_ptheta, q_vtheta, q_unsprung, q_unsprung, q_unsprung, q_unsprung]);
+% ABBASSIAMO R PER AUMENTARE IL GUADAGNO DI 100 VOLTE
+% Un R più piccolo produce un Ks più grande.
+R_lqr = eye(2) * 0.1; % Prima era 10, riducendolo aumentiamo l'autorità del controllo
+% Calcolo Ks_lqr
+Ks_lqr_8 = lqr(A_lqr, B_lqr, Q_8, R_lqr);
+% Matrice finale Ks_obs (con correzione del segno inclusa)
+% Se prima dovevi moltiplicare per -100, ora integriamo il segno meno qui:
+Ks_obs = -[Ks_lqr_8, zeros(2, 4)]; 
+disp('Nuova matrice Ks_obs ricalcolata con R ridotto e segno invertito.');
+%% === CALCOLO MATRICE Ko (Observer) ===
+% Mantieni il tuning aggressivo per l'osservatore che abbiamo trovato prima
+Q_kalman = eye(12) * 1e4; 
+R_kalman = eye(5) * 1e-4; 
+A_reg = A_N - 1e-6 * eye(12);
+Ko = lqr(A_reg', C_N', Q_kalman, R_kalman)';
+
+
+
+%A_L   = latex(A_N)
+%B1  = latex(B1_N)
+B2  = latex(B2_N)
+C   = latex(C_N)
+D1  = latex(D1_N)
+D2  = latex(D2_N)
+CE  = latex(CE_N)
+DE1 = latex(DE1_N)
+DE2 = latex(DE2_N)
