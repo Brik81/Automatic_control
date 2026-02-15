@@ -448,9 +448,9 @@ The vertical dynamics of the front and rear unsprung masses are given by:
 \subsubsection*{State-space representation}
 Collecting all terms, the nonlinear vehicle dynamics can be written in first-order state-space form as:
 \begin{equation}
-	\dot x = f(x,u,w,road),
+	\dot x = f(x,u,w,r),
 \end{equation}
-where $w$ represents external longitudinal force disturbances and $road$ collects the road profile inputs at the wheel contact points.
+where $w$ represents external longitudinal force disturbances and $r$ collects the road profile inputs at the wheel contact points.
 
 This formulation provides a complete nonlinear description of the vertical and pitch dynamics of the vehicle, forming the basis for linearization, controller synthesis, and observer design.
 
@@ -558,48 +558,76 @@ This formulation provides a complete nonlinear description of the vertical and p
 	
 	Noise components are modeled as zero-mean Gaussian processes with variances derived from typical automotive sensor specifications. Accelerometers and gyroscopes include white noise and bias drift, while suspension sensors are mainly affected by quantization and thermal noise.
 	
-	\subsubsection*{Control Objectives}
-	
-	The control objective is defined in terms of vertical position and perceived pitch regulation.  
-	An apparent pitch angle $\theta_a$ is reconstructed from accelerometer data as:
-	\begin{equation}
-		\theta_a =
-		\sin^{-1}
-		\left(
-		\frac{y_y}{\sqrt{y_y^2 + y_z^2}}
-		\right).
-	\end{equation}
-	
-	The control error vector is defined as:
-	\begin{align}
-		e =
-		\begin{bmatrix}
-			\dfrac{(s_1 + \nu_f)d_r + (s_3 + \nu_r)d_f}{d_r + d_f} - r_z \\
-			\theta_a - r_\theta
-		\end{bmatrix},
-	\end{align}
-	where $r_z$ and $r_\theta$ denote the desired vertical position and pitch angle references.
-	
-	The first component regulates the vehicle vertical displacement through a weighted average of suspension deflections, while the second penalizes deviations from the perceived pitch angle experienced by passengers.
-	
-	\subsubsection*{Output Error Function}
-	
-	The complete nonlinear output error function used for control design is:
-	\begin{equation}
-		he(x,u,w) =
-		\begin{bmatrix}
-			\displaystyle
-			\frac{(s_1 + \nu_f)d_r + (s_3 + \nu_r)d_f}{d_r + d_f} - r_z \\
-			\displaystyle
-			\sin^{-1}
-			\left(
-			\frac{h_1 + \nu_y}
-			{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}}
-			\right)
-			- r_\theta
-		\end{bmatrix},
-	\end{equation}
-	where $h_1$ and $h_2$ represent the ideal accelerometer outputs derived from the system dynamics.
+\section{Performance Variables and Control Objectives}
+\label{sec:performance_variables}
+
+To evaluate the effectiveness of the active suspension system and to formulate the optimization problem (e.g., for optimal control or performance monitoring), a specific performance output vector $z \in \mathbb{R}^6$ is defined.
+Unlike the measured output vector $y$, which depends on available sensors, the vector $z$ contains the physical variables that strictly define the ride quality and the mechanical constraints of the vehicle.
+
+The performance vector is constructed as a function of the state vector $x$, the vehicle parameters $p$, and the reference vector $r$:
+
+\begin{equation}
+	z = g(x, p, r)
+\end{equation}
+
+\subsection{State and Reference Definitions}
+Consistent with the system model, the relevant state variables for performance monitoring are:
+\begin{itemize}
+	\item $z_s = x_1$: Vertical position of the sprung mass CoM (Heave).
+	\item $\dot{z}_s = x_2$: Vertical velocity of the sprung mass (Heave velocity).
+	\item $\theta = x_3$: Pitch angle.
+	\item $\dot{\theta} = x_4$: Pitch rate.
+	\item $z_{wf} = x_5$, $z_{wr} = x_7$: Vertical positions of the front and rear unsprung masses (wheels).
+\end{itemize}
+
+The reference vector $r \in \mathbb{R}^2$ defines the target tracking trajectory:
+\begin{equation}
+	r = \begin{bmatrix} r_z \\ r_\theta \end{bmatrix}
+\end{equation}
+where $r_z$ is the desired heave position (typically the static equilibrium height) and $r_\theta$ is the desired pitch angle (typically zero to maintain a flat chassis).
+
+\subsection{Suspension Deflections}
+The suspension deflections (or working spaces), denoted as $s_f$ and $s_r$, represent the relative compression between the vehicle body and the wheels.
+To account for the geometric coupling induced by significant pitch rotations, these are calculated using the exact kinematic relationships:
+
+\begin{align}
+	s_f &= (z_s + d_f \sin\theta) - z_{wf} \\
+	s_r &= (z_s - d_r \sin\theta) - z_{wr}
+\end{align}
+
+Here, $d_f$ and $d_r$ represent the longitudinal distances from the center of mass to the front and rear axles, respectively. The term $\sin\theta$ ensures that the vertical displacement of the suspension mounting points is correctly mapped even for non-small pitch angles.
+
+\subsection{Performance Vector Definition}
+The resulting performance vector $z$ is composed of six elements, each addressing a specific control objective:
+
+\begin{equation}
+	z = 
+	\begin{bmatrix}
+		z_1 \\ z_2 \\ z_3 \\ z_4 \\ z_5 \\ z_6
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		z_s - r_z \\
+		\theta - r_\theta \\
+		\dot{\theta} \\
+		s_f \\
+		s_r \\
+		\dot{z}_s
+	\end{bmatrix}
+\end{equation}
+
+\subsubsection*{Physical Interpretation}
+The components of $z$ are selected to monitor and minimize the following behaviors:
+
+\begin{enumerate}
+	\item \textbf{Heave Regulation Error ($z_1$):} Ensures the vehicle maintains the desired ride height $r_z$ despite external loads or disturbances.
+	\item \textbf{Pitch Regulation Error ($z_2$):} Critical for the "Magic Carpet" effect; minimizing this term prevents the vehicle from squatting or diving during acceleration and braking.
+	\item \textbf{Pitch Damping ($z_3$):} Minimizing the pitch rate $\dot{\theta}$ reduces rotational oscillations, improving passenger comfort.
+	\item \textbf{Suspension Travel ($z_4, z_5$):} Monitoring $s_f$ and $s_r$ is essential to keep the suspension excursions within the mechanical structural limits (avoiding bump-stop impacts).
+	\item \textbf{Heave Damping ($z_6$):} Minimizing the vertical velocity $\dot{z}_s$ dissipates the energy induced by road irregularities, reducing the "pumping" effect of the chassis.
+\end{enumerate}
+
+This definition of $z$ allows for a comprehensive assessment of the trade-off between ride comfort (minimized accelerations and velocities) and handling/safety (bounded suspension travel and accurate attitude tracking).
 	
 	\subsubsection*{Observability Considerations}
 	
@@ -1350,6 +1378,374 @@ This observability ensures that despite partial measurements, the entire control
 	\chapter{Application}
 	
 	\section{Simulator description}
+	
+	\section{Vehicle Parameters and Numerical Setup}
+	
+	To evaluate the performance of the proposed active suspension control, a numerical setup representative of a luxury high-end sedan (e.g., a Rolls-Royce Ghost or similar) was implemented. The choice of parameters aims to replicate a "Magic Carpet" ride quality, characterized by low natural frequencies and high isolation from road disturbances.
+	
+	\subsection{Mass and Geometry}
+	The vehicle body mass is set to $m = 2550$~kg, reflecting the significant weight of luxury vehicles. A perfectly balanced weight distribution is assumed, with $d_f = d_r = 1.65$~m, resulting in a total wheelbase of $L = 3.3$~m. 
+	
+	The pitch moment of inertia $J$ is not assumed as a point mass but calculated using the radius of gyration $k_p$. For luxury sedans, $k_p$ typically ranges between 35\% and 40\% of the wheelbase. In this model, we used:
+	\begin{equation}
+		J = m \cdot (0.38 \cdot L)^2 \approx 4016 \text{ kg}\cdot\text{m}^2
+	\end{equation}
+	This high inertia value contributes to a more stable and "slower" pitch response, which is perceived as more comfortable by passengers.
+	
+	\subsection{Suspension and Tire Characteristics}
+	The stiffness and damping coefficients are tuned to be relatively soft:
+	\begin{itemize}
+		\item \textbf{Spring Stiffness ($k_f, k_r$):} Values of $35,000$~N/m and $32,000$~N/m are chosen to maintain a low natural frequency (around 1~Hz), which is the human comfort benchmark.
+		\item \textbf{Damping ($\beta_f, \beta_r$):} Set at $4200$~N$\cdot$s/m. In a real active system, this would represent the "base" passive damping upon which the actuators exert additional forces.
+		\item \textbf{Unsprung Masses ($m_{wf}, m_{wr}$):} Fixed at $48$~kg per wheel, representing large, high-profile luxury wheels.
+		\item \textbf{Tire Stiffness ($k_{tf}, k_{tr}$):} The value of $270,000$~N/m represents high-profile tires which provide additional filtering of high-frequency road noise.
+	\end{itemize}
+	
+	\subsection{Anti-Pitch Geometry}
+	The anti-geometry coefficients are chosen to provide a subtle but effective correction without compromising the suspension's ability to absorb bumps:
+	\begin{itemize}
+		\item \textbf{Anti-Dive ($\gamma_f = 0.05$):} A 5\% anti-dive geometry reduces front-end dip during braking.
+		\item \textbf{Anti-Squat ($\gamma_r = 0.08$):} An 8\% anti-squat geometry prevents excessive rear-end compression during acceleration.
+	\end{itemize}
+	
+	\begin{table}[H]
+		\centering
+		\caption{Numerical Parameters for the Luxury Sedan Model.}
+		\label{tab:params}
+		\begin{tabular}{@{}llll@{}}
+			\toprule
+			\textbf{Symbol} & \textbf{Description} & \textbf{Value} & \textbf{Unit} \\ \midrule
+			$m$ & Sprung Mass & 2550 & kg \\
+			$J$ & Pitch Inertia & 4016 & kg$\cdot$m$^2$ \\
+			$d_f, d_r$ & CG to Axle Distance & 1.65 & m \\
+			$k_f, k_r$ & Suspension Stiffness & 35000, 32000 & N/m \\
+			$\beta_f, \beta_r$ & Passive Damping & 4200 & N$\cdot$s/m \\
+			$m_{wf}, m_{wr}$ & Unsprung Mass & 48 & kg \\
+			$k_{tf}, k_{tr}$ & Tire Stiffness & 270000 & N/m \\
+			$h_{cg}$ & CG Height & 0.60 & m \\
+			$\gamma_f, \gamma_r$ & Anti-Dive/Squat Coeff. & 0.05, 0.08 & - \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+\chapter{Control Design}
+
+\section{Proposed Control Architecture}
+
+The control strategy adopted for the Rolls-Royce half-car model is based on a \textbf{Multi-Loop Output Feedback} architecture, combining optimal state regulation with stochastic estimation. The overall block diagram of the proposed solution is illustrated in Figure 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/arch}
+	\caption{Control Architecture}
+	\label{fig:arch}
+\end{figure}
+
+
+The scheme consists of three main functional blocks:
+\begin{enumerate}
+	\item \textbf{The Augmented Plant:} Represents the physical vehicle dynamics coupled with the mathematical models of the road disturbances (integrated as stochastic states).
+	\item \textbf{The Kalman Observer:} A state estimator that reconstructs the full state vector $\hat{x}$ (including unmeasurable velocities and road profiles) from noisy sensor measurements $y$ (suspension deflections and accelerations).
+	\item \textbf{The LQR-Integrator Regulator:} A feedback controller that combines the estimated state $\hat{x}$ for stabilization and damping, and the integral of the error $\eta$ for set-point tracking.
+\end{enumerate}
+
+\subsection{Design Choice: Implicit Disturbance Rejection vs. Explicit Feed-Forward}
+A critical design choice in this project was the exclusion of an explicit \textit{Feed-Forward} branch based on "preview" sensors (such as LiDAR or cameras scanning the road ahead). 
+While Preview Control is a common technique in modern active suspensions to prepare the vehicle for upcoming bumps, it was discarded in this architecture for two main reasons:
+
+\begin{enumerate}
+	\item \textbf{Hardware Complexity and Cost:} Explicit feed-forward requires additional expensive environmental sensors and high computational power to process road surface data in real-time.
+	\item \textbf{Disturbance Observation Capability:} The designed Kalman Filter is not limited to filtering noise but is configured as a \textit{Disturbance Observer}. By including the road profile states ($z_{road}, \dot{z}_{road}$) in the system model and tuning the process noise covariance matrix ($Q_{kal}$) aggressively, the observer is capable of estimating the road input virtually instantaneously.
+\end{enumerate}
+
+Consequently, the control law $u = -K \hat{x}$ acts on the estimated road states $\hat{\epsilon}$ immediately as the wheel encounters the irregularity. This mechanism creates an \textbf{implicit feed-forward action}: the controller "feels" the bump through the unsprung mass dynamics and applies a counter-force before the disturbance propagates significantly to the chassis, achieving the "Magic Carpet" performance without the need for look-ahead sensors.
+
+Le specifiche di progetto includono:
+\begin{itemize}
+	\item \textbf{Inseguimento del set-point:} Mantenimento dell'altezza statica e dell'assetto orizzontale ($\theta = 0$) anche in presenza di carichi costanti.
+	\item \textbf{Reiezione dei disturbi:} Eliminazione dell'errore a regime indotto da irregolarità del manto stradale o forze longitudinali.
+	\item \textbf{Dinamica Anti-Pitch:} Compensazione attiva degli effetti di \textit{Anti-Dive} e \textit{Anti-Squat} introdotti dalla geometria delle sospensioni (parametri $\gamma_f, \gamma_r$).
+\end{itemize}
+
+\section{Architettura di Controllo LQR-PID Aumentata}
+To ensure the elimination of steady-state error for the controlled variables (heave $p_z$ and pitch $\theta$), the linearized model was extended with two integrator states.
+
+
+
+\subsection{Augmented System and LQR Synthesis}
+Let $x_{ctrl} \in \mathbb{R}^8$ be the vector of controllable physical states (excluding road kinematics). We define the error vector $e = [e_z, e_\theta]^T$ as the deviation from the reference heights. We introduce the integral state vector $\eta(t) = \int_{0}^{t} e(\tau) d\tau$. The augmented system takes the form:
+\begin{equation}
+	\begin{bmatrix} \dot{x}_{ctrl} \\ \dot{\eta} \end{bmatrix} = 
+	\begin{bmatrix} A_{ctrl} & 0_{8 \times 2} \\ C_{E,ctrl} & 0_{2 \times 2} \end{bmatrix} 
+	\begin{bmatrix} x_{ctrl} \\ \eta \end{bmatrix} + 
+	\begin{bmatrix} B_{ctrl} \\ D_{E1,ctrl} \end{bmatrix} u
+\end{equation}
+
+The control gain $K_{aug} = [K_{prop} \quad K_{int}]$ is obtained by minimizing the quadratic cost functional:
+\begin{equation}
+	J = \int_{0}^{\infty} (x_{aug}^T Q_{aug} x_{aug} + u^T R_{aug} u) dt
+\end{equation}
+The weight matrix $Q_{aug}$ was calibrated with a diagonal structure to weigh the proportional, derivative, and integral actions separately:
+\begin{itemize}
+	\item \textbf{Heave Control:} $q_{pz} = 2 \cdot 10^8$ (P) and $q_{vz} = 8 \cdot 10^5$ (D). The integral action is heavily weighted with $q_{\int z} = 10^{10}$ to force leveling.
+	\item \textbf{Pitch Control:} $q_{p\theta} = 3 \cdot 10^9$ (P) and $q_{v\theta} = 10^6$ (D). The integral weight $q_{\int \theta} = 5 \cdot 10^{11}$ is the highest to counteract rotational inertia $J$ and the effects of pitching during braking/acceleration.
+	\item \textbf{Unsprung Masses:} $q_{unsprung} = 10^2$, a deliberately low weight to allow the wheels to follow the road profile without transmitting excessive forces to the body.
+\end{itemize}
+
+\section{State Estimation: Optimal Kalman Filter Theory}
+
+Full implementation of the LQR control law requires knowledge of the entire state vector $x \in \mathbb{R}^{12}$. However, in the real system, only a subset of these variables can be measured using sensors (accelerometers and potentiometers). To overcome this, a Kalman filter (KF) has been designed, which acts as an optimal observer in the presence of stochastic noise.
+
+\subsection{Stochastic Formulation and $\epsilon$ Disturbances}
+The linearized dynamic system is extended to include model and road surface uncertainties, collectively defined as $\epsilon$. The state space model takes the form:
+\begin{equation}
+	\begin{cases}
+		\dot{x} = A_N x + B_1 u + G w \\
+		y = C_N x + D_1 u + v
+	\end{cases}
+\end{equation}
+where $w \sim \mathcal{N}(0, Q_{kal})$ represents the process noise (which includes the stochastic variations of the road profile $z_{road}$) and $v \sim \mathcal{N}(0, R_{kal})$ represents the white noise affecting the sensors. 
+
+The states $x_9, \dots, x_{12}$ (i.e., $\theta_{road}$ and $z_{road}$ for the front and rear axles) are not subject to direct control inputs but evolve according to the characteristics of the terrain. The Kalman Filter estimates these “invisible” parameters by analyzing the prediction error on the measurable outputs $y$.
+
+
+\subsection{Observer Dynamics and Innovation}
+The observer reconstructs the estimated state $\hat{x}$ by minimizing the covariance of the estimation error $P = E[(x-\hat{x})(x-\hat{x})^T]$. The structure of the observer is:
+\begin {equation}
+\dot{\hat{x}} = A_N \hat{x} + B_1 u + K_o \underbrace{(y - \hat{y})}_{\text{Innovation}}
+\end{equation}
+The \textbf{innovation} term $(y - C_N \hat{x} - D_1 u)$ is the difference between the actual measurement provided by the sensors and the measurement predicted by the model. The gain $K_o$ (calculated in the code using the \texttt{lqr} command exploiting duality) determines the weight of the innovation:
+\begin{itemize}
+\item If $Q_{kal} \gg R_{kal}$ (as in the $10^6$ vs $10^{-3}$ setup), the observer considers the model less reliable than the sensors. Consequently, the gain $K_o$ will be high, making the estimation of $\epsilon$ extremely fast in following road bumps.
+\item If $R_{kal} \gg Q_{kal}$, the observer would filter the signals more, but at the risk of “losing” the impulsive component of road disturbances.
+\end{itemize}
+
+
+
+\subsection{Road Profile Reconstruction (Disturbance Observation)}
+The main advantage of this approach is that the control force $u$ is also calculated as a function of $\hat{\epsilon}$. When a wheel encounters an obstacle, the sudden acceleration of the unsprung mass generates a high innovation in the filter. The latter instantly corrects the estimate of $\hat{z}_{road,f}$ or $\hat{z}_{road,r}$. 
+
+The LQR controller, seeing this change in the estimated state, commands the actuators to apply a counterforce even before the disturbance propagates to the main body (sprung mass), effectively performing a sort of \textbf{feed-forward (implicit feed-forward)} based on the optimal estimate.
+
+\subsection{Stability of the Observer}
+The stability of the estimation is guaranteed by the fact that the pair $(A_N, C_N)$ is observable. In the code, regularization has been applied to the matrix $A$ (\texttt{A\_reg = A\_N - 1e-6*eye(12)}) to prevent numerical instability of the filter during periods of stationarity, ensuring that the eigenvalues of the estimation error $\text{eig}(A_N - K_o C_N)$ have a sufficiently large negative real part to guarantee rapid convergence.
+\section{ modeling of Anti-Dive and Anti-Squat Geometry}
+
+In a standard half-car model, the suspension struts are often assumed to be perfectly vertical. However, in real vehicle suspension kinematics (e.g., double wishbone or multi-link setups), the instant centers of rotation are designed to create a geometric coupling between longitudinal forces and vertical body forces. This design feature is known as \textit{Anti-Dive} (for the front axle during braking) and \textit{Anti-Squat} (for the rear axle during acceleration).
+
+\subsection{Geometric Forces Definition}
+The anti-geometry effects are modeled by introducing two dimensionless coefficients, $\gamma_f$ and $\gamma_r$ (represented in the MATLAB code as \texttt{gammaf} and \texttt{gammar}). These coefficients determine the percentage of the longitudinal force that is converted into a vertical force acting on the sprung mass, bypassing the springs and dampers.
+
+Let $F_{x,f}$ and $F_{x,r}$ be the longitudinal forces at the front and rear tire contact patches respectively (variables \texttt{fwfront} and \texttt{fwrear}). The vertical forces induced by the suspension geometry, denoted as $F_{v,f}^{geo}$ and $F_{v,r}^{geo}$, are defined as:
+
+\begin{equation}
+	F_{v,f}^{geo} = \gamma_f \cdot F_{x,f}
+\end{equation}
+\begin{equation}
+	F_{v,r}^{geo} = \gamma_r \cdot F_{x,r}
+\end{equation}
+
+These forces provide a "stiffening" effect against pitch motion without actually increasing the spring stiffness $k_f$ or $k_r$, thus preserving ride comfort during steady-state driving while reducing body rotation during aggressive longitudinal maneuvers.
+
+\subsection{Modified Equations of Motion}
+The introduction of these geometric forces and the consideration of the center of gravity height ($h_{cg}$) significantly modify the equilibrium and the dynamics of the sprung mass.
+
+\subsubsection{Vertical Dynamics (Heave)}
+The equation for the vertical acceleration $\ddot{z}$ (variable \texttt{f2}) must now account for the geometric lift forces. The Newton's second law for the vertical direction becomes:
+
+\begin{equation}
+	m \ddot{z} = F_{sf} + F_{sr} + F_{af} + F_{ar} + F_{v,f}^{geo} + F_{v,r}^{geo} - mg
+\end{equation}
+
+Where:
+\begin{itemize}
+	\item $F_{sf}, F_{sr}$ are the passive suspension forces (spring + damper).
+	\item $F_{af}, F_{ar}$ are the active control forces.
+	\item $F_{v,f}^{geo}, F_{v,r}^{geo}$ are the anti-dive/anti-squat contributions.
+\end{itemize}
+
+\subsubsection{Rotational Dynamics (Pitch)}
+The pitch dynamics are the most affected by these changes. The moment balance equation for $\ddot{\theta}$ (variable \texttt{f4}) includes the torque generated by suspension forces, the geometric forces, and the inertial load transfer due to the height of the center of gravity.
+
+The total longitudinal force acting on the vehicle is $F_{tot\_x} = F_{x,f} + F_{x,r}$. This force creates a pitching moment around the center of gravity defined by $M_{long} = F_{tot\_x} \cdot h_{cg}$.
+The modified rotational equation of motion is:
+
+\begin{equation}
+	J \ddot{\theta} = d_f \left( F_{sf} + F_{af} + F_{v,f}^{geo} \right) - d_r \left( F_{sr} + F_{ar} + F_{v,r}^{geo} \right) + F_{tot\_x} \cdot h_{cg}
+\end{equation}
+
+Here, positive $F_{x}$ (acceleration) creates a positive pitch moment (nose up), which is counteracted by the Anti-Squat force $F_{v,r}^{geo}$. Conversely, negative $F_{x}$ (braking) creates a negative pitch moment (nose down), counteracted by the Anti-Dive force $F_{v,f}^{geo}$.
+
+\subsection{Impact on Linearization}
+Since the longitudinal forces $F_{x,f}$ and $F_{x,r}$ are treated as external inputs (or disturbances depending on the control architecture), the system matrices $B$ and $D$ in the state-space representation are updated. Specifically, the disturbance matrix regarding longitudinal inputs reflects that a change in throttle or braking now instantaneously affects the vertical acceleration $\ddot{z}$ and pitch acceleration $\ddot{\theta}$ through the $\gamma$ coefficients and $h_{cg}$.
+\section{Control Strategy: LQR with Integral Action (LQR-PID)}
+
+To achieve precise tracking of the reference height and pitch angle while maintaining passenger comfort, a Linear Quadratic Regulator (LQR) with integral action is implemented. This approach effectively combines the optimal state feedback of LQR with the zero steady-state error property of a PID-type controller.
+
+\subsection{Augmented System State-Space Representation}
+In the MATLAB implementation, the control is designed for the controllable part of the system (the 8 physical states of the vehicle body and wheels). To eliminate steady-state offsets in heave ($z$) and pitch ($\theta$), the state vector is augmented with two integral states, $e_{int,z}$ and $e_{int,\theta}$, defined as the integral of the error between the measured outputs and the references:
+
+\begin{equation}
+	x_{aug} = \begin{bmatrix} x_{phys} \\ e_{int} \end{bmatrix} \in \mathbb{R}^{10 \times 1}, \quad \text{where } e_{int} = \int (y_{ref} - y) \, dt
+\end{equation}
+
+The augmented system matrices, $A_{aug}$ and $B_{aug}$, are constructed as:
+\begin{equation}
+	A_{aug} = \begin{bmatrix} A_{ctrl} & \mathbf{0}_{8 \times 2} \\ C_{E,ctrl} & \mathbf{0}_{2 \times 2} \end{bmatrix}, \quad 
+	B_{aug} = \begin{bmatrix} B_{ctrl} \\ D_{E1,ctrl} \end{bmatrix}
+\end{equation}
+where $C_{E,ctrl}$ and $D_{E1,ctrl}$ map the physical states to the tracking errors for heave and pitch.
+
+\subsection{Optimal Control Law and Tuning}
+The control law is defined as $u = -K_{aug} x_{aug}$, where $K_{aug}$ is the gain matrix that minimizes the quadratic cost function:
+\begin{equation}
+	J(u) = \int_{0}^{\infty} (x_{aug}^T Q_{aug} x_{aug} + u^T R_{aug} u) \, dt
+\end{equation}
+
+The tuning is performed through the selection of the diagonal matrices $Q_{aug}$ and $R_{aug}$. Specifically, the weights in the MATLAB script are organized to balance different performance requirements:
+\begin{itemize}
+	\item \textbf{Proportional Weights ($q_{pz}, q_{ptheta}$):} Regulate the reactivity of the system to position errors.
+	\item \textbf{Derivative Weights ($q_{vz}, q_{vtheta}$):} Control the damping of the vertical and angular velocities.
+	\item \textbf{Integral Weights ($q_{heave\_int}, q_{pitch\_int}$):} Ensure the elimination of steady-state errors caused by constant disturbances or load changes.
+\end{itemize}
+
+\subsection{State Estimation: Kalman Filter}
+Since not all states are directly measurable, a Kalman Filter is designed to estimate the 12 physical states $x$. The observer gain $K_o$ is calculated by solving the Riccati equation using the process noise covariance $Q_{kalman}$ and the measurement noise covariance $R_{kalman}$:
+\begin{equation}
+	\dot{\hat{x}} = A_N \hat{x} + B_1 u + K_o (y - C_N \hat{x} - D_1 u)
+\end{equation}
+The observer allows the controller to use estimated velocities and road states that are otherwise inaccessible via standard sensors.
+
+\subsection{Linear vs. Non-Linear Implementation}
+A crucial distinction is made in the final part of the design. While the augmented LQR is designed on the linearized 12-state model ($A_N, B_1, \dots$), the implementation for the \textbf{Non-Linear System} in Simulink uses a reduced 8-state version:
+\begin{itemize}
+	\item \textbf{Linear Control:} Uses the full $K_{prop}$ (2x12) and $K_{int}$ (2x2) matrices, accounting for road states.
+	\item \textbf{Non-Linear Control:} Uses a reduced $K_{nonlin\_prop}$ (2x8) which acts only on the physical states of the vehicle, as the road states are treated as external disturbances in the non-linear plant.
+\end{itemize}
+\section{Numerical Control Design Analysis}
+
+Based on the theoretical framework established in the previous sections, the numerical synthesis of the control law was performed. The resulting matrices confirm the design choices aimed at achieving superior ride comfort ("Magic Carpet" effect) and robust handling.
+
+\subsection{Augmented System Dynamics}
+The augmented state matrix $\mathcal{A}_{aug} \in \mathbb{R}^{10 \times 10}$, which includes the integral states for heave and pitch error regulation, is derived as:
+
+\textbf{Matrix} $\mathbf{A_{aug}}$ (scaled by $10^3$):
+\begin{equation}
+	\resizebox{0.9\hsize}{!}{$
+		\begin{bmatrix}
+			0 & 1.0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+			-27.5 & -3.3 & 0 & 0 & 13.7 & 1.6 & 13.7 & 1.6 & 0 & 0 \\
+			0 & 0 & 0 & 1.0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+			0 & 0 & -47.5 & -5.7 & 14.4 & 1.7 & -14.4 & -1.7 & 0 & 0 \\
+			0 & 0 & 0 & 0 & 0 & 1.0 & 0 & 0 & 0 & 0 \\
+			729.2 & 87.5 & 1203.1 & 144.4 & -6354.2 & -87.5 & 0 & 0 & 0 & 0 \\
+			0 & 0 & 0 & 0 & 0 & 0 & 0 & 1.0 & 0 & 0 \\
+			729.2 & 87.5 & -1203.1 & -144.4 & 0 & 0 & -6354.2 & -87.5 & 0 & 0 \\
+			1.0 & 0 & 0 & 0 & -0.5 & 0 & -0.5 & 0 & 0 & 0 \\
+			0 & 0 & 1.0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+		\end{bmatrix}
+		$}
+\end{equation}
+
+
+The last two rows of $\mathcal{A}_{aug}$ (indices 9 and 10) correspond to the integral action dynamics. The terms $1.0 \times 10^{-3}$ (scaled by $10^3$ to unity) represent the integration of the vertical position error $e_z$ and pitch error $e_\theta$, ensuring zero steady-state error.
+
+The input matrix $\mathcal{B}_{aug} \in \mathbb{R}^{10 \times 2}$ reflects the direct influence of the control inputs $u_1$ (heave force) and $u_2$ (pitch moment) on the vertical velocity (state 2) and pitch rate (state 4), as well as on the unsprung mass dynamics.
+\textbf{Matrix} $\mathbf{B_{aug}}$:
+\begin{equation}
+	\begin{bmatrix}
+		0 & 0 \\
+		0.0004 & 0 \\
+		0 & 0 \\
+		0 & 0.0002 \\
+		0 & 0 \\
+		-0.0104 & -0.0063 \\
+		0 & 0 \\
+		-0.0104 & 0.0063 \\
+		0 & 0 \\
+		0 & 0
+	\end{bmatrix}
+\end{equation}
+
+
+\subsection{Optimal LQR Gains Analysis}
+
+
+The control law $u(t) = -K_{prop}\hat{x}(t) - K_{int}\eta(t)$ is characterized by the computed gain matrices.
+
+\subsubsection*{Proportional-Derivative Action ($K_{prop}$)}
+The proportional and derivative gains for the physical states are given by:
+\newline
+\newline
+\begin{equation}
+	K_{prop} = 10^4 \cdot \begin{bmatrix} 
+		1.67 & 0.54 & 0 & 0 & -0.80 & 0.001 & -0.80 & 0.001 \\
+		0 & 0 & 8.93 & 1.52 & -2.28 & 0.004 & 2.28 & -0.004 
+	\end{bmatrix}
+\end{equation}
+\newline
+\newline
+Analysis of these values highlights the control strategy:
+\begin{itemize}
+	\item \textbf{Pitch Priority:} The gain on the pitch angle ($8.93 \cdot 10^4$) is significantly larger than the gain on vertical displacement ($1.67 \cdot 10^4$). This reflects the design intent to heavily suppress pitch motions, which are critical for passenger comfort in a luxury vehicle.
+	\item \textbf{Active Damping:} The derivative gains (columns 2 and 4: $0.54 \cdot 10^4$ and $1.52 \cdot 10^4$) provide substantial active damping, replacing passive dissipation to quickly attenuate oscillations.
+	\item \textbf{Sky-Hook Approximation:} The gains on unsprung mass velocities (columns 6 and 8) are negligible ($\approx 0$), indicating a control strategy that approximates a "Sky-Hook" damper, isolating the body from high-frequency wheel motions.
+\end{itemize}
+
+\subsubsection*{Integral Action ($K_{int}$)}
+The integral gains are:
+\begin{equation}
+	K_{int} = 10^5 \cdot \begin{bmatrix} 
+		0.22 & 0 \\
+		0 & 1.58
+	\end{bmatrix}
+\end{equation}
+The integral gain for pitch ($1.58 \cdot 10^5$) is roughly an order of magnitude higher than for heave ($0.22 \cdot 10^5$). This aggressive integral action on pitch ensures rapid correction of static attitude changes during acceleration or braking (anti-squat/anti-dive compensation).
+
+\subsection{State Estimation and Road Profile Reconstruction}
+The full-order Kalman Observer gain matrix $K_o \in \mathbb{R}^{12 \times 5}$ (reported in the Appendix) demonstrates the observer's bandwidth. Notably, the gains associated with the road profile states (rows 9-12 of $K_o$) exhibit values up to $2.0 \cdot 10^4$.
+This high sensitivity to sensor innovations ($y - \hat{y}$) confirms that the observer is tuned to rapidly estimate road irregularities ("epsilon" states), effectively distinguishing them from sensor noise. This allows the controller to react to road bumps almost instantaneously, approximating a feed-forward response.
+\newline
+\newline
+\textbf{Full Kalman Gain} $\mathbf{K_o}$ ($10^5$):
+\begin{equation}
+	\resizebox{0.6\hsize}{!}{$
+		\begin{bmatrix}
+			-0.00 & -0.32 & -0.00 & -0.16 & -0.16 \\
+			-0.00 & -0.07 & -0.00 & -0.22 & -0.22 \\
+			0.31 & -0.00 & 0.00 & 0.05 & -0.05 \\
+			0.00 & 0.00 & 0.32 & -0.00 & 0.00 \\
+			0.05 & 0.06 & 0.00 & -0.37 & -0.07 \\
+			0.71 & 0.03 & 8.31 & -2.12 & 2.51 \\
+			-0.05 & 0.06 & -0.00 & -0.07 & -0.37 \\
+			-0.71 & 0.03 & -8.31 & 2.51 & -2.12 \\
+			-0.00 & 0.00 & 0.00 & 0.00 & -0.00 \\
+			0.00 & -0.00 & -0.00 & -0.00 & 0.00 \\
+			0.02 & 0.00 & 0.21 & -0.06 & 0.06 \\
+			-0.02 & 0.00 & -0.21 & 0.06 & -0.06
+		\end{bmatrix}
+		$}
+\end{equation}	
+
+
+\section{Metriche di Performance}
+Per quantificare l'efficacia del sistema "Magic Carpet Ride", vengono analizzati i seguenti parametri:
+\begin{itemize}
+\item \textbf{Comfort (Body Acceleration):} Analisi dei picchi di accelerazione verticale $\ddot{p}_z$ e angolare $\ddot{\theta}$. Un sistema efficace deve ridurre questi picchi del 30-50\% rispetto alla configurazione passiva.
+\item \textbf{Working Space:} Verifica che l'escursione della sospensione $s_1$ e $s_3$ non superi i limiti meccanici (tipicamente $\pm 0.1$ m).
+\item \textbf{Handling (Tyre Load):} Monitoraggio delle forze verticali sugli pneumatici ($f_{tf}, f_{tr}$) per garantire che la ruota non perda mai il contatto con il suolo (condizione $f_t > 0$).
+\item \textbf{Precisione della stima:} Confronto tra i disturbi stradali reali $z_{road}$ e gli "epsilon" stimati $\hat{z}_{road}$ dal filtro di Kalman.
+\end{itemize}
+\section{Analisi Risultati (Risultati Attesi)}
+Sulla base del tuning effettuato nel Control Design, si prevedono i seguenti comportamenti nelle simulazioni:
+	
+\subsection{Risposta al Bump}
+Ci si aspetta che l'azione attiva degli attuatori $f_{af}$ e $f_{ar}$ intervenga immediatamente al rilevamento del dosso tramite l'osservatore. L'integrazione dell'errore dovrebbe permettere alla vettura di tornare all'altezza nominale $\ell_0$ senza oscillazioni residue significative (\textit{deadbeat-like response}), grazie all'elevato peso $q_{int}$ assegnato agli stati integrali.
+
+\subsection{Effetto Anti-Dive e Anti-Squat}
+Durante le fasi di accelerazione e frenata (simulate tramite $F_{wfront}$ e $F_{wrear}$), il sistema di controllo deve compensare il momento di beccheggio indotto dall'altezza del baricentro $h_{cg}$. Ci si aspetta che l'angolo di pitch $\theta$ rimanga prossimo allo zero, dimostrando l'efficacia della geometria attiva del modello rispetto a una sospensione passiva tradizionale.
+	
+\subsection{Robustezza al Rumore}
+L'introduzione dei rumori di misura (\texttt{nuy, nuz, nug, nuf, nur} nel codice) metterà alla prova il filtro di Kalman. La performance sarà considerata soddisfacente se la stima degli stati $\hat{x}$ rimarrà stabile e se il controllo non presenterà un \textit{chattering} eccessivo sugli attuatori.
 	\begin{center}
 		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
 			
