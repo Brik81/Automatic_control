@@ -570,69 +570,116 @@ The performance vector is constructed as a function of the state vector $x$, the
 	z = g(x, p, r)
 \end{equation}
 
-\subsection{State and Reference Definitions}
-Consistent with the system model, the relevant state variables for performance monitoring are:
-\begin{itemize}
-	\item $z_s = x_1$: Vertical position of the sprung mass CoM (Heave).
-	\item $\dot{z}_s = x_2$: Vertical velocity of the sprung mass (Heave velocity).
-	\item $\theta = x_3$: Pitch angle.
-	\item $\dot{\theta} = x_4$: Pitch rate.
-	\item $z_{wf} = x_5$, $z_{wr} = x_7$: Vertical positions of the front and rear unsprung masses (wheels).
-\end{itemize}
-
-The reference vector $r \in \mathbb{R}^2$ defines the target tracking trajectory:
+\subsubsection*{Control Objectives}
+The control objective is defined in terms of vertical position and perceived pitch regulation.  
+An apparent pitch angle $\theta_a$ is reconstructed from accelerometer data as:
 \begin{equation}
-	r = \begin{bmatrix} r_z \\ r_\theta \end{bmatrix}
+	\theta_a =
+	\sin^{-1}
+	\left(
+	\frac{y_y}{\sqrt{y_y^2 + y_z^2}}
+	\right).
 \end{equation}
-where $r_z$ is the desired heave position (typically the static equilibrium height) and $r_\theta$ is the desired pitch angle (typically zero to maintain a flat chassis).
-
-\subsection{Suspension Deflections}
-The suspension deflections (or working spaces), denoted as $s_f$ and $s_r$, represent the relative compression between the vehicle body and the wheels.
-To account for the geometric coupling induced by significant pitch rotations, these are calculated using the exact kinematic relationships:
-
+The control error vector is defined as:
 \begin{align}
-	s_f &= (z_s + d_f \sin\theta) - z_{wf} \\
-	s_r &= (z_s - d_r \sin\theta) - z_{wr}
+	e =
+	\begin{bmatrix}
+		\dfrac{(s_1 + \nu_f)d_r + (s_3 + \nu_r)d_f}{d_r + d_f} - r_z \\
+		\theta_a - r_\theta
+	\end{bmatrix},
 \end{align}
-
-Here, $d_f$ and $d_r$ represent the longitudinal distances from the center of mass to the front and rear axles, respectively. The term $\sin\theta$ ensures that the vertical displacement of the suspension mounting points is correctly mapped even for non-small pitch angles.
-
-\subsection{Performance Vector Definition}
-The resulting performance vector $z$ is composed of six elements, each addressing a specific control objective:
-
+where $r_z$ and $r_\theta$ denote the desired vertical position and pitch angle references.
+The first component regulates the vehicle vertical displacement through a weighted average of suspension deflections, while the second penalizes deviations from the perceived pitch angle experienced by passengers.
+\subsubsection*{Output Error Function}
+The complete nonlinear output error function used for control design is:
 \begin{equation}
-	z = 
+	he(x,u,w) =
 	\begin{bmatrix}
-		z_1 \\ z_2 \\ z_3 \\ z_4 \\ z_5 \\ z_6
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		z_s - r_z \\
-		\theta - r_\theta \\
-		\dot{\theta} \\
-		s_f \\
-		s_r \\
-		\dot{z}_s
-	\end{bmatrix}
+		\displaystyle
+		\frac{(s_1 + \nu_f)d_r + (s_3 + \nu_r)d_f}{d_r + d_f} - r_z \\
+		\displaystyle
+		\sin^{-1}
+		\left(
+		\frac{h_1 + \nu_y}
+		{\sqrt{(h_1 + \nu_y)^2 + (h_2 + \nu_z)^2}}
+		\right)
+		- r_\theta
+	\end{bmatrix},
 \end{equation}
+where $h_1$ and $h_2$ represent the ideal accelerometer outputs derived from the system dynamics.
 
-\subsubsection*{Physical Interpretation}
-The components of $z$ are selected to monitor and minimize the following behaviors:
-
-\begin{enumerate}
-	\item \textbf{Heave Regulation Error ($z_1$):} Ensures the vehicle maintains the desired ride height $r_z$ despite external loads or disturbances.
-	\item \textbf{Pitch Regulation Error ($z_2$):} Critical for the "Magic Carpet" effect; minimizing this term prevents the vehicle from squatting or diving during acceleration and braking.
-	\item \textbf{Pitch Damping ($z_3$):} Minimizing the pitch rate $\dot{\theta}$ reduces rotational oscillations, improving passenger comfort.
-	\item \textbf{Suspension Travel ($z_4, z_5$):} Monitoring $s_f$ and $s_r$ is essential to keep the suspension excursions within the mechanical structural limits (avoiding bump-stop impacts).
-	\item \textbf{Heave Damping ($z_6$):} Minimizing the vertical velocity $\dot{z}_s$ dissipates the energy induced by road irregularities, reducing the "pumping" effect of the chassis.
-\end{enumerate}
-
-This definition of $z$ allows for a comprehensive assessment of the trade-off between ride comfort (minimized accelerations and velocities) and handling/safety (bounded suspension travel and accurate attitude tracking).
 	
 	\subsubsection*{Observability Considerations}
 	
 	The selected sensor configuration ensures observability of the states relevant for control. Accelerometer and gyroscope measurements capture translational and rotational dynamics, while suspension deflection sensors resolve wheel--body interaction and road-induced disturbances, enabling reliable state estimation through standard observers.
 	
+\subsubsection*{Augmented Performance Output for Control Design}
+
+In addition to the nonlinear output error function $h_e(x, u, w)$ previously defined for tracking purposes, the performance output vector has been extended to match the complete Simulink control architecture and to explicitly account for dynamic and structural constraints of the half-car model.
+
+Specifically, the performance vector is no longer limited to static regulation of vertical position and perceived pitch angle, but it also includes additional dynamic quantities required to improve transient behavior, damping characteristics, and suspension stroke monitoring.
+
+The resulting performance vector is defined as:
+\begin{equation}
+	z = g(p, x, r) \in \mathbb{R}^6,
+\end{equation}
+with the following structure:
+\begin{equation}
+	z = \begin{bmatrix}
+		p_z - r_z \\
+		\theta - r_\theta \\
+		\omega \\
+		s_f \\
+		s_r \\
+		v_z
+	\end{bmatrix}.
+\end{equation}
+
+\paragraph{Definition of Suspension Deflections}
+
+The suspension deflections are explicitly reconstructed from the kinematic relations of the half-car model as:
+\begin{align}
+	s_f &= (p_z + d_f \sin\theta) - z_{wf}, \\
+	s_r &= (p_z - d_r \sin\theta) - z_{wr},
+\end{align}
+where:
+\begin{itemize}
+	\item $p_z$ is the vertical position of the center of gravity;
+	\item $\theta$ is the pitch angle;
+	\item $z_{wf}$ and $z_{wr}$ are the front and rear wheel hub vertical positions;
+	\item $d_f$ and $d_r$ are the longitudinal distances between the center of gravity and the front and rear axles.
+\end{itemize}
+
+\paragraph{Physical Meaning of the Augmented Components}
+
+The augmentation of the performance vector introduces four additional quantities beyond the basic tracking errors:
+
+\begin{enumerate}
+	\item $\omega$ (pitch rate): This term is included to provide additional rotational damping. Penalizing $\omega$ improves transient response and reduces oscillatory pitch dynamics.
+	\item $s_f$ and $s_r$ (front and rear suspension deflections): These terms allow the controller to indirectly monitor suspension stroke limits (jounce and rebound). Their inclusion prevents excessive suspension travel and improves ride comfort and safety.
+	\item $v_z$ (vertical velocity of the center of gravity): This component contributes to heave damping, reducing vertical oscillations and improving passenger comfort.
+\end{enumerate}
+
+\paragraph{Relation with the Output Error Function}
+
+The first two components of $z$ are consistent with the regulation objectives previously introduced through the nonlinear output error function $h_e(x, u, w)$. In particular:
+
+\begin{itemize}
+	\item The vertical position error corresponds to the regulation of the vehicle heave motion.
+	\item The pitch error enforces alignment with the desired pitch reference.
+\end{itemize}
+
+The additional components do not modify the reference definitions $r_z$ and $r_\theta$, and no previously introduced variable names have been altered. Instead, the performance matrix has been augmented to reflect the complete Simulink block implementation, where tracking, damping, and structural constraints are treated simultaneously within the control synthesis framework.
+
+\paragraph{Control-Oriented Interpretation}
+
+From a control design perspective, the augmented vector $z$ defines the full set of regulated outputs used for performance shaping. This formulation allows:
+
+\begin{itemize}
+	\item reference tracking (heave and pitch);
+	\item oscillation damping (through $v_z$ and $\omega$);
+	\item suspension constraint management (through $s_f$ and $s_r$).
+\end{itemize}
 	\newpage
 	\subsection{System Linearization}
 	
@@ -1375,9 +1422,874 @@ This observability ensures that despite partial measurements, the entire control
 	
 	
 	
-	\chapter{Application}
+	\chapter{MATLAB/Simulink Implementation}
 	
-	\section{Simulator description}
+	\subsection{Overall Simulation Architecture}
+	
+	The complete control framework has been implemented in MATLAB/Simulink using a modular structure that separates the nonlinear plant, the linearized model used for control synthesis, the state observer, the performance evaluation block, and the disturbance generators.
+	
+	The simulation architecture is organized into the following main subsystems:
+	
+	\begin{itemize}
+		\item Nonlinear Half-Car Plant (blocks $f$, $h$, and $e$),
+		\item Road Profile Generator,
+		\item Longitudinal Wheel Forces Generator,
+		\item Linearized Model (for control design and validation),
+		\item State Observer,
+		\item Augmented LQR Controller with integral action,
+		\item Enable logic and scopes for scenario-based simulations.
+	\end{itemize}
+	
+	This structure ensures coherence between the analytical derivations, the symbolic linearization procedure, and the numerical simulations.
+	
+	% ==========================================================
+	\subsection{Symbolic Linearization and Control Synthesis Script}
+	
+	The core of the control-oriented implementation is the MATLAB script dedicated to symbolic linearization and numerical evaluation of the half-car model.  
+	
+	This file plays a fundamental role in the overall workflow, since it:
+	
+	\begin{itemize}
+		\item Defines the full nonlinear model in symbolic form,
+		\item Computes all Jacobian matrices required for linearization,
+		\item Evaluates the model at a physically consistent equilibrium point,
+		\item Generates the numerical state-space matrices,
+		\item Verifies observability,
+		\item Designs both the stabilizing LQR controller and the state observer,
+		\item Builds the augmented controller with integral action.
+	\end{itemize}
+	
+	The script therefore acts as the analytical bridge between the nonlinear Simulink plant and the linear control architecture implemented in the simulation model.
+	
+	\subsubsection*{1. Symbolic Parameters}
+	
+	In the first section, all physical parameters of the half-car model are declared symbolically:
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/1}
+\end{figure}
+	
+	This step ensures that the subsequent Jacobian computation remains fully analytical.  
+	
+	Keeping parameters symbolic allows:
+	
+	\begin{itemize}
+		\item Exact differentiation of nonlinear expressions,
+		\item Clear separation between model structure and numerical values,
+		\item Reusability of the script for different vehicle configurations.
+	\end{itemize}
+	
+	\subsubsection*{2. State Variables}
+	
+	The full nonlinear state vector is defined as:
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/2}
+\end{figure}
+
+	
+	This 8-state formulation includes:
+	
+	\begin{itemize}
+		\item Sprung mass vertical dynamics ($p_z$, $v_z$),
+		\item Pitch dynamics ($\theta$, $\omega$),
+		\item Front and rear unsprung mass dynamics.
+	\end{itemize}
+	
+	Defining the states explicitly in symbolic form ensures consistency between:
+	
+	\begin{itemize}
+		\item Nonlinear dynamics,
+		\item Measurement equations,
+		\item Performance outputs,
+		\item Linearized state-space matrices.
+	\end{itemize}
+	
+	\subsubsection*{3. Control Inputs}
+	
+	The control input vector is defined as:
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/3}
+\end{figure}
+	These represent:
+	
+	\begin{itemize}
+		\item $u_F$: total vertical control force,
+		\item $u_M$: control pitching moment.
+	\end{itemize}
+	
+	The symbolic formulation allows correct front/rear force redistribution according to the geometric distances $d_f$ and $d_r$.
+	
+	\subsubsection*{4. Disturbances}
+	
+	The disturbance vector includes:
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/4}
+\end{figure}
+	
+	This formulation is particularly important because it separates:
+	
+	\begin{itemize}
+		\item Vertical road excitations,
+		\item Longitudinal wheel forces.
+	\end{itemize}
+	
+	Such separation enables independent simulation of:
+	
+	\begin{itemize}
+		\item Road-induced vibrations,
+		\item Acceleration and braking scenarios,
+		\item Combined vertical and longitudinal disturbances.
+	\end{itemize}
+	
+	\subsubsection*{5. Sensor Noise and References}
+	
+	Sensor noise variables $n_i$ are introduced symbolically in the measurement equations.  
+
+
+	Reference signals $r_z$ and $r_\theta$ are defined separately to ensure that the linearization process is performed around equilibrium without embedding reference offsets directly into the Jacobians.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/5}
+\end{figure}
+\newline
+	This separation is crucial for correct controller synthesis, since references are handled as exogenous inputs in Simulink rather than as part of the plant dynamics.
+	
+	\subsubsection*{6. Nonlinear Kinematics and Dynamics}
+	
+	This section constructs the core nonlinear dynamics of the half-car model.
+	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/6}
+\end{figure}
+
+	Relative velocities $s_2$ and $s_4$ include the nonlinear coupling term $\omega \cos\theta$, ensuring correct pitch-to-heave interaction.
+	
+	Spring-damper forces are then defined, followed by:
+	
+	\begin{itemize}
+		\item Tire stiffness forces,
+		\item Active force redistribution,
+		\item Longitudinal load transfer contributions.
+	\end{itemize}
+	
+	Finally, the full nonlinear state equation:
+	
+	\[
+	\dot{x} = f(x,u,w)
+	\]
+	
+	is assembled in vector form.  
+	
+	This formulation is identical to the one implemented in the Simulink nonlinear plant block, guaranteeing coherence between symbolic derivation and simulation model.
+	\subsubsection*{7. Output Definition: Sensors and Performance Channels}
+	
+	After defining the nonlinear dynamics, the script introduces two distinct output vectors:
+	
+	\begin{itemize}
+		\item The measurement vector $y(x,u,w)$,
+		\item The performance vector $z(x,u,w)$.
+	\end{itemize}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/7}
+	\end{figure}
+	
+	\paragraph{Measurement Vector}
+	
+	The sensor output is defined as:
+	
+	\[
+	y =
+	\begin{bmatrix}
+		a_y \\
+		a_z \\
+		\omega \\
+		s_1 \\
+		s_3
+	\end{bmatrix},
+	\]
+	
+	where the accelerometer signals are reconstructed from inertial accelerations:
+	
+	\[
+	a_x = \frac{F_{xf} + F_{xr}}{m},
+	\qquad
+	a_z = f_2 + g.
+	\]
+	
+	These accelerations are then projected into the body reference frame using $\sin\theta$ and $\cos\theta$, reproducing the nonlinear coupling between pitch angle and measured vertical acceleration.
+	
+	Sensor noise terms $n_i$ are explicitly included in symbolic form.  
+	This is essential for the subsequent observer design, since the noise covariance matrix $R_{obs}$ directly reflects this structure.
+	
+	\paragraph{Performance Vector}
+	
+	The performance vector is defined as:
+	
+	\[
+	z =
+	\begin{bmatrix}
+		p_z \\
+		\theta \\
+		\omega \\
+		s_1 \\
+		s_3 \\
+		v_z
+	\end{bmatrix}.
+	\]
+	
+	Importantly, reference subtraction is not embedded in this symbolic definition.  
+	References enter the Simulink model externally as offsets, ensuring that the Jacobian matrices are computed with respect to the true physical states rather than tracking errors.
+	
+	This separation preserves correctness of the linearization process.
+	
+	% ==========================================================
+	\subsubsection*{8. Jacobian Computation}
+	
+	The core purpose of the script is the computation of all required Jacobian matrices.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/8}
+	\end{figure}
+	\newline
+	The following symbolic derivatives are computed:
+	
+	\[
+	A = \frac{\partial f}{\partial x}, 
+	\quad
+	B_1 = \frac{\partial f}{\partial u}, 
+	\quad
+	B_2 = \frac{\partial f}{\partial w},
+	\]
+	
+	\[
+	C = \frac{\partial y}{\partial x}, 
+	\quad
+	D_1 = \frac{\partial y}{\partial u}, 
+	\quad
+	D_2 = \frac{\partial y}{\partial w},
+	\]
+	
+	\[
+	C_E = \frac{\partial z}{\partial x}, 
+	\quad
+	D_{E1} = \frac{\partial z}{\partial u}, 
+	\quad
+	D_{E2} = \frac{\partial z}{\partial w}.
+	\]
+	
+	This step guarantees that the linearized model is obtained through exact analytical differentiation, avoiding numerical approximation errors.
+	
+	The resulting structure is fully consistent with the generalized plant formulation:
+	
+	\[
+	\dot{x} = A x + B_1 u + B_2 w,
+	\]
+	\[
+	y = C x + D_1 u + D_2 w,
+	\]
+	\[
+	z = C_E x + D_{E1} u + D_{E2} w.
+	\]
+	
+	% ==========================================================
+	\subsubsection*{9. Numerical Evaluation at the Equilibrium Point}
+	
+	After symbolic derivation, all expressions are numerically evaluated at a physically consistent static equilibrium.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/9}
+	\end{figure}
+	\newline
+	The equilibrium configuration includes:
+	
+	\begin{itemize}
+		\item Gravitational preload of the suspension,
+		\item Static tire deflection,
+		\item Zero pitch angle,
+		\item Zero velocities.
+	\end{itemize}
+	
+	The vertical equilibrium position is computed and tire compression is determined from total static load distribution.
+	
+	\subsubsection*{11. Numerical matrices}
+	
+	Substituting both parameter values and equilibrium state into the symbolic Jacobians produces the numerical matrices:
+	\newline
+	
+
+	These matrices are exported to the MATLAB workspace and used directly in the Simulink linear control block.
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/10}\end{figure}
+	% ==========================================================
+	\subsubsection*{11. Observability Analysis}
+	
+	Before designing the observer, the script verifies structural observability.
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=1.4\linewidth]{img/11}
+	\end{figure}
+	\newline
+	The observability matrix is computed as:
+	
+	\[
+	\mathcal{O} =
+	\begin{bmatrix}
+		C_N \\
+		C_N A_N \\
+		C_N A_N^2 \\
+		\vdots
+	\end{bmatrix}.
+	\]
+	
+	Its rank is compared with the number of states.
+
+	Full rank confirms that the selected sensor configuration (accelerometers, gyroscope, suspension deflections) allows reconstruction of all eight states.
+
+	This analytical verification ensures that the observer design is theoretically admissible.
+	
+	
+	
+	% ==========================================================
+	\subsubsection*{12. LQR State Feedback Design}
+	
+	A stabilizing LQR controller is first designed using:
+	
+	\[
+	K_s = \text{lqr}(A_N, B_{1N}, Q_{lqr}, R_{lqr}).
+	\]
+	
+	The weighting matrix $Q_{lqr}$ assigns:
+	
+	\begin{itemize}
+		\item High weight to vertical displacement $p_z$,
+		\item Even higher weight to pitch angle $\theta$,
+		\item Moderate weight to velocities $v_z$ and $\omega$,
+		\item Low weight to unsprung mass dynamics.
+	\end{itemize}
+	
+	The matrix $R_{lqr}$ limits control aggressiveness and prevents unrealistic actuator demand.
+	
+	This step provides a baseline stabilizing controller.
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/12}
+	\end{figure}
+	
+	% ==========================================================
+	\subsubsection*{13. Observer Design via Dual LQR}
+	
+	The state observer gain $K_o$ is computed using the dual LQR formulation:
+	
+	\[
+	K_o = \text{lqr}(A_N^T, C_N^T, Q_{obs}, R_{obs})^T.
+	\]
+	
+	The tuning philosophy reflects sensor trust hierarchy:
+	
+	\begin{itemize}
+		\item Accelerometers are heavily downweighted during longitudinal acceleration,
+		\item The gyroscope is highly trusted for rotational dynamics,
+		\item Suspension deflection sensors prevent long-term drift.
+	\end{itemize}
+	
+	This produces a full-order observer capable of robust state estimation even during acceleration or braking maneuvers.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/13}
+	\end{figure}
+	
+	% ==========================================================
+	\subsubsection*{14. Augmented LQR with Integral Action}
+	
+	To eliminate steady-state tracking error, integral action is introduced on:
+	
+	\begin{itemize}
+		\item Heave error,
+		\item Pitch error.
+	\end{itemize}
+	
+	An augmented state vector is constructed:
+	
+	\[
+	x_{aug} =
+	\begin{bmatrix}
+		x \\
+		\int e_{heave} \\
+		\int e_{pitch}
+	\end{bmatrix}.
+	\]
+	
+	The augmented system matrices are built as:
+	
+	\[
+	A_{aug} =
+	\begin{bmatrix}
+		A_N & 0 \\
+		C_{integ} & 0
+	\end{bmatrix},
+	\qquad
+	B_{aug} =
+	\begin{bmatrix}
+		B_{1N} \\
+		0
+	\end{bmatrix}.
+	\]
+	
+	The resulting gain matrix:
+	
+	\[
+	K_{total} =
+	\begin{bmatrix}
+		K_s & K_i
+	\end{bmatrix}
+	\]
+	
+	is obtained through LQR applied to the augmented system.
+	
+	Only the first two performance channels (heave and pitch) are integrated, ensuring stability while preserving damping of higher-order dynamics.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/14_1}
+	\end{figure}
+	\newline
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/14_2}
+	\end{figure}
+	\newline
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/14_3}
+	\end{figure}
+\newpage
+	% ==========================================================
+	\subsubsection*{15. Final Outcome of the Script}
+	
+	At the end of the execution, the script provides:
+	
+	\begin{itemize}
+		\item Linearized state-space matrices,
+		\item Observer gain $K_o$,
+		\item State feedback gain $K_s$,
+		\item Integral gain $K_i$.
+	\end{itemize}
+	
+	These quantities are directly used inside the Simulink linear control block, ensuring full consistency between:
+	
+	\begin{itemize}
+		\item Analytical derivation,
+		\item Controller synthesis,
+		\item Time-domain simulation.
+	\end{itemize}
+	
+	The script therefore constitutes the mathematical backbone of the entire control implementation.
+	
+\subsection{Nonlinear Half-Car Model}
+
+The nonlinear plant implemented in Simulink represents the high-fidelity reference model used for validation of the control architecture.  
+In order to preserve modularity and analytical clarity, the plant is structured into three distinct MATLAB Function blocks:
+
+\begin{itemize}
+	\item $f(p,x,u,w)$: nonlinear state dynamics,
+	\item $h(p,x,w,n)$: sensor model,
+	\item $g(p,x,r)$: performance output vector.
+\end{itemize}
+
+This separation mirrors the theoretical formulation and ensures a clean distinction between physical dynamics, measurable outputs, and control performance variables.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/non_linear}
+\end{figure}
+% ==========================================================
+\subsubsection*{State Dynamics Block $f(p,x,u,w)$}
+
+The block $f$ implements the complete nonlinear 8-state half-car model:
+
+\[
+x =
+\begin{bmatrix}
+	p_z & v_z & \theta & \omega & z_{wf} & v_{zf} & z_{wr} & v_{zr}
+\end{bmatrix}^T,
+\]
+
+including sprung and unsprung mass dynamics.
+
+\paragraph{Nonlinear Kinematics}
+
+Suspension deflections are computed using exact nonlinear geometry:
+
+\[
+s_1 = (p_z + d_f \sin\theta) - z_{wf},
+\qquad
+s_3 = (p_z - d_r \sin\theta) - z_{wr},
+\]
+
+while relative velocities include pitch–heave coupling:
+
+\[
+s_2 = v_z + d_f \omega \cos\theta - v_{zf},
+\qquad
+s_4 = v_z - d_r \omega \cos\theta - v_{zr}.
+\]
+
+The use of $\sin\theta$ and $\cos\theta$ guarantees correct large-angle behavior and preserves geometric consistency.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/f4}
+\end{figure}
+\paragraph{Suspension and Tire Forces}
+
+
+Spring–damper forces are modeled as:
+
+\[
+f_{sf} = -k_f s_1 - \beta_f s_2,
+\qquad
+f_{sr} = -k_r s_3 - \beta_r s_4.
+\]
+
+Tire forces are represented through linear stiffness elements:
+
+\[
+f_{tf} = k_{tf}(z_{road,f} - z_{wf}),
+\qquad
+f_{tr} = k_{tr}(z_{road,r} - z_{wr}).
+\]
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/f5}
+\end{figure}
+\paragraph{Actuator Force Distribution}
+
+The control inputs are defined as total vertical force $u_F$ and total pitching moment $u_M$.  
+These are redistributed between front and rear according to vehicle geometry:
+
+\[
+f_{af} = \frac{u_M + d_r u_F}{d_f + d_r},
+\qquad
+f_{ar} = \frac{d_f u_F - u_M}{d_f + d_r}.
+\]
+
+This guarantees that the pair $(u_F, u_M)$ produces the desired resultant force and moment about the center of gravity.
+
+\paragraph{Longitudinal Coupling and Load Transfer}
+
+Longitudinal wheel forces $F_{xf}$ and $F_{xr}$ influence vertical and rotational dynamics through:
+
+\begin{itemize}
+	\item Geometric coupling coefficients $\gamma_f$, $\gamma_r$ (anti-dive / anti-squat),
+	\item The pitching moment term $F_{tot,x} h_{cg}$.
+\end{itemize}
+
+This introduces realistic coupling between acceleration/braking maneuvers and vertical ride dynamics.
+
+\paragraph{State Equations}
+
+The accelerations are computed as:
+
+\[
+\dot{v}_z = -g + \frac{f_{sf} + f_{sr} + f_{af} + f_{ar} + F_{v,long,f} + F_{v,long,r}}{m},
+\]
+
+\[
+\dot{\omega} =
+\frac{
+	d_f(f_{sf} + f_{af} + F_{v,long,f})
+	-
+	d_r(f_{sr} + f_{ar} + F_{v,long,r})
+	+
+	F_{tot,x} h_{cg}
+}{J}.
+\]
+
+Unsprung mass accelerations are derived from tire–suspension interaction.
+
+The block finally returns:
+
+\[
+\dot{x} = f(p,x,u,w),
+\]
+
+which is numerically integrated within Simulink.
+
+This block constitutes the nonlinear ground-truth model used in all simulations.
+
+% ==========================================================
+\subsubsection*{Measurement Block $h(p,x,w,n)$}
+
+The block $h$ models the sensor suite installed on the vehicle, including:
+
+\begin{itemize}
+	\item Two accelerometer channels,
+	\item One gyroscope,
+	\item Two suspension deflection sensors (LVDT-type).
+\end{itemize}
+
+\paragraph{Inertial Accelerations}
+
+The inertial accelerations of the center of gravity are first computed in the inertial frame:
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/h5}
+\end{figure}
+Since accelerometers measure reaction forces rather than pure inertial acceleration, gravity is reintroduced:
+
+\[
+a_z^{rel} = a_z^{inertial} + g.
+\]
+
+\paragraph{Projection to Body Frame}
+
+The IMU is rigidly attached to the chassis and therefore rotates with $\theta$.  
+The inertial accelerations are projected into the body frame:
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{img/h6}
+\end{figure}
+
+This formulation ensures consistency with the apparent pitch angle reconstruction previously introduced.
+
+\paragraph{Sensor Output Vector}
+
+The complete measurement vector is:
+
+\[
+y =
+\begin{bmatrix}
+	a_x^{body} + n_1 \\
+	a_z^{body} + n_2 \\
+	\omega + n_3 \\
+	s_1 + n_4 \\
+	s_3 + n_5
+\end{bmatrix}.
+\]
+
+Noise terms $n_i$ are explicitly included to enable realistic observer testing.
+
+% ==========================================================
+\subsubsection*{Performance Block $g(p,x,r)$}
+
+The block $g$ defines the performance vector used by the controller.
+
+References are provided externally:
+
+\[
+r =
+\begin{bmatrix}
+	r_z \\
+	r_\theta
+\end{bmatrix}.
+\]
+
+Suspension deflections are recomputed kinematically:
+
+\[
+s_f = (p_z + d_f \sin\theta) - z_{wf},
+\qquad
+s_r = (p_z - d_r \sin\theta) - z_{wr}.
+\]
+
+The resulting performance vector is:
+
+\[
+z =
+\begin{bmatrix}
+	p_z - r_z \\
+	\theta - r_\theta \\
+	\omega \\
+	s_f \\
+	s_r \\
+	v_z
+\end{bmatrix}.
+\]
+
+The first two components enforce reference tracking (heave and pitch), while the remaining components:
+
+\begin{itemize}
+	\item Penalize rotational oscillations ($\omega$),
+	\item Monitor suspension stroke limits ($s_f$, $s_r$),
+	\item Provide heave damping through $v_z$.
+\end{itemize}
+
+This block therefore bridges the nonlinear plant and the control law, defining exactly which physical quantities are regulated or minimized.
+
+	% ==========================================================
+	\subsection{Road Profile Generator}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/road}
+	\end{figure}
+	The road disturbance subsystem generates the front and rear road profiles:
+	
+	\[
+	z_{road,f}(t), \quad z_{road,r}(t),
+	\]
+	
+	and their derivatives.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/road_g}
+	\end{figure}
+	
+	The block is fully parametric and allows independent control of:
+	
+	\begin{itemize}
+		\item Bump height,
+		\item Bump longitudinal length,
+		\item Vehicle approach speed,
+		\item Simulation start time of the disturbance.
+	\end{itemize}
+	
+	This enables reproducible and configurable excitation scenarios, including single bumps, repeated profiles, or asymmetric front-rear excitation.
+	
+	The rear profile is automatically delayed according to the wheelbase and vehicle speed to maintain physical consistency.
+	
+	% ==========================================================
+	\subsection{Longitudinal Wheel Forces Block}
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/long}
+	\end{figure}
+	To simulate acceleration and braking maneuvers, a dedicated block generates:
+	
+	\[
+	F_{xf}, \quad F_{xr}.
+	\]
+	
+	This subsystem allows:
+	
+	\begin{itemize}
+		\item Independent amplitude selection,
+		\item Custom temporal profiles (step, ramp, shaped inputs),
+		\item Adjustable front/rear distribution,
+		\item Simulation of traction or braking scenarios.
+	\end{itemize}
+	
+	Longitudinal forces influence both vertical dynamics (through load transfer) and pitch dynamics via the $h_{cg}$ coupling term in the rotational equation.
+	
+	This block is essential to evaluate controller robustness during combined vertical and longitudinal excitations.
+	
+	% ==========================================================
+	\subsection{Linearized Model}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/lin}
+	\end{figure}
+	The linear model is obtained via symbolic Jacobian computation around the static equilibrium point.
+	
+	The linear state-space representation is:
+	
+	\[
+	\dot{x} = A_N x + B_{1N} u + B_{2N} w,
+	\]
+	\[
+	y = C_N x + D_{1N} u + D_{2N} w,
+	\]
+	\[
+	z = C_{E,N} x + D_{E1,N} u + D_{E2,N} w.
+	\]
+	
+	The equilibrium is computed including gravitational preload and tire deflection, ensuring accurate linearization around realistic operating conditions.
+	
+	The observability matrix has full rank, confirming that all states are reconstructible from the selected sensor configuration.
+	
+	% ==========================================================
+	\subsection{State Observer}
+			\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/obs}
+	\end{figure}
+	A full-order observer is implemented using the dual LQR formulation:
+	
+	\[
+	K_o = \text{lqr}(A_N^T, C_N^T, Q_{obs}, R_{obs})^T.
+	\]
+	
+	The observer tuning intentionally:
+	
+	\begin{itemize}
+		\item Downweights accelerometers during longitudinal acceleration,
+		\item Assigns high confidence to the gyroscope,
+		\item Uses LVDT suspension measurements to prevent drift.
+	\end{itemize}
+	
+	The observer provides $\hat{x}$ for feedback in the linear controller.
+	
+	% ==========================================================
+	\subsection{Augmented LQR Controller}
+			\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{img/int}
+	\end{figure}
+	An augmented state vector including integral action on heave and pitch errors is constructed:
+	
+	\[
+	x_{aug} =
+	\begin{bmatrix}
+		x \\
+		\int e_{heave} \\
+		\int e_{pitch}
+	\end{bmatrix}.
+	\]
+	
+	The resulting control law is:
+	
+	\[
+	u = -K_s x - K_i e,
+	\]
+	
+	where:
+	
+	\begin{itemize}
+		\item $K_s \in \mathbb{R}^{2 \times 8}$,
+		\item $K_i \in \mathbb{R}^{2 \times 6}$ (with only the first two channels active).
+	\end{itemize}
+	
+	The LQR weights are tuned to balance:
+	
+	\begin{itemize}
+		\item Heave regulation,
+		\item Pitch stabilization,
+		\item Vertical and rotational damping,
+		\item Limited control effort.
+	\end{itemize}
+	
+	% ==========================================================
+	\subsection{Simulation Management and Visualization}
+	
+	Enable switches are used to:
+	
+	\begin{itemize}
+		\item Activate/deactivate longitudinal forces,
+		\item Enable road disturbances,
+		\item Switch between nonlinear and linear models,
+		\item Compare open-loop and closed-loop responses.
+	\end{itemize}
+	
+	Dedicated scopes monitor:
+	
+	\begin{itemize}
+		\item Vertical displacement and pitch,
+		\item Suspension deflections,
+		\item Control forces,
+		\item Estimated versus true states.
+	\end{itemize}
+	
+	This modular implementation allows systematic validation of performance, robustness, and observer accuracy under different operating conditions.
 	
 	\section{Vehicle Parameters and Numerical Setup}
 	
@@ -1615,12 +2527,7 @@ Since not all states are directly measurable, a Kalman Filter is designed to est
 \end{equation}
 The observer allows the controller to use estimated velocities and road states that are otherwise inaccessible via standard sensors.
 
-\subsection{Linear vs. Non-Linear Implementation}
-A crucial distinction is made in the final part of the design. While the augmented LQR is designed on the linearized 12-state model ($A_N, B_1, \dots$), the implementation for the \textbf{Non-Linear System} in Simulink uses a reduced 8-state version:
-\begin{itemize}
-	\item \textbf{Linear Control:} Uses the full $K_{prop}$ (2x12) and $K_{int}$ (2x2) matrices, accounting for road states.
-	\item \textbf{Non-Linear Control:} Uses a reduced $K_{nonlin\_prop}$ (2x8) which acts only on the physical states of the vehicle, as the road states are treated as external disturbances in the non-linear plant.
-\end{itemize}
+
 \section{Numerical Control Design Analysis}
 
 Based on the theoretical framework established in the previous sections, the numerical synthesis of the control law was performed. The resulting matrices confirm the design choices aimed at achieving superior ride comfort ("Magic Carpet" effect) and robust handling.
@@ -1727,25 +2634,366 @@ This high sensitivity to sensor innovations ($y - \hat{y}$) confirms that the ob
 \end{equation}	
 
 
-\section{Metriche di Performance}
-Per quantificare l'efficacia del sistema "Magic Carpet Ride", vengono analizzati i seguenti parametri:
-\begin{itemize}
-\item \textbf{Comfort (Body Acceleration):} Analisi dei picchi di accelerazione verticale $\ddot{p}_z$ e angolare $\ddot{\theta}$. Un sistema efficace deve ridurre questi picchi del 30-50\% rispetto alla configurazione passiva.
-\item \textbf{Working Space:} Verifica che l'escursione della sospensione $s_1$ e $s_3$ non superi i limiti meccanici (tipicamente $\pm 0.1$ m).
-\item \textbf{Handling (Tyre Load):} Monitoraggio delle forze verticali sugli pneumatici ($f_{tf}, f_{tr}$) per garantire che la ruota non perda mai il contatto con il suolo (condizione $f_t > 0$).
-\item \textbf{Precisione della stima:} Confronto tra i disturbi stradali reali $z_{road}$ e gli "epsilon" stimati $\hat{z}_{road}$ dal filtro di Kalman.
-\end{itemize}
-\section{Analisi Risultati (Risultati Attesi)}
-Sulla base del tuning effettuato nel Control Design, si prevedono i seguenti comportamenti nelle simulazioni:
-	
-\subsection{Risposta al Bump}
-Ci si aspetta che l'azione attiva degli attuatori $f_{af}$ e $f_{ar}$ intervenga immediatamente al rilevamento del dosso tramite l'osservatore. L'integrazione dell'errore dovrebbe permettere alla vettura di tornare all'altezza nominale $\ell_0$ senza oscillazioni residue significative (\textit{deadbeat-like response}), grazie all'elevato peso $q_{int}$ assegnato agli stati integrali.
+\chapter{Simulation Experiments and Results}
 
-\subsection{Effetto Anti-Dive e Anti-Squat}
-Durante le fasi di accelerazione e frenata (simulate tramite $F_{wfront}$ e $F_{wrear}$), il sistema di controllo deve compensare il momento di beccheggio indotto dall'altezza del baricentro $h_{cg}$. Ci si aspetta che l'angolo di pitch $\theta$ rimanga prossimo allo zero, dimostrando l'efficacia della geometria attiva del modello rispetto a una sospensione passiva tradizionale.
-	
-\subsection{Robustezza al Rumore}
-L'introduzione dei rumori di misura (\texttt{nuy, nuz, nug, nuf, nur} nel codice) metterà alla prova il filtro di Kalman. La performance sarà considerata soddisfacente se la stima degli stati $\hat{x}$ rimarrà stabile e se il controllo non presenterà un \textit{chattering} eccessivo sugli attuatori.
+This section presents a detailed discussion of the simulation experiments conducted on the half-car model.  
+The experiments are designed to illustrate the behavior of the nonlinear plant, the linearized approximation, and the effect of control strategies including Anti-Dive/Anti-Squat geometry and integral action.  
+
+All simulations were performed using the MATLAB/Simulink implementation described in the previous sections.  
+Plots show time histories of heave displacement, pitch angle, and relevant accelerations.
+
+% ==========================================================
+\subsection{Open-Loop Linear vs Nonlinear Response}
+
+As a first step, we consider a baseline scenario without any control action.  
+The vehicle is subjected to a longitudinal acceleration and deceleration profile, applied through front and rear wheel forces, while the road is assumed flat.
+\newline
+
+The Force is 12,25kN, all on the rear in acceleration while for the braking we chose a 60/40 division between front and rear tyre.
+
+Figure~\ref{fig:open_loop_accel} shows the vertical acceleration and pitch response of both the nonlinear plant and its linear approximation.
+
+\begin{figure}[h!]
+	\centering
+ \includegraphics[width=0.9\textwidth]{img/Exp1}
+	\caption{Open-loop response: vertical acceleration and pitch angle. Linear vs nonlinear model.}
+	\label{fig:open_loop_accel}
+\end{figure}
+
+Several observations can be made:
+
+\begin{itemize}
+	\item The linearized model approximates the nonlinear dynamics very closely in terms of amplitude and timing, validating the accuracy of the Jacobian-based linearization.
+	\item However, the pitch angle reaches a peak of approximately $0.06~\text{rad}$ in the nonlinear model, which is undesirably high and can be uncomfortable for passengers.
+	\item The mismatch is mostly visible during the initial transient, while steady-state deflections are similar.
+\end{itemize}
+
+This experiment establishes the baseline performance and demonstrates the need for targeted pitch control.
+
+% ==========================================================
+\subsection{Effect of Anti-Dive and Anti-Squat Geometry}
+
+Next, we enable the geometric load transfer effects represented by the Anti-Dive ($\gamma_f$) and Anti-Squat ($\gamma_r$) coefficients.  
+This modification redistributes vertical forces during acceleration and braking to partially counteract pitch motion.
+
+Figure~\ref{fig:antisquat_dive} shows the resulting pitch angle and vertical displacement time histories.
+
+\begin{figure}[h!]
+	\centering
+	 \includegraphics[width=0.9\textwidth]{img/Exp2}
+	\caption{Vehicle response with Anti-Dive and Anti-Squat geometry. Pitch is slightly improved but vertical displacement oscillates more.}
+	\label{fig:antisquat_dive}
+\end{figure}
+
+Key observations:
+
+\begin{itemize}
+	\item The peak pitch angle is slightly reduced, showing that anti-dive and anti-squat provide some passive mitigation.
+	\item However, the vertical heave varies significantly, particularly during braking or acceleration peaks. This occurs because the geometric forces redistribute load in a way that reduces pitch but does not increase overall suspension damping; effectively, the vertical stiffness of the system is partially bypassed, leading to higher $p_z$ excursions.
+	\item These results highlight a classic trade-off: purely geometric strategies can help with one degree of freedom (pitch) but may negatively impact another (heave).
+\end{itemize}
+
+% ==========================================================
+\subsection{Road-Induced Oscillations without Anti-Dive / Anti-Squat}
+
+In a further experiment, the Anti-Dive and Anti-Squat effects are removed and the vehicle is equipped qith the observer.  
+It is clear how the control in this case has a much better response than a physical approach like the Anti-Dive and Anti-Squat configuration. We spent some time trying out different weights to find the better setup, during this we saw how much good vs bad weights can make the difference.
+\newline
+In the end we reached an improvement of one order of magnitude in angle. 
+\newline
+
+Figure~\ref{fig:oscillator_response} shows the comparison between the nonlinear model without controls and the linear model with the observer
+
+\begin{figure}[h!]
+	\centering
+	 \includegraphics[width=0.9\textwidth]{img/Exp3}
+	\caption{Observer improvement}
+	\label{fig:oscillator_response}
+\end{figure}
+
+Key points:
+
+\begin{itemize}
+	\item Transient peaks are totally removed
+	\item Pitch motion shows a dramatic reduction compared to previous cases, with an order-of-magnitude improvement in peak $\theta$.
+	\item Vertical movement is null, contrary to the result of Anti-Dive and Anti-Squat
+\end{itemize}
+
+This demonstrates that properly designed dynamic inputs can excite desirable modes while mitigating pitch without relying solely on geometric compensation.
+
+% ==========================================================
+\subsection{Integral Action and Trade-Offs}
+
+Finally, we examine the effect of adding integral action on the heave and pitch errors, as implemented in the augmented LQR controller.
+
+Figure~\ref{fig:integral_action} shows the heave and pitch response with integral action enabled.
+
+\begin{figure}[h!]
+	\centering
+	 \includegraphics[width=0.9\textwidth]{img/Exp4}
+	\caption{Vehicle response with integral action. Steady-state error reduced but transients slightly slower.}
+	\label{fig:integral_action}
+\end{figure}
+
+Observations:
+
+\begin{itemize}
+	\item Integral action ensures that both heave and pitch converge to the desired equilibrium values ($r_z$ and $r_\theta$) in steady state.
+	\item Transient performance is slightly degraded, with longer rise times and mild overshoot, reflecting the trade-off between zero steady-state error and transient responsiveness.
+	\item This behavior highlights the classical control trade-off: integral action eliminates bias but can reduce damping or slow the system response.
+\end{itemize}
+
+% ==========================================================
+% ==========================================================
+\subsection{Severe Road Bump Scenario}
+
+In order to further stress the model and controller, a severe road disturbance is introduced in the form of a sinusoidal bump.  
+This test represents a highly challenging scenario for the suspension system, as it excites both heave and pitch modes simultaneously with significant amplitude and high vertical acceleration content.
+
+The bump profile is defined as a half-sine wave with:
+
+\begin{itemize}
+	\item Height: $0.20~\text{m}$,
+	\item Length: $0.20~\text{m}$,
+	\item Vehicle speed: approximately $20~\text{km/h}$.
+\end{itemize}
+
+This configuration produces a short-duration, high-curvature excitation, corresponding to a very demanding input for both passive and active suspension dynamics.
+
+% ==========================================================
+\subsubsection*{Case 5: Linear vs Nonlinear Model under Bump Excitation}
+
+We first compare the open-loop response of the nonlinear plant and its linear approximation.
+
+Figure~\ref{fig:bump_linear_vs_nonlinear} shows the heave displacement and pitch angle for both models.
+
+\begin{figure}[h!]
+	\centering
+ \includegraphics[width=0.9\textwidth]{img/bump}
+	\caption{Open-loop bump response: nonlinear vs linear model.}
+	\label{fig:bump_linear_vs_nonlinear}
+\end{figure}
+
+Despite the severity of the excitation, several important observations can be made:
+
+\begin{itemize}
+	\item The linear and nonlinear models match remarkably well, both in amplitude and phase.
+	\item Peak pitch and heave responses are almost indistinguishable during the main transient.
+
+\end{itemize}
+
+This result is particularly significant because the bump amplitude ($20$ cm) and short wavelength ($20$ cm) introduce large suspension deflections and high vertical accelerations.  
+The close agreement confirms that the linearized model remains valid even under aggressive excitation conditions, strengthening confidence in the controller design framework based on the linear model.
+
+% ==========================================================
+\subsubsection*{Case 6: Controlled Linear Model vs Uncontrolled Nonlinear Plant}
+
+Next we compare:
+
+\begin{itemize}
+	\item The uncontrolled nonlinear plant,
+	\item The controlled linear model with tuned LQR gains.
+\end{itemize}
+
+The controller was primarily tuned to mitigate pitch oscillations during longitudinal acceleration and braking, which represented the most critical scenario observed previously.  
+No specific tuning was performed to directly minimize vertical heave displacement under sharp bump excitation.
+
+Figure~\ref{fig:bump_control_comparison} shows the comparative results.
+
+\begin{figure}[h!]
+	\centering
+	 \includegraphics[width=0.9\textwidth]{img/bumpC}
+	\caption{Comparison between uncontrolled nonlinear plant and controlled linear model under bump excitation.}
+	\label{fig:bump_control_comparison}
+\end{figure}
+
+The results reveal a clear trade-off:
+
+\paragraph{Pitch Response}
+
+\begin{itemize}
+	\item The pitch angle is significantly improved in the controlled case.
+	\item Peak $\theta$ is substantially reduced compared to the uncontrolled nonlinear response.
+	\item Oscillations decay faster, demonstrating effective damping injection through the control law.
+\end{itemize}
+
+Although the controller was tuned primarily for acceleration-induced pitch, the improvement carries over to the bump scenario, confirming robustness of the design.
+
+\paragraph{Heave Response}
+
+\begin{itemize}
+	\item The vertical displacement $p_z$ is slightly worse in the controlled configuration.
+	\item Peak heave excursion increases marginally compared to the uncontrolled case.
+\end{itemize}
+
+This behavior can be explained by the fact that the cost function weights were selected to strongly penalize pitch and angular velocity, rather than vertical displacement.  
+As a consequence, the controller actively redistributes suspension forces to counteract rotational motion, sometimes at the expense of increased vertical travel.
+
+In other words, the controller sacrifices a small amount of heave performance in order to achieve substantial pitch stabilization.
+
+% ==========================================================
+\subsubsection*{Sensor Interpretation and Measurement Limitations}
+
+An additional observation concerns the sensor signals used for feedback.
+
+During fast vertical variations, such as those induced by the short sinusoidal bump:
+
+\begin{itemize}
+	\item The vertical accelerometer signal becomes highly oscillatory.
+	\item Gravity compensation and frame projection introduce additional sensitivity to noise and modeling mismatch.
+\end{itemize}
+
+In such cases, the accelerometer does not provide a clean measure of slow heave displacement, as it primarily captures high-frequency vertical acceleration components.
+
+Conversely:
+
+\begin{itemize}
+	\item The gyroscope signal remains clean and directly proportional to pitch rate.
+	\item Rotational dynamics are therefore more reliably observable and controllable.
+\end{itemize}
+
+This explains why pitch control remains highly effective, while heave regulation is less precise under sharp vertical disturbances.
+
+The controller therefore relies more heavily on gyroscopic information for stabilization in aggressive bump scenarios.
+
+% ==========================================================
+\subsection{Discussion of Trade-Offs}
+
+The bump experiments highlight several fundamental control trade-offs:
+
+\begin{enumerate}
+	\item The linear model remains an excellent approximation even under severe nonlinear excitation.
+	\item Control tuned for longitudinal load transfer scenarios (acceleration/braking) generalizes well to bump-induced pitch disturbances.
+	\item Improving pitch stabilization may slightly degrade vertical displacement performance.
+	\item Accelerometer-based feedback becomes less informative under rapid vertical oscillations, whereas gyroscope measurements retain high reliability.
+\end{enumerate}
+
+Overall, the controller demonstrates strong robustness and significantly improves pitch comfort under aggressive road disturbances, even though vertical displacement was not the primary tuning objective.
+% ==========================================================
+\subsection{Additional Experimental Scenarios}
+
+In order to further investigate the interaction between active control and suspension geometry, two additional experimental configurations were analyzed.  
+These tests aim to clarify the influence of Anti-Dive and Anti-Squat geometry when combined with state estimation and integral action, as well as their effect under different longitudinal force distributions.
+
+% ==========================================================
+\subsubsection*{Case 7: Observer + Integral Control with Anti-Dive and Anti-Squat}
+
+In this experiment, the controller includes:
+
+\begin{itemize}
+	\item State observer,
+	\item Integral action on heave and pitch,
+	\item Anti-Dive and Anti-Squat geometric coefficients enabled.
+\end{itemize}
+
+The objective is to evaluate whether geometric load transfer compensation improves closed-loop behavior when combined with active control.
+
+Figure~\ref{fig:case7_observer_antisquat} illustrates the system response.
+
+\begin{figure}[h!]
+	\centering
+ \includegraphics[width=1\textwidth]{img/case7}
+	\caption{Case 7: Controlled system with observer, integrator, and Anti-Dive/Anti-Squat geometry.}
+	\label{fig:case7_observer_antisquat}
+\end{figure}
+
+Surprisingly, the performance is slightly worse compared to the configuration without Anti-Dive and Anti-Squat.
+
+In particular:
+
+\begin{itemize}
+	\item Vertical displacement exhibits larger excursions.
+	\item Pitch stabilization is still really good.
+	\item Transient behavior appears less damped.
+\end{itemize}
+
+This behavior can be explained by analyzing how geometric load transfer interacts with active control.
+
+Anti-Dive and Anti-Squat modify the effective vertical force distribution during longitudinal acceleration.  
+Instead of allowing suspension springs and dampers to absorb load transfer naturally, part of the longitudinal force is redirected directly into vertical reaction forces at the chassis.
+
+From a control perspective, this introduces an additional coupling between longitudinal dynamics and heave motion.  
+The controller, which was tuned assuming a certain structure of the plant, now faces a modified effective vertical stiffness and damping distribution.
+
+Moreover:
+
+\begin{itemize}
+	\item The integral action attempts to restore the nominal heave equilibrium.
+	\item The geometry simultaneously injects vertical forces proportional to longitudinal acceleration.
+\end{itemize}
+
+These two mechanisms can partially conflict, leading to larger oscillations in $p_z$.
+
+In other words, the geometric compensation modifies the equilibrium configuration dynamically, while the integrator attempts to enforce a fixed reference height.  
+This mismatch results in reduced overall performance.
+
+This experiment demonstrates that passive geometric compensation does not necessarily combine optimally with active closed-loop control.
+
+% ==========================================================
+\subsubsection*{Case 8: Four Acceleration Profiles with Different Force Distributions}
+
+In the final experiment, four longitudinal acceleration cases are considered.  
+Each case maintains the same total longitudinal force but varies its distribution between front and rear wheels.
+
+Anti-Dive and Anti-Squat geometry remain enabled.
+
+Figure~\ref{fig:case8_accel_distribution} shows the comparative pitch and heave responses.
+
+\begin{figure}[h!]
+	\centering
+ \includegraphics[width=1\textwidth]{img/case8}
+	\caption{Case 8: Four acceleration cases with different front/rear force distributions under Anti-Dive and Anti-Squat geometry.}
+	\label{fig:case8_accel_distribution}
+\end{figure}
+
+The results clearly show that the response differs significantly between the four cases.
+
+This effect is directly attributable to the geometry coefficients $\gamma_f$ and $\gamma_r$.
+
+Anti-Dive and Anti-Squat generate vertical forces proportional to the longitudinal tire forces:
+
+\[
+F_{v,long,f} = \gamma_f F_{xf}, 
+\qquad
+F_{v,long,r} = \gamma_r F_{xr}.
+\]
+
+Therefore:
+
+\begin{itemize}
+	\item If acceleration is front-dominated, the front suspension receives stronger vertical coupling.
+	\item If rear-dominated, the rear suspension is more affected.
+\end{itemize}
+
+As a consequence, different front/rear torque distributions produce distinct pitch and heave behaviors even when the total longitudinal acceleration is identical.
+
+Without Anti-Dive and Anti-Squat, these four cases would produce nearly identical global heave behavior, since only total longitudinal force would matter.  
+With geometric compensation enabled, however, the system becomes sensitive to the distribution of forces.
+
+This experiment highlights an important design insight:
+
+Anti-Dive and Anti-Squat introduce distribution-dependent behavior, making the vehicle response sensitive to torque vectoring or drivetrain configuration.
+
+From a control design perspective, this implies that:
+
+\begin{itemize}
+	\item Controllers must account for force distribution if geometric compensation is present.
+	\item Alternatively, removing geometric load transfer simplifies the plant and yields more predictable closed-loop behavior.
+\end{itemize}
+
+% ==========================================================
+\subsection{Overall Insight from Additional Experiments}
+
+The additional experiments confirm that:
+
+\begin{enumerate}
+	\item Anti-Dive and Anti-Squat can conflict with integral action in closed-loop control.
+	\item Geometric load transfer introduces additional coupling between longitudinal acceleration and vertical equilibrium.
+	\item Different front/rear acceleration distributions lead to distinct vertical responses when geometric compensation is active.
+\end{enumerate}
+
+These findings reinforce the importance of carefully balancing passive suspension geometry and active control strategies when designing advanced ride control systems.
+
 	\begin{center}
 		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
 			
