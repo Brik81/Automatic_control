@@ -762,127 +762,107 @@ From a control design perspective, the augmented vector $z$ defines the full set
 	
 	
 	\subsubsection*{Matrix calculus }
-	For the matrix calculation, the procedure described in equations \eqref{eq:jacobians_compact_matrix}  was followed. By substituting the equilibrium triplet given in \eqref{eq:equilibrium_triplet}, obtaining the following matrices:
+	For the matrix calculation, the procedure described in equations \eqref{eq:jacobians_compact_matrix}  was followed, obtaining: 
 	
 
+
+
+\renewcommand{\arraystretch}{1.4}
+
 \begin{equation}
-	\makebox[\textwidth][c]{ % Forza il centramento rispetto alla pagina
-		\resizebox{1.3\textwidth}{!}{% <-- Puoi regolare 1.1 o 1.2 in base a quanto vuoi che sia grande
-			$
-			A = \begin{bmatrix}
-				0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-				-\frac{k_f+k_r}{m} & -\frac{\beta_f+\beta_r}{m} & -\frac{d_f k_f-d_r k_r}{m} & -\frac{\beta_f d_f-\beta_r d_r}{m} & \frac{k_f}{m} & \frac{\beta_f}{m} & \frac{k_r}{m} & \frac{\beta_r}{m} & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-				-\frac{d_f k_f-d_r k_r}{J} & -\frac{\beta_f d_f-\beta_r d_r}{J} & -\frac{k_f d_f^2+k_r d_r^2}{J} & -\frac{\beta_f d_f^2+\beta_r d_r^2}{J} & \frac{d_f k_f}{J} & \frac{\beta_f d_f}{J} & -\frac{d_r k_r}{J} & -\frac{\beta_r d_r}{J} & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-				\frac{k_f}{m_{wf}} & \frac{\beta_f}{m_{wf}} & \frac{d_f k_f}{m_{wf}} & \frac{\beta_f d_f}{m_{wf}} & -\frac{k_f+k_{tf}}{m_{wf}} & -\frac{\beta_f}{m_{wf}} & 0 & 0 & 0 & 0 & \frac{k_{tf}}{m_{wf}} & 0 \\
-				0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-				\frac{k_r}{m_{wr}} & \frac{\beta_r}{m_{wr}} & -\frac{d_r k_r}{m_{wr}} & -\frac{\beta_r d_r}{m_{wr}} & 0 & 0 & -\frac{k_r+k_{tr}}{m_{wr}} & -\frac{\beta_r}{m_{wr}} & 0 & 0 & 0 & \frac{k_{tr}}{m_{wr}} \\
-				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-			\end{bmatrix}
-			$
-		}
+	\makebox[\textwidth][c]{%
+		\resizebox{1.7\textwidth}{!}{%
+			\ensuremath{%
+				A=\left[
+				\begin{array}{cccccccc}
+					0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+					-\frac{k_f+k_r}{m} & -\frac{\beta_f+\beta_r}{m} & -\frac{d_f k_f-d_r k_r}{m} & -\frac{\beta_f d_f-\beta_r d_r}{m} & \frac{k_f}{m} & \frac{\beta_f}{m} & \frac{k_r}{m} & \frac{\beta_r}{m}\\
+					0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+					-\frac{d_f k_f-d_r k_r}{J} & -\frac{\beta_f d_f-\beta_r d_r}{J} & -\frac{k_f d_f^2+k_r d_r^2}{J} & -\frac{\beta_f d_f^2+\beta_r d_r^2}{J} & \frac{d_f k_f}{J} & \frac{\beta_f d_f}{J} & -\frac{d_r k_r}{J} & -\frac{\beta_r d_r}{J}\\
+					0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+					\frac{k_f}{m_{wf}} & \frac{\beta_f}{m_{wf}} & \frac{d_f k_f}{m_{wf}} & \frac{\beta_f d_f}{m_{wf}} & -\frac{k_f+k_{tf}}{m_{wf}} & -\frac{\beta_f}{m_{wf}} & 0 & 0\\
+					0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+					\frac{k_r}{m_{wr}} & \frac{\beta_r}{m_{wr}} & -\frac{d_r k_r}{m_{wr}} & -\frac{\beta_r d_r}{m_{wr}} & 0 & 0 & -\frac{k_r+k_{tr}}{m_{wr}} & -\frac{\beta_r}{m_{wr}}
+				\end{array}
+				\right]
+			}%
+		}%
 	}
 \end{equation}
-
-
-
-
-
-
-
 
 \begin{equation}
 	B_1 =
 	\begin{bmatrix}
-		0 & 0 \\
-		\dfrac{1}{m} & 0 \\
-		0 & 0 \\
-		0 & \dfrac{1}{J} \\
-		0 & 0 \\
+		0 & 0\\
+		\dfrac{1}{m} & 0\\
+		0 & 0\\
+		0 & \dfrac{1}{J}\\
+		0 & 0\\
 		-\dfrac{d_r}{m_{wf}(d_f+d_r)} &
-		-\dfrac{1}{m_{wf}(d_f+d_r)} \\
-		0 & 0 \\
+		-\dfrac{1}{m_{wf}(d_f+d_r)}\\
+		0 & 0\\
 		-\dfrac{d_f}{m_{wr}(d_f+d_r)} &
-		\dfrac{1}{m_{wr}(d_f+d_r)} \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0 \\
-		0 & 0
+		\dfrac{1}{m_{wr}(d_f+d_r)}
 	\end{bmatrix}
 \end{equation}
-
 
 \begin{equation}
 	B_2 =
 	\begin{bmatrix}
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & \dfrac{h_{cg}}{J} & \dfrac{h_{cg}}{J} \\
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 1 & 0 & 0 \\
-		1 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 1 & 0 & 0 & 0 & 0
-	\end{bmatrix}
-\end{equation}
-	
-	
-\begin{equation}
-	C =
-	\begin{bmatrix}
-		0 & 0 & \dfrac{0.350357 (k_f+k_r)}{m} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		-\dfrac{k_f+k_r}{m} &
-		-\dfrac{\beta_f+\beta_r}{m} &
-		-\dfrac{d_f k_f-d_r k_r}{m} &
-		-\dfrac{\beta_f d_f-\beta_r d_r}{m} &
-		\dfrac{k_f}{m} &
-		\dfrac{\beta_f}{m} &
-		\dfrac{k_r}{m} &
-		\dfrac{\beta_r}{m} &
-		0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		1 & 0 & d_f & 0 & -1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		1 & 0 & -d_r & 0 & 0 & 0 & -1 & 0 & 0 & 0 & 0 & 0
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & \dfrac{\gamma_f}{m} & \dfrac{\gamma_r}{m}\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & \dfrac{h_{cg}+d_f\gamma_f}{J} & \dfrac{h_{cg}-d_r\gamma_r}{J}\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		\dfrac{k_{tf}}{m_{wf}} & 0 & 0 & 0 & -\dfrac{\gamma_f}{m_{wf}} & 0\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & \dfrac{k_{tr}}{m_{wr}} & 0 & 0 & -\dfrac{\gamma_r}{m_{wr}}
 	\end{bmatrix}
 \end{equation}
 
-
-	
 \begin{equation}
 	D_1 =
 	\begin{bmatrix}
-		0 & 0 \\
-		\dfrac{1}{m} & 0 \\
-		0 & 0 \\
-		0 & 0 \\
+		0 & 0\\
+		\dfrac{1}{m} & 0\\
+		0 & 0\\
+		0 & 0\\
 		0 & 0
 	\end{bmatrix}
 \end{equation}
-
-	
+\renewcommand{\arraystretch}{1.9}
 \begin{equation}
 	D_2 =
 	\begin{bmatrix}
-		0 & 0 & 0 & 0 & \dfrac{1}{m} & \dfrac{1}{m} & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+		0 & 0 & 0 & 0 & \dfrac{1}{m} & \dfrac{1}{m}\\
+		0 & 0 & 0 & 0 & \dfrac{\gamma_f}{m} & \dfrac{\gamma_r}{m}\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0
+	\end{bmatrix}
+\end{equation}
+\renewcommand{\arraystretch}{1.4}
+
+\begin{equation}
+	C_e =
+	\begin{bmatrix}
+		1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+		1 & 0 & d_f & 0 & -1 & 0 & 0 & 0\\
+		1 & 0 & -d_r & 0 & 0 & 0 & -1 & 0\\
+		0 & 1 & 0 & 0 & 0 & 0 & 0 & 0
 	\end{bmatrix}
 \end{equation}
 
 \begin{equation}
 	D_{e1} =
 	\begin{bmatrix}
-		0 & 0 \\
+		0 & 0\\
+		0 & 0\\
+		0 & 0\\
+		0 & 0\\
+		0 & 0\\
 		0 & 0
 	\end{bmatrix}
 \end{equation}
@@ -890,33 +870,26 @@ From a control design perspective, the augmented vector $z$ defines the full set
 \begin{equation}
 	D_{e2} =
 	\begin{bmatrix}
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 &
-		\dfrac{d_r}{d_f+d_r} &
-		\dfrac{d_f}{d_f+d_r} &
-		-1 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & -1
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & -\dfrac{1}{k_f (p_z - z_{wf}) + k_r (p_z - z_{wr})} & -\dfrac{1}{k_f (p_z - z_{wf}) + k_r (p_z - z_{wr})}\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0
 	\end{bmatrix}
 \end{equation}
 
 
-\begin{equation}
-	C_e =
-	\begin{bmatrix}
-		1 & 0 & 0 & 0 &
-		-\dfrac{d_r}{d_f+d_r} &
-		0 &
-		-\dfrac{d_f}{d_f+d_r} &
-		0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-	\end{bmatrix}
-\end{equation}
+
+
 
 	%MATRICI NUMERICHE
 	\subparagraph{Numerical Matrices}
-	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study: All parameters used to find the numeric matrices are based on the Tesla Model S, a car suitable for this type of active suspensions and with same suspension paramethers on front and rear axle, this simplifies slighlty our model:\\
+	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study: All parameters used to find the numeric matrices are based on the Rolls-Royce Ghost 6.7 V12, a car suitable for this type of active suspensions and with same suspension parameters on front and rear axle, this simplifies slighlty our model:\\
 	
-\vspace{1cm}
-\begin{table}[h!]
+\newpage
+
+\begin{table}[h]
 	\centering
 	\begin{tabular}{|c|l|c|c|}
 		\hline
@@ -930,7 +903,7 @@ From a control design perspective, the augmented vector $z$ defines the full set
 		$L$      & Wheelbase                                 & 3.30  & m \\
 		$J$      & Pitch moment of inertia                   & 4080  & kg·m\textsuperscript{2} \\
 		$k_f$    & Front suspension stiffness                & 35000 & N/m \\
-		$k_r$    & Rear suspension stiffness                 & 32000 & N/m \\
+		$k_r$    & Rear suspension stiffness                 & 35000 & N/m \\
 		$\beta_f$& Front damping coefficient                 & 4200  & N·s/m \\
 		$\beta_r$& Rear damping coefficient                  & 4200  & N·s/m \\
 		$m_{wf}$ & Front unsprung mass                       & 48    & kg \\
@@ -943,484 +916,545 @@ From a control design perspective, the augmented vector $z$ defines the full set
 	\caption{Dynamic model parameters of a Rolls-Royce vehicle (Half-Car Model)}
 	\label{tab:parametri_rolls}
 \end{table}
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/ROLLL_RRROIS}
 	\caption{Rolls-Royce Ghost 6.7 V12}
 	\label{fig:rolllrrrois}
 \end{figure}
 
+\newpage
 
-	
-\begin{equation}
-	\begin{gathered}
-		\makebox[\textwidth][c]{
-			\resizebox{1.1\textwidth}{!}{%
-				$ A = 10^{3} \begin{bmatrix}
-					0      & 0.0010 & 0      & 0      & 0      & 0      & 0      & 0      & 0 & 0 & 0 & 0 \\
-					-0.0280 & -0.0036 & -0.0009 &  0.0009 &  0.0164 &  0.0018 &  0.0116 &  0.0018 & 0 & 0 & 0 & 0 \\
-					0      & 0      & 0      & 0.0010 & 0      & 0      & 0      & 0      & 0 & 0 & 0 & 0 \\
-					-0.0004 &  0.0004 & -0.0340 & -0.0046 &  0.0105 &  0.0012 & -0.0101 & -0.0016 & 0 & 0 & 0 & 0 \\
-					0      & 0      & 0      & 0      & 0      & 0.0010 & 0      & 0      & 0 & 0 & 0 & 0 \\
-					0.9111 & 0.1000 & 1.2756 & 0.1400 & -7.1333 & -0.1000 & 0 & 0 & 0 & 0 & 6.2222 & 0 \\
-					0      & 0      & 0      & 0      & 0      & 0      & 0      & 0.0010 & 0 & 0 & 0 & 0 \\
-					0.6444 & 0.1000 & -1.2244 & -0.1900 & 0 & 0 & -6.8667 & -0.1000 & 0 & 0 & 0 & 6.2222 \\
-					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-				\end{bmatrix} $
-			}
-		} \\[10pt] % Aggiunge un po' di spazio verticale tra matrice e numero
-	\end{gathered}
-\end{equation}
-
-\noindent
-\begin{minipage}{0.48\textwidth}
+The substitution of the values in the table \ref{tab:parametri_rolls} into the matrices will result in the following outcome:
 	\begin{equation}
-		\begin{gathered}
-			B_1 = \begin{bmatrix}
-				0 & 0 \\
-				0.000921659 & 0 \\
-				0 & 0 \\
-				0 & 0.000205339 \\
-				0 & 0 \\
-				0 & 0 \\
-				0 & 0 \\
-				0 & 0
-			\end{bmatrix}
-		\end{gathered}
-	\end{equation}
-\end{minipage}
-\hfill
-\begin{minipage}{0.48\textwidth}
-	\begin{equation}
-		\begin{gathered}
-			B_2 = \begin{bmatrix}
-				0 & 0 & 0 & 0 & 0 \\
-				-1 & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0.0000662428 & 0.0000662428 \\
-				0 & 0 & 0 & 0 & 0 \\
-				0 & 0 & 0 & 0 & 0 \\
-				0 & 1 & 0 & 0 & 0 \\
-				0 & 0 & 1 & 0 & 0
-			\end{bmatrix}
-		\end{gathered}
-	\end{equation}
-\end{minipage}
-
-\begin{equation}
-	\begin{gathered}
-		C = \begin{bmatrix}
-			0 & 0 & 9.81 & 0 & 0 & 0 & 0 & 0 \\
-			-55.2995 & -3.68664 & 6.52535 & 0.435023 & 37.659 & -44.1843 & 2.5106 & -2.94562 \\
-			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-			1 & 0 & 1.362 & 0 & -1.362 & 0 & 0 & 0 \\
-			1 & 0 & -1.598 & 0 & 0 & 1.598 & 0 & 0
-		\end{bmatrix}
-	\end{gathered}
-\end{equation}
-
-
-
-\noindent
-\begin{minipage}{0.35\textwidth}
-	\begin{equation}
-		\begin{gathered}
-			D_1 = \begin{bmatrix}
-				0 & 0 \\
-				0.000921659 & 0 \\
-				0 & 0 \\
-				0 & 0 \\
-				0 & 0
-			\end{bmatrix}
-		\end{gathered}
-	\end{equation}
-\end{minipage}
-\hfill
-\begin{minipage}{0.62\textwidth}
-	\begin{equation}
-		\begin{gathered}
-			\resizebox{1.2\textwidth}{!}{%
-				$D_2 = \begin{bmatrix}
-					0 & 0 & 0 & 0.000921659 & 0.000921659 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0           & 0           & 0   & 1 & 0 & 0 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0           & 0           & 0   & 0   & 1 & 0 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 1 & 0 & 0 & 0 \\
-					0 & 0 & 0 & 0           & 0           & 0   & 0   & 0   & 0   & 1 & 0 & 0
-				\end{bmatrix}$%
-			}
-		\end{gathered}
-	\end{equation}
-\end{minipage}
-
-
-\begin{equation}
-	\begin{gathered}
-		C_e = \begin{bmatrix}
-			1 & 0 & 0 & 0 & -0.735296 & 0.735296 & 0 & 0 \\
-			0 & 0 & 1 & 0 & 0 & 0 & 0 & 0
-		\end{bmatrix}
-	\end{gathered}
-\end{equation}
-
-\begin{equation}
-	\begin{gathered}
-		\makebox[\textwidth][c]{
-			\resizebox{1.1\textwidth}{!}{%
-				$D_{e2} = \begin{bmatrix}
-					0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0.539865 & 0.460135 & -1 & 0 \\
-					0 & 0 & 0 & 0.000093951 & 0.000093951 & 0.101937 & 0 & 0 & 0 & 0 & 0 & -1
-				\end{bmatrix}$%
-			}
+		\setlength{\arraycolsep}{7pt}
+		\renewcommand{\arraystretch}{1.2}
+		\makebox[\textwidth][c]{%
+			\resizebox{1\textwidth}{!}{%
+				\ensuremath{%
+					A=\left[
+					\begin{array}{cccccccc}
+						0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+						-27.45 & -3.294 & 0 & 0 & 13.73 & 1.647 & 13.73 & 1.647\\
+						0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+						0 & 0 & -47.53 & -5.703 & 14.4 & 1.728 & -14.4 & -1.728\\
+						0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+						729.2 & 87.5 & 1203 & 144.4 & -6354 & -87.5 & 0 & 0\\
+						0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+						729.2 & 87.5 & -1203 & -144.4 & 0 & 0 & -6354 & -87.5
+					\end{array}
+					\right]
+				}%
+			}%
 		}
-	\end{gathered}
-\end{equation}
-
-
-
+	\end{equation}
 	
-	\newpage
-	
-	
-	\subsection{Linear Model Analysis}
-	
-	To support the development of an effective suspension controller and gain insight into the vehicle's dynamic behavior, we examine a linearized model of a half-car system. This analysis is performed around a nominal equilibrium point, where the vehicle is at rest with zero pitch angle and no vertical or angular velocities. The focus is on the open-loop dynamics of the vehicle body, excluding actuator behavior and wheel compliance.
-	
-	The model captures the essential vertical (heave) and angular (pitch) motions of the chassis. The state vector is defined as:
-	
-	\begin{equation}	
-		x = \begin{bmatrix}
-			z - z_0 \\
-			\dot{z} \\
-			\theta \\
-			\dot{\theta}
+	\begin{equation}
+		B_1=
+		\begin{bmatrix}
+			0 & 0\\
+			3.922\times10^{-4} & 0\\
+			0 & 0\\
+			0 & 2.494\times10^{-4}\\
+			0 & 0\\
+			-1.042\times10^{-2} & -6.313\times10^{-3}\\
+			0 & 0\\
+			-1.042\times10^{-2} & 6.313\times10^{-3}
 		\end{bmatrix}
 	\end{equation}
 	
-	
-	where \( z_0 \) is the vertical position of the center of mass at static equilibrium, and \( \theta \) denotes the pitch angle of the chassis. The state-space representation of the system is given by:
-	
 	\begin{equation}
-		\dot{x} = A_{\text{int}} x
+		B_2=
+		\begin{bmatrix}
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 1.961\times10^{-5} & 3.137\times10^{-5}\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 1.702\times10^{-4} & 1.167\times10^{-4}\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			5625 & 0 & 0 & 0 & -1.042\times10^{-3} & 0\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 5625 & 0 & 0 & -1.667\times10^{-3}
+		\end{bmatrix}
 	\end{equation}
 	
+	\begin{equation}
+		D_1=
+		\begin{bmatrix}
+			0 & 0\\
+			3.922\times10^{-4} & 0\\
+			0 & 0\\
+			0 & 0\\
+			0 & 0
+		\end{bmatrix}
+	\end{equation}
 	
-	Analysis of this reduced 4x4 matrix will be performed, ignoring the 4 exogenous states, the reason behind this is explained later in chapter \ref{reach_ch} (Reachability)
-\textbf{todo: ricalcolare}
+	\begin{equation}
+		D_2=
+		\begin{bmatrix}
+			0 & 0 & 0 & 0 & 3.922\times10^{-4} & 3.922\times10^{-4}\\
+			0 & 0 & 0 & 0 & 1.961\times10^{-5} & 3.137\times10^{-5}\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 0 & 0 & 0
+		\end{bmatrix}
+	\end{equation}
+	
+	\begin{equation}
+		C_e=
+		\begin{bmatrix}
+			1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+			1 & 0 & 1.65 & 0 & -1 & 0 & 0 & 0\\
+			1 & 0 & -1.65 & 0 & 0 & 0 & -1 & 0\\
+			0 & 1 & 0 & 0 & 0 & 0 & 0 & 0
+		\end{bmatrix}
+	\end{equation}
+	
+	\begin{equation}
+		D_{e1}=
+		\begin{bmatrix}
+			0 & 0\\
+			0 & 0\\
+			0 & 0\\
+			0 & 0\\
+			0 & 0\\
+			0 & 0
+		\end{bmatrix}
+	\end{equation}
+	
 \begin{equation}
-		A_{\text{int}} =
+	D_{e2} =
 	\begin{bmatrix}
-		0 & 1 & 0 & 0 \\
-		-55.2995 & -3.68664 & 6.52535 & 0.435023 \\
-		0 & 0 & 0 & 1 \\
-		1.4538 & 0.0969199 & -27.158 & -1.81053 
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 3.998\times10^{-5} & 3.998\times10^{-5}\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0\\
+		0 & 0 & 0 & 0 & 0 & 0
 	\end{bmatrix}
 \end{equation}
 
 	
-	This matrix characterizes the coupled dynamics of the system, with off-diagonal elements indicating interaction between vertical and angular motions. Such coupling arises naturally in a physical half-car system, where vertical displacements can induce pitching, and vice versa.
-	
-	\subsection{Open-Loop Dynamics}
-	
-	To evaluate the system's stability and transient behavior, is necessary to calculate the eigenvalues of the matrix \( A_{\text{int}} \) by solving the characteristic equation:
-	
-	
-	\begin{equation}
-		\det(A_{\text{int}} - \lambda I) = 0
-	\end{equation}
-	
-	
-	The resulting eigenvalues are:\\
-	
-	
-\textbf{todo: ricalcolare}
-	
-	\begin{equation}
-		\lambda_{1,2} = -1.55 \pm j6.28, \quad \lambda_{3,4} = -2.47 \pm j5.10
-	\end{equation}
-	
-The eigenvalues form two pairs of complex conjugates, each with negative real parts, indicating that the system is asymptotically stable in open loop. These pairs represent distinct oscillatory modes characterized by different damping and frequency properties:
+
+
+\subsection{Linear Model Analysis}
+
+To support the development of an effective suspension controller 
+and gain insight into the vehicle dynamic behavior, 
+the complete linearized half-car model is analyzed 
+around the static equilibrium configuration.
+
+The equilibrium corresponds to the vehicle at rest, 
+with zero pitch angle, zero vertical and angular velocities, 
+and suspension deflections balancing gravitational loads.
+
+Starting from the linearized model derived in (\ref{eq:linearized_system}), 
+the intrinsic open-loop dynamics of the passive system 
+can be studied by neglecting control inputs and external disturbances 
+(i.e., $\tilde{u}=0$, $\tilde{w}=0$). 
+
+Under these conditions, the system reduces to the homogeneous form:
+
+\begin{equation}
+	\dot{\tilde{x}} = A \tilde{x}
+\end{equation}
+
+which characterizes the natural dynamic behavior 
+of the linearized half-car model in open loop.
+
+
+where the state vector of variations is defined as:
+
+\begin{equation}
+	\tilde{x} =
+	\begin{bmatrix}
+		\tilde{p}_z \\
+		\tilde{v}_z \\
+		\tilde{\theta} \\
+		\tilde{\omega} \\
+		\tilde{z}_{wf} \\
+		\tilde{v}_{wf} \\
+		\tilde{z}_{wr} \\
+		\tilde{v}_{wr}
+	\end{bmatrix}
+\end{equation}
+
+The first four states describe the sprung-mass dynamics (heave and pitch),
+while the last four correspond to the unsprung masses (front and rear wheel dynamics).
+
+\subsubsection*{Open-Loop Eigenvalue Analysis}
+
+To evaluate stability and dynamic characteristics,
+the eigenvalues of matrix $A$ are computed by solving:
+
+\begin{equation}
+	\det(A - \lambda I) = 0
+\end{equation}
+
+The resulting eigenvalues are:
+
+\begin{align}
+	\lambda_{1,2} &= -44.0652 \pm j\,64.6521 \\
+	\lambda_{3,4} &= -44.2357 \pm j\,63.0972 \\
+	\lambda_{5,6} &= -1.3319 \pm j\,4.8425 \\
+	\lambda_{7,8} &= -2.3658 \pm j\,6.2788
+\end{align}
+
+All eigenvalues have strictly negative real parts,
+indicating that the passive linearized half-car model
+is asymptotically stable in open loop.
+
+The spectrum reveals two distinct dynamic regimes:
 
 \begin{itemize}
-	\item The eigenvalues \( \lambda_{1,2} \) correspond to a lightly damped oscillatory mode with a higher frequency.
-	\item The eigenvalues \( \lambda_{3,4} \) correspond to a more heavily damped mode with a lower oscillation frequency.
+	\item \textbf{High-frequency modes} (approximately 12 Hz),
+	associated with the wheel-hop dynamics of the unsprung masses.
+	These modes exhibit significant damping
+	due to tire stiffness and suspension damping.
+	
+	\item \textbf{Low-frequency modes} (approximately 0.8–1.1 Hz),
+	corresponding to the sprung-mass heave and pitch motions.
+	These modes are lightly damped and dominate ride comfort behavior.
 \end{itemize}
 
+Although the open-loop system is internally stable, 
+the lightly damped body modes can degrade ride comfort and increase settling time. 
+Therefore, active suspension control is introduced not to ensure stability, 
+but to reshape the closed-loop poles, increase damping, 
+and improve overall dynamic performance.
 
-	
-	Due to the coupling present in \( A_{\text{int}} \), these modes represent mixed heave-pitch dynamics rather than purely vertical or angular motions. This hybrid behavior implies that any disturbance in one degree of freedom can propagate to the other, necessitating a control strategy that accounts for this interaction.
-	
-	The system’s open-loop stability ensures that disturbances decay over time, but the oscillatory nature of the transients may degrade ride comfort and vehicle handling. Therefore, active suspension control is warranted to suppress these vibrations more rapidly, reduce settling time, and improve overall vehicle performance.
-	
-	In summary, the linearized model described by \( A_{\text{int}} \) reveals a stable but dynamically coupled system with oscillatory characteristics. These insights are essential for the design of coordinated control strategies that enhance both ride quality and dynamic response.
+
+
+
 	
 	
 	
 	\newpage
 	\section{Control}
 	
+	
 	\subsubsection{Reachability}
-	\label{reach_ch}
 	
+	To determine whether the system states can be influenced by the control inputs, a reachability (controllability) analysis is performed on the pair $(A,B_1)$.
 	
-	
-	In this section, a reachability analysis is carried out to determine which parts of the system's state space can be influenced by the control input. Starting from the linearized state-space system:
-	
-	
-\begin{equation}
-		\dot{\tilde{x}} = A \tilde{x} + B_1 \tilde{u}
-\end{equation}
-	
-	
-	we aim to identify which states can be driven from the origin to a desired position through the control input $\tilde{u}$. The reachability matrix is defined as:
-	
+	The reachability matrix is defined as:
 	
 	\begin{equation}
-		\mathcal{R} = \left[ B_1 \quad AB_1 \quad A^2B_1 \quad \dots \quad A^{n-1}B_1 \right]
+		\mathcal{R} =
+		\begin{bmatrix}
+			B_1 & AB_1 & A^2B_1 & \dots & A^{7}B_1
+		\end{bmatrix}
 	\end{equation}
-
 	
-	A linear time-invariant system is said to be \textbf{fully reachable} (or controllable from the origin) if the rank of $\mathcal{R}$ is equal to $n$, the number of state variables. In such a case, it is possible to design a state feedback controller that places all eigenvalues of the closed-loop system arbitrarily.
+	The system is fully reachable if:
 	
+	\begin{equation}
+		\text{rank}(\mathcal{R}) = n
+	\end{equation}
 	
-	In our case, the system has $n = 8$ state variables. These include both the vehicle body dynamics (vertical position and velocity, pitch angle and rate) and road-related exogenous components (front and rear road pitch angles and their derivatives). The control input $\tilde{u} \in \mathbb{R}^2$ acts through actuators located at the front and rear suspensions, influencing primarily the body dynamics of the vehicle.
+	where $n = 8$ is the number of states.
 	
-	However, the states related to the road excitation are not directly controllable. As such, only a subset of the full state vector can be affected by $\tilde{u}$. Upon computation of the reachability matrix $\mathcal{R}$ using the specific system matrices $A$ and $B_1$, we obtain: \\
-	\textbf{todo: ricalcolare}
-	
-	
-
+	The computation performed in MATLAB:
 	
 	\begin{verbatim}
-		R = ctrb(A, B1);
-		rank_R = rank(R);
-		
+		R_full = ctrb(A_N, B1_N);
+		rank(R_full)
 	\end{verbatim}
 	
+	gives:
 	
 	\begin{equation}
-		\text{rank}(\mathcal{R}) = 4 < 8
+		\text{rank}(\mathcal{R}) = 8
 	\end{equation}
 	
+	Since the rank equals the state dimension, the pair $(A,B_1)$ is \textbf{fully reachable}.
 	
-	This indicates that the system is \textbf{not fully reachable}. Only the four states corresponding to the internal dynamics of the vehicle body are reachable, while the remaining four states — associated with the road profile — are uncontrollable and must be treated as external disturbances. Consequently, control strategies such as state feedback and optimal control (e.g., LQR) can only be designed for the reachable subspace.
+	Although the system has only two control inputs, the dynamic coupling between sprung and unsprung masses ensures that the entire state space can be influenced.
 	
-	\subsubsection*{Reduced Reachability Analysis}
+	\paragraph{Stabilizability}
 	
-	In the present model, the state vector $\tilde{x} \in \mathbb{R}^8$ includes eight components. However, the last four states represent environmental or road-related variables (e.g., road profile curvature), which evolve independently of the control input $\tilde{u}$. These are known as \textbf{exogenous states} and are not directly controllable.
-	
-	Therefore,  reachability analysis is performed only on the first four states, which represent the internal vehicle dynamics and are influenced by control inputs. Let $A_{\text{int}}$ and $B_{1, \text{int}}$ be the upper-left $4 \times 4$ and $4 \times 2$ blocks of matrices $A$ and $B_1$:
-	
-
-	\textbf{todo: ricalcolare}:
-	\begin{equation}
-		A_{\text{int}} =
-	\begin{bmatrix}
-		0 & 1 & 0 & 0 \\
-		-55.2995 & -3.68664 & 6.52535 & 0.435023 \\
-		0 & 0 & 0 & 1 \\
-		1.4538 & 0.0969199 & -27.158 & -1.81053 
-	\end{bmatrix}
-	\end{equation}
-	
-	
-\begin{equation}		
-	B_{1,\text{int}} =
-	\begin{bmatrix}
-		0 & 0 \\
-		0.000921659 & 0  \\
-		0 & 0 \\
-		0 & 0.000205339 \\ 
-		
-	\end{bmatrix}	
-\end{equation}
-\begin{equation}
-	\dot{\tilde{x}}_{\text{int}} = A_{\text{int}} \tilde{x}_{\text{int}} + B_{1,\text{int}} \tilde{u}	
-\end{equation}
-	
-	The reachability matrix becomes:
-	
+	Full reachability directly implies stabilizability. 
+	Therefore, it is possible to design a state-feedback control law:
 	
 	\begin{equation}
-		\mathcal{R}_{\text{int}} = \left[ B_{1,\text{int}} \quad A_{\text{int}}B_{1,\text{int}} \quad A_{\text{int}}^2B_{1,\text{int}} \quad A_{\text{int}}^3B_{1,\text{int}} \right]
+		\tilde{u} = K \tilde{x}
 	\end{equation}
 	
+	such that the closed-loop matrix:
 	
-	An evaluation of the rank of this matrix using MATLAB's \texttt{ctrb} function:
+	\begin{equation}
+		A + B_1 K
+	\end{equation}
 	
-	\begin{verbatim}
-		R_int = ctrb(A_int, B1_int);
-		rank(R_int)
-	\end{verbatim}
-	
-	The resulting rank is 4, which confirms that the internal subsystem is fully reachable.
-	
-	\paragraph{Stabilizability and the Hurwitz Condition}
-	
-	According to control theory, if the system is fully reachable, it is possible to design a state feedback control law:
-	
-\begin{equation}
-	\tilde{u} = K_S \tilde{x}_{\text{int}}
-\end{equation}
-
-such that the closed-loop matrix:
-
-\begin{equation}
-	A_{\text{int}} + B_{1,\text{int}} K_S
-\end{equation}
-
-	
-	is \textbf{Hurwitz}, meaning that all of its eigenvalues lie in the left half of the complex plane. This ensures that the closed-loop system is \textbf{BIBS stable} (Bounded Input Bounded State): all state trajectories remain bounded in response to bounded inputs.
-	
-	In conclusion, while the full model is not entirely reachable due to the presence of exogenous states, the subsystem representing the vehicle dynamics is fully reachable and can be stabilized using linear state feedback.
-	
+	is Hurwitz (all eigenvalues in the open left-half complex plane), guaranteeing internal stability.
 	
 	\subsubsection{Integral Action}
 	
-	While the stabilizer matrix $K_S$ ensures the stability of the internal system under feedback control, an integral action is required to eliminate steady-state error in the presence of unknown constant disturbances $\tilde{w}$.
+	To eliminate steady-state error in the presence of constant disturbances, 
+	integral action is introduced in accordance with the internal model principle. 
+	Rejection of constant disturbances and tracking of constant references 
+	require the controller to embed an internal model of constant signals, 
+	which is achieved by adding integrator states.
 	
-	The regulated error $\tilde{e}$ is defined as:
+	The regulated output is defined as:
+	
 	\begin{equation}
-		\tilde{e} = C_e \tilde{x} + D_{1e} \tilde{u} + D_{2e} \tilde{w}
+		\tilde{e} = C_e \tilde{x} + D_{e1} \tilde{u} + D_{e2} \tilde{w}
 	\end{equation}
 	
-	To implement integral control, new integral state $\eta$ is introduced:
+	The integrator state $\eta$ is introduced as:
+	
 	\begin{equation}
 		\dot{\eta} = \tilde{e}
 	\end{equation}
 	
-	This leads to an extended state vector:
-	\begin{equation}
-		x_e = \begin{bmatrix} \tilde{x} \\ \eta \end{bmatrix}
-	\end{equation}
+	The augmented state vector becomes:
 	
-	The extended system dynamics are:
 	\begin{equation}
-		\dot{x}_e = \bar{A} x_e + \bar{B}_1 \tilde{u} + \bar{B}_2 \tilde{w}
-	\end{equation}
-	where
-	\begin{equation}
-		\bar{A} = \begin{bmatrix}
-			A & 0 \\
-			C_e & 0
-		\end{bmatrix},
-		\quad
-		\bar{B}_1 = \begin{bmatrix}
-			B_1 \\
-			D_{1e}
-		\end{bmatrix},
-		\quad
-		\bar{B}_2 = \begin{bmatrix}
-			B_2 \\
-			D_{2e}
+		x_e =
+		\begin{bmatrix}
+			\tilde{x} \\
+			\eta
 		\end{bmatrix}
 	\end{equation}
 	
-	To verify whether the extended system is controllable (reachable), a reachability matrix is computed as:
+	The augmented system is therefore:
+	
 	\begin{equation}
-		\mathcal{R}_e = \left[\bar{B}_1 \quad \bar{A}\bar{B}_1 \quad \bar{A}^2\bar{B}_1 \quad \cdots \quad \bar{A}^{n+q-1} \bar{B}_1 \right]
+		\dot{x}_e =
+		\begin{bmatrix}
+			A & 0 \\
+			C_e & 0
+		\end{bmatrix} x_e
+		+
+		\begin{bmatrix}
+			B_1 \\
+			D_{e1}
+		\end{bmatrix} \tilde{u}
+		+
+		\begin{bmatrix}
+			B_2 \\
+			D_{e2}
+		\end{bmatrix} \tilde{w}
 	\end{equation}
 	
-	where $n$ is the number of original state variables and $q$ is the number of integrator states. In this model, $n=4$ (excluding the four uncontrollable states) and $q=2$, so we expect:
+	For constant disturbances $\tilde{w}$, asymptotic regulation 
+	$\lim_{t \to \infty} \tilde{e}(t) = 0$ 
+	is guaranteed if the augmented pair $(A_{aug}, B_{aug})$ is stabilizable.
+	
+	A necessary structural condition for perfect steady-state rejection is:
+	
 	\begin{equation}
-		\text{rank}(\mathcal{R}_e) = 6
+		\text{rank}
+		\begin{bmatrix}
+			A & B_1 \\
+			C_e & D_{e1}
+		\end{bmatrix}
+		= n + m_e
 	\end{equation}
 	
-	The reachability matrix is constructed in MATLAB using:
+	where $n$ is the number of plant states and $m_e$ the number of integrated outputs.
 	
-	\begin{verbatim}
-		Ae = [A, zeros(6,2); Ce, zeros(2,2)];
-		B1e = [B1; D1e];
-		Re = ctrb(Ae, B1e);
-		rank(Re)
-	\end{verbatim}
+	The resulting state-feedback control law is:
 	
-	\textbf{Result:}  
-	The output of the command confirms that $\text{rank}(\mathcal{R}_e) = 6$, i.e., the extended system is fully reachable.
-	
-	\textbf{Conclusion:}  
-	Since the extended system is reachable, it is possible to design a state feedback control law of the form:
 	\begin{equation}
-		\tilde{u} = \bar{K} x_e = K_S \tilde{x} + K_I \eta
+		\tilde{u} = K_s \tilde{x} + K_i \eta
 	\end{equation}
-	such that the closed-loop matrix $\bar{A} + \bar{B}_1 \bar{K}$ is Hurwitz. This guarantees asymptotic stability of the augmented system and drives the regulation error $\tilde{e}$ to zero.
 	
+	where the total gain $[K_s \; K_i]$ is obtained via LQR design on the augmented system.
 	
+	Since the original pair $(A,C)$ is observable and the augmented pair 
+	$(A_{aug},B_{aug})$ is stabilizable, the separation principle still applies. 
+	Therefore, the observer and the integral state-feedback controller 
+	can be designed independently without compromising closed-loop stability.
 	
 	
 \subsubsection{Observability}
 
-Up to this point, the system state $\tilde{x}$ has been assumed to be known. However, this assumption is often unrealistic, particularly when some state variables are not directly measurable. For this reason, a state observer is required to estimate the internal states based on measurable outputs.
+In practice, the full state vector is not directly measurable. 
+Therefore, observability of the pair $(A,C)$ must be verified 
+to ensure that the internal states can be reconstructed from the available sensors.
 
-Given that the last four states of $\tilde{x}$ are exogenous and not influenced by the system dynamics, we restrict our observability analysis to the internal dynamics only, i.e., $\tilde{x}_{\text{int}} \in \mathbb{R}^4$.
-
-Let $C_{\text{int}}$ be the output matrix corresponding to the internal states. Then, the observability matrix is given by:
-
-
-\begin{equation}
-	\mathcal{O} = \begin{bmatrix}
-		C_{\text{int}} \\
-		C_{\text{int}} A_{\text{int}} \\
-		C_{\text{int}} A_{\text{int}}^2 \\
-		C_{\text{int}} A_{\text{int}}^3 \\
-	\end{bmatrix}
-\end{equation}
+The observability matrix is defined as:
 
 \begin{equation}
-	C_{\text{int}} =
+	\mathcal{O} =
 	\begin{bmatrix}
-		0 & 0 & 9.81 & 0 \\
-		-55.2995 & -3.68664 & 6.52535 & 0.435023 \\
-		0 & 0 & 0 & 1 \\
-		1 & 0 & 1.362 & 0  \\
-		1 & 0 & -1.598 & 0 \\
-		0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 
+		C \\
+		CA \\
+		CA^2 \\
+		\vdots \\
+		CA^{7}
 	\end{bmatrix}
 \end{equation}
 
-Using MATLAB, it is computed that:
+The system is fully observable if:
+
+\begin{equation}
+	\text{rank}(\mathcal{O}) = n
+\end{equation}
+
+where $n=8$ is the state dimension.
+
+The computation performed in MATLAB:
 
 \begin{verbatim}
-	O = obsv(A_int, C_int);
-	rank(O)
+	O_full = obsv(A_N, C_N);
+	rank(O_full)
 \end{verbatim}
 
-If $\text{rank}(\mathcal{O}) = n = 4$, the system is \textbf{fully observable}, and it is possible to construct a full-order \textbf{Kalman filter} (optimal observer):
+yields:
 
 \begin{equation}
-	\dot{\hat{x}}_{\text{int}} = A_{\text{int}} \hat{x}_{\text{int}} + B_{1,\text{int}} \tilde{u} + K_f(y - C_{\text{int}} \hat{x}_{\text{int}})
+	\text{rank}(\mathcal{O}) = 8
 \end{equation}
 
-where $K_f$ is the \textbf{Kalman gain}, computed to optimally minimize the estimation error covariance under the assumption of white Gaussian process and measurement noise. The Kalman gain is derived from the steady-state solution of the continuous-time algebraic Riccati equation:
+Since the rank equals the number of states, the pair $(A,C)$ is \textbf{fully observable}. 
+This implies that no internal mode of the system evolves independently 
+of the measured outputs.
+
+From a physical perspective, the dynamic coupling between sprung and unsprung masses, 
+combined with the availability of accelerometer, gyroscope and suspension deflection 
+measurements, provides sufficient information to reconstruct both positional and velocity states.
+
+\paragraph{Detectability}
+
+Full observability directly implies detectability. 
+Therefore, all unstable modes of $A$ are observable, 
+and it is possible to design an observer such that the estimation error dynamics
 
 \begin{equation}
-	A_{\text{int}} P + P A_{\text{int}}^T - P C_{\text{int}}^T R^{-1} C_{\text{int}} P + Q = 0
+	\dot{e}_x = (A - LC)e_x
 \end{equation}
+
+are asymptotically stable.
+
+This guarantees that the state estimate $\hat{x}$ converges to the true state $x$,
+provided the pair $(A,C)$ is observable and $L$ is properly selected.
+
+	
+	
+
+
+\subsubsection*{Kalman Filter Design}
+
+Since the pair $(A,C)$ is fully observable, a full-order steady-state Kalman observer is designed.
+
+The observer dynamics are:
 
 \begin{equation}
-	K_f = P C_{\text{int}}^T R^{-1}
+	\dot{\hat{x}} = A \hat{x} + B_1 \tilde{u} + K_f (y - C \hat{x})
 \end{equation}
 
-Here:
+The estimation error $e_x = x - \hat{x}$ evolves as:
+
+\begin{equation}
+	\dot{e}_x = (A - K_f C)e_x
+\end{equation}
+
+The steady-state Kalman gain $K_f$ is obtained by solving the dual algebraic Riccati equation:
+
+\begin{equation}
+	A^\top P + P A - P C^\top R_{obs}^{-1} C P + Q_{obs} = 0
+\end{equation}
+
+with
+
+\begin{equation}
+	K_f = P C^\top R_{obs}^{-1}
+\end{equation}
+
+In practice, the gain is computed exploiting the LQR duality:
+
+\begin{verbatim}
+	K_f = lqr(A_N', C_N', Q_obs, R_obs)';
+\end{verbatim}
+
+where:
+
 \begin{itemize}
-	\item $Q$ is the covariance matrix of the process noise,
-	\item $R$ is the covariance matrix of the measurement noise,
-	\item $P$ is the steady-state error covariance matrix.
+	\item $Q_{obs}$ represents the assumed process uncertainty,
+	\item $R_{obs}$ models the measurement noise covariance.
 \end{itemize}
 
-By solving the Riccati equation with appropriately chosen $Q$ and $R$, the filter gain $K_f$ ensures that the estimation error converges in a statistically optimal sense, even in the presence of measurement and process disturbances.
+The tuning of $Q_{obs}$ and $R_{obs}$ reflects the relative confidence in model dynamics and sensors. 
+In particular, higher weights in $R_{obs}$ reduce the influence of noisy measurements, 
+while lower values increase reliance on selected sensors.
 
-\textbf{Conclusion:} \\
-The MATLAB analysis confirms that $\text{rank}(\mathcal{O}) = 4$, which equals the number of internal states. Therefore, the pair $(A_{\text{int}}, C_{\text{int}})$ is \textbf{fully observable}, and a Kalman filter can be designed. This guarantees that despite partial measurements, the entire internal state vector $\tilde{x}_{\text{int}}$ can be optimally reconstructed for control and estimation purposes.
+Since $(A,C)$ is observable and $R_{obs} > 0$, 
+the solution $P$ is positive definite and the matrix $(A - K_f C)$ is Hurwitz. 
+Therefore, the estimation error converges asymptotically to zero.
+	
+\subsubsection{LQR Cost Function and Weight Selection}
 
-This observability ensures that despite partial measurements, the entire controllable state can be reconstructed and regulated accordingly.
+The state-feedback gain is obtained by solving the infinite-horizon quadratic optimization problem:
 
-	
-	
-	
+\begin{equation}
+	J = \int_0^\infty 
+	\left(
+	\tilde{x}_e^\top Q_{aug} \tilde{x}_e 
+	+ 
+	\tilde{u}^\top R_{aug} \tilde{u}
+	\right) dt
+\end{equation}
+
+where $\tilde{x}_e \in \mathbb{R}^{10}$ includes the physical states and the integral states.
+
+The weighting matrices are structured as:
+
+\begin{equation}
+	Q_{aug} = \text{diag}
+	\left(
+	q_{pz}, q_{vz}, q_{\theta}, q_{\omega},
+	q_{wf}, q_{vwf}, q_{wr}, q_{vwr},
+	q_{Ih}, q_{I\theta}
+	\right)
+\end{equation}
+
+\begin{equation}
+	R_{aug} = r_u I_2
+\end{equation}
+
+The adopted numerical values are:
+
+\begin{align}
+	q_{pz} &= 5 \cdot 10^7 \cdot w_P = 9 \cdot 10^9 \\
+	q_{\theta} &= 8 \cdot 10^7 \cdot w_P = 1.44 \cdot 10^{10} \\
+	q_{vz} &= 5 \cdot 10^7 \cdot w_D = 3 \cdot 10^9 \\
+	q_{\omega} &= 8 \cdot 10^7 \cdot w_D = 4.8 \cdot 10^9 \\
+	q_{Ih} &= 10^9 \cdot w_I = 8 \cdot 10^{10} \\
+	q_{I\theta} &= 10^9 \cdot w_I = 8 \cdot 10^{10} \\
+	r_u &= 5 \cdot 10^{-3}
+\end{align}
+
+with tuning factors:
+
+\begin{equation}
+	w_P = 180, 
+	\quad
+	w_D = 60, 
+	\quad
+	w_I = 80
+\end{equation}
+
+The weighting strategy reflects the control objectives:
+
+\begin{itemize}
+	\item Large weights on heave and pitch states enforce comfort improvement.
+	\item Significant weights on vertical and angular velocities increase damping.
+	\item Very large integral weights guarantee zero steady-state error.
+	\item A relatively small $r_u$ allows sufficiently aggressive actuation.
+\end{itemize}
+
+The large numerical spread of the weights (spanning several orders of magnitude) 
+compensates for the different physical units of the state variables 
+and implicitly performs state scaling.
+
+From a control perspective, the ratio between $Q_{aug}$ and $R_{aug}$ 
+directly determines the aggressiveness of the feedback law, 
+shaping the trade-off between ride comfort and actuator effort.
+
 	
 	\chapter{MATLAB/Simulink Implementation}
 	
@@ -3091,66 +3125,66 @@ The additional experiments confirm that:
 
 These findings reinforce the importance of carefully balancing passive suspension geometry and active control strategies when designing advanced ride control systems.
 
-	\begin{center}
-		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
-			
-			% Coordinate axes
-			\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
-			\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
-			\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
-			
-			% Sprung mass (body)
-			\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
-			\node at (-1,1.75) {$J, m$};
-			
-			% Center of mass
-			\draw[fill=red] (0.5,1.6) circle (0.07);
-			\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
-			
-			% pitch angle psi
-			\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
-			\node at (0.7,1.9) {$\theta$};
-			
-			% Front suspension
-			\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
-			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
-			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
-			\node[left] at (-1.5,0.6) {$k$};
-			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
-			\node[left] at (-1.5,-0.4) {$\beta$};
-			\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
-			
-			% Rear suspension
-			\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
-			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
-			\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
-			\node[right] at (2.5,0.6) {$k$};
-			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
-			\node[right] at (2.5,-0.4) {$\beta$};
-			\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
-			
-			% Front and rear wheel forces
-			\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
-			\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
-			
-			% Ground heights
-			\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
-			\node[left] at (-2.5,-0.6) {$p_f$};
-			\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
-			\node[left] at (1.5,-0.6) {$p_r$};
-			
-			% Distances df and dr
-			\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
-			\node[below] at (-0.5,1.2) {$d_f$};
-			\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
-			\node[below] at (1.5,1.2) {$d_r$};
-			
-			% Labels z
-			\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
-			\node[right] at (3.2,1.6) {$z$};
-			
-		\end{tikzpicture}
-	\end{center}
+%	\begin{center}
+%		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+%			
+%			% Coordinate axes
+%			\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
+%			\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
+%			\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
+%			
+%			% Sprung mass (body)
+%			\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
+%			\node at (-1,1.75) {$J, m$};
+%			
+%			% Center of mass
+%			\draw[fill=red] (0.5,1.6) circle (0.07);
+%			\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
+%			
+%			% pitch angle psi
+%			\draw[->, red, thick] (0,1.5) ++(0.7,0.2) arc[start angle=45,end angle=90,radius=0.5];
+%			\node at (0.7,1.9) {$\theta$};
+%			
+%			% Front suspension
+%			\draw[thick, red] (-1.5,1.5) -- (-1.5,0.8);
+%			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (-1.5,0.8) -- (-1.5,0.3);
+%			\draw[thick, red] (-1.5,0.3) -- (-1.5,-0.2);
+%			\node[left] at (-1.5,0.6) {$k$};
+%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (-1.5,-0.2) -- (-1.5,-0.6);
+%			\node[left] at (-1.5,-0.4) {$\beta$};
+%			\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.0) node[midway,left] {$f_{af}$};
+%			
+%			% Rear suspension
+%			\draw[thick, red] (2.5,1.5) -- (2.5,0.8);
+%			\draw[thick, red, decorate, decoration={zigzag,segment length=4,amplitude=2}] (2.5,0.8) -- (2.5,0.3);
+%			\draw[thick, red] (2.5,0.3) -- (2.5,-0.2);
+%			\node[right] at (2.5,0.6) {$k$};
+%			\draw[thick, red, decorate, decoration={coil,aspect=0.3, segment length=3}] (2.5,-0.2) -- (2.5,-0.6);
+%			\node[right] at (2.5,-0.4) {$\beta$};
+%			\draw[->, thick, red] (2.5,1.5) -- (2.5,1.0) node[midway,right] {$f_{ar}$};
+%			
+%			% Front and rear wheel forces
+%			\draw[->, thick, red] (-1.5,-0.6) -- (-0.75,-0.6) node[midway,below] {$f_{wf}$};
+%			\draw[->, thick, red] (2.5,-0.6) -- (3.25,-0.6) node[midway,below] {$f_{wr}$};
+%			
+%			% Ground heights
+%			\draw[dashed, red] (-1.5,-0.6) -- (-2.5,-0.6);
+%			\node[left] at (-2.5,-0.6) {$p_f$};
+%			\draw[dashed, red] (2.5,-0.6) -- (1.5,-0.6);
+%			\node[left] at (1.5,-0.6) {$p_r$};
+%			
+%			% Distances df and dr
+%			\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
+%			\node[below] at (-0.5,1.2) {$d_f$};
+%			\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
+%			\node[below] at (1.5,1.2) {$d_r$};
+%			
+%			% Labels z
+%			\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
+%			\node[right] at (3.2,1.6) {$z$};
+%			
+%		\end{tikzpicture}
+%	\end{center}
 	
 	
 %	
@@ -3232,13 +3266,137 @@ These findings reinforce the importance of carefully balancing passive suspensio
 %		\end{tikzpicture}
 		
 		\begin{center}
+			
+			\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
+				
+				% Coordinate axes
+				\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
+				\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
+				\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
+				
+				% Sprung mass (body)
+				\filldraw[color=red!80, fill=red!10, very thick] (-2,1.5) rectangle (3,2);
+				\node at (-1,1.75) {$J, m$};
+				
+				% Center of mass
+				\draw[fill=red] (0.5,1.6) circle (0.07);
+				\draw[->, thick, red] (0.5,1.6) -- (0.5,0) node[midway,right] {$mg$};
+				
+				% Pitch angle theta
+				\draw[->, red, thick] (0,1.5) ++(0.7,0.2) 
+				arc[start angle=45,end angle=90,radius=0.5];
+				\node at (0.7,1.9) {$\theta$};
+				
+				%==============================
+				% FRONT SUSPENSION
+				%==============================
+				
+				% Upper link
+				\draw[thick, red] (-1.5,1.5) -- (-1.5,1.0);
+				
+				% Spring k
+				\draw[thick, red, decorate,
+				decoration={zigzag,segment length=4,amplitude=2}]
+				(-1.7,1.0) -- (-1.7,0.2);
+				\node[left] at (-1.7,0.6) {$k$};
+				
+				% Damper beta
+				\draw[thick, red] (-1.3,1.0) -- (-1.3,0.7);
+				\draw[thick, red] (-1.45,0.7) -- (-1.15,0.7); % piston
+				\draw[thick, red] (-1.3,0.7) -- (-1.3,0.2);
+				\node[right] at (-1.3,0.55) {$\beta$};
+				
+				% Join spring & damper
+				\draw[thick, red] (-1.7,0.2) -- (-1.3,0.2);
+				\draw[thick, red] (-1.5,0.2) -- (-1.5,-0.3);
+				
+				% Tire spring kt
+				\draw[thick, red, decorate,
+				decoration={zigzag,segment length=4,amplitude=2}]
+				(-1.5,-0.3) -- (-1.5,-1.1);
+				\node[left] at (-1.5,-0.75) {$k_t$};
+				
+				\draw[thick, red] (-1.5,-1.1) -- (-1.5,-1.3);
+				
+				\draw[->, thick, red] (-1.5,1.5) -- (-1.5,1.05)
+				node[midway,left] {$f_{af}$};
+				
+				%==============================
+				% REAR SUSPENSION
+				%==============================
+				
+				% Upper link
+				\draw[thick, red] (2.5,1.5) -- (2.5,1.0);
+				
+				% Spring k
+				\draw[thick, red, decorate,
+				decoration={zigzag,segment length=4,amplitude=2}]
+				(2.3,1.0) -- (2.3,0.2);
+				\node[right] at (2.3,0.6) {$k$};
+				
+				% Damper beta
+				\draw[thick, red] (2.7,1.0) -- (2.7,0.7);
+				\draw[thick, red] (2.55,0.7) -- (2.85,0.7); % piston
+				\draw[thick, red] (2.7,0.7) -- (2.7,0.2);
+				\node[left] at (2.7,0.55) {$\beta$};
+				
+				% Join spring & damper
+				\draw[thick, red] (2.3,0.2) -- (2.7,0.2);
+				\draw[thick, red] (2.5,0.2) -- (2.5,-0.3);
+				
+				% Tire spring kt
+				\draw[thick, red, decorate,
+				decoration={zigzag,segment length=3,amplitude=2}]
+				(2.5,-0.3) -- (2.5,-1.1);
+				\node[right] at (2.5,-0.75) {$k_t$};
+				
+				\draw[thick, red] (2.5,-1.1) -- (2.5,-1.3);
+				
+				\draw[->, thick, red] (2.5,1.5) -- (2.5,1.05)
+				node[midway,right] {$f_{ar}$};
+				
+				%==============================
+				% Ground forces
+				%==============================
+				
+				\draw[->, thick, red] (-1.5,-1.3) -- (-0.75,-1.3)
+				node[midway,below] {$f_{wf}$};
+				
+				\draw[->, thick, red] (2.5,-1.3) -- (3.25,-1.3)
+				node[midway,below] {$f_{wr}$};
+				
+				% Ground heights
+				\draw[dashed, red] (-1.5,-1.3) -- (-2.5,-1.3);
+				\node[left] at (-2.5,-1.3) {$p_f$};
+				
+				\draw[dashed, red] (2.5,-1.3) -- (1.5,-1.3);
+				\node[left] at (1.5,-1.3) {$p_r$};
+				
+				% Distances df and dr
+				\draw[<->, red] (0.5,1.2) -- (-1.5,1.2);
+				\node[below] at (-0.5,1.2) {$d_f$};
+				
+				\draw[<->, red] (0.5,1.2) -- (2.5,1.2);
+				\node[below] at (1.5,1.2) {$d_r$};
+				
+				% Label z
+				\draw[dashed, red] (0.5,1.6) -- (3.2,1.6);
+				\node[right] at (3.2,1.6) {$z$};
+				
+			\end{tikzpicture}
+			
+		\end{center}
+		
+		
+		
+		\begin{center}
 	
 		
 		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
 		
 		% Coordinate axes
-		\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,2.5) node[above] {$z_l$};
-		\draw[->, thick, red] (-3.5,-1.5) -- (2,-1.5) node[right] {$y_l$};
+		\draw[->, thick, red] (-3.5,-1.5) -- (-3.5,-1) node[above] {$z_l$};
+		\draw[->, thick, red] (-3.5,-1.5) -- (-3,-1.5) node[right] {$y_l$};
 		\filldraw[red] (-3.5,-1.5) circle (2pt) node[below left] {$O_l$};
 		
 		% Sprung mass (body)
@@ -3413,15 +3571,23 @@ These findings reinforce the importance of carefully balancing passive suspensio
 	% Reference height
 	\draw[dashed, red] (3,2.8) -- (4,2.8) node[right] {$z$};
 \end{tikzpicture}
+
+
 	\end{center}
 	Copy and past the Simulink block scheme and describe what each block does. Describe the set-up MATLAB file, where and how to change the parameters of the simulations. Remember to include also the sensor noises and realistic external disturbances.
 	
 	\section{Simulation results}
 	Describe the simulation scenario: initial conditions, purpose of the simulation. Describe the results: are the results coherent with the expectation? If not why? Investigate the tuning: how the performance are affected by the selection of the parameters at disposal of the designer?
 	
-	\chapter{Conclusions and further investigation}
-	Recap the main results obtained in the project and highlight eventual further investigation directions alogn which the performance could be improved. 
-	
+\chapter{Conclusions and Future Developments}
+
+The work presented in this report has led to the complete formulation, implementation, and analysis of the proposed vehicle dynamic model. Starting from the derivation of the equations of motion and proceeding through their numerical integration, we investigated the system response under different road excitations and parameter configurations. The results obtained are coherent with the expected physical behavior of the system and confirm the correctness of the modeling assumptions within the adopted framework.
+
+A significant portion of the project was devoted to testing and debugging the model in order to ensure its reliability. Although these activities were not included in detail in the main body of the report, they played a fundamental role in validating the implementation. Throughout the development phase, we performed several additional tests to verify the consistency and robustness of the model: replacing the bump with a hole in the road to check sign conventions and symmetry of the response; modifying the damping coefficients $d_f$ and $d_r$ to create intentionally unbalanced configurations; testing extreme initial conditions, such as simulating a drop from a given height; introducing sloped road profiles to better understand the effect of the excitation integral; and exploring a wide range of stiffness and damping values to assess numerical stability and physical plausibility. Including a structured discussion of these debugging procedures would have further strengthened the methodological completeness of the report, as they demonstrate the systematic approach adopted to verify the model.
+
+From a broader perspective, the developed model and simulation script provide a flexible framework that could be extended beyond the scenarios analyzed here. As a possible future development, it would be particularly interesting to adapt the same model to simulate a racing setup, modifying suspension parameters to represent a stiffer and more performance-oriented configuration. Such an investigation would allow a direct comparison between comfort-oriented and performance-oriented tuning strategies, highlighting how parameter variations influence stability, responsiveness, and load transfer characteristics.
+
+In conclusion, this project successfully achieved its objectives by developing a consistent dynamic model, implementing it numerically, and validating its behavior through systematic simulations and extensive debugging. The experience gained emphasizes the importance of combining theoretical modeling, computational analysis, and critical testing in academic engineering work. The model constitutes a solid basis for further refinements and applications, and it offers several promising directions for future investigation.
 	\newpage
 	\chapter*{Bibliography}
 	List the papers/books cited.
