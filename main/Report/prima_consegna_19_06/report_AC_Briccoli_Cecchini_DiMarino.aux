@@ -2,139 +2,181 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Motivations}{1}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}List of the symbols}{3}{section.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Symbol Table}}{3}{table.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}Dynamic Model}{4}{subsection.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}Sensor Model}{7}{subsection.29}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces MEMS accelerometer LIS3DH}}{8}{figure.33}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Bosch BMI160 IMU}}{8}{figure.36}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces Linear suspension potentiometer}}{9}{figure.41}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Performance Variables and Control Objectives}{9}{section.44}\protected@file@percent }
-\newlabel{sec:performance_variables}{{1.3}{9}{Performance Variables and Control Objectives}{section.44}{}}
-\@writefile{toc}{\contentsline {paragraph}{Definition of Suspension Deflections}{11}{section*.55}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Physical Meaning of the Augmented Components}{11}{section*.58}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Relation with the Output Error Function}{11}{section*.62}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Control-Oriented Interpretation}{12}{section*.63}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}System Linearization}{13}{subsection.64}\protected@file@percent }
-\newlabel{eq:nonlinear_model}{{1.31}{13}{Linearization Around the Operating Point}{equation.66}{}}
-\newlabel{eq:equilibrium_triplet}{{1.32}{13}{Linearization Around the Operating Point}{equation.67}{}}
-\newlabel{eq:equilibrium_output_error}{{1.33}{13}{Linearization Around the Operating Point}{equation.68}{}}
-\newlabel{eq:variations}{{1.34}{13}{Linearization Around the Operating Point}{equation.69}{}}
-\newlabel{eq:variation_dynamics}{{1.35}{13}{Linearization Around the Operating Point}{equation.70}{}}
-\newlabel{eq:jacobians_compact_matrix}{{1.36}{14}{Linearization Around the Operating Point}{equation.71}{}}
-\newlabel{eq:linearized_system}{{1.37}{14}{Linearization Around the Operating Point}{equation.72}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Numerical Matrices}{16}{section*.82}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces Dynamic model parameters of a Rolls-Royce vehicle (Half-Car Model)}}{17}{table.83}\protected@file@percent }
-\newlabel{tab:parametri_rolls}{{1.2}{17}{Dynamic model parameters of a Rolls-Royce vehicle (Half-Car Model)}{table.83}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces Rolls-Royce Ghost 6.7 V12}}{17}{figure.84}\protected@file@percent }
-\newlabel{fig:rolllrrrois}{{1.4}{17}{Rolls-Royce Ghost 6.7 V12}{figure.84}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Linear Model Analysis}{19}{subsection.93}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Control}{22}{section.102}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Reachability}{22}{section*.103}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Stabilizability}{22}{section*.107}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Integral Action}{23}{section*.110}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Observability}{24}{section*.117}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Detectability}{24}{section*.121}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{LQR Cost Function and Weight Selection}{25}{section*.128}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}MATLAB/Simulink Implementation}{27}{chapter.140}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Motivations}{4}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}List of Symbols}{6}{section.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Symbol Table}}{6}{table.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Dynamic Model}{7}{section.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Half-car model with sprung and unsprung masses.}}{7}{figure.7}\protected@file@percent }
+\newlabel{fig:half_car_model}{{1.1}{7}{Half-car model with sprung and unsprung masses}{figure.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}State vector}{7}{subsection.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Control inputs}{8}{subsection.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.3}Suspension kinematics}{8}{subsection.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.4}Suspension and tire forces}{8}{subsection.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.5}Sprung mass dynamics}{9}{subsection.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.6}Unsprung mass dynamics}{9}{subsection.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.7}State-space representation}{9}{subsection.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Sensor Model}{10}{section.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Measurement Vector}{10}{subsection.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Accelerometer Model}{11}{subsection.34}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces MEMS accelerometer LIS3DH}}{11}{figure.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.3}Gyroscope Model}{11}{subsection.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.4}Suspension Deflection Sensors}{11}{subsection.39}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces Bosch BMI160 IMU}}{12}{figure.38}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces Linear suspension potentiometer}}{12}{figure.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.5}Noise Modeling}{13}{subsection.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Performance Variables and Control Objectives}{13}{section.46}\protected@file@percent }
+\newlabel{sec:performance_variables}{{1.5}{13}{Performance Variables and Control Objectives}{section.46}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Control Objectives}{13}{subsection.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Output Error Function}{14}{subsection.51}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.3}Observability Considerations}{14}{subsection.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.4}Augmented Performance Output for Control Design}{14}{subsection.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.5}Definition of Suspension Deflections}{15}{subsection.57}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.6}Physical Meaning of the Augmented Components}{15}{subsection.60}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.7}Relation with the Output Error Function}{15}{subsection.64}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.8}Control-Oriented Interpretation}{16}{subsection.65}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.9}System Linearization}{17}{subsection.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.6}System Linearization}{17}{section.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.1}Linearization Around the Operating Point}{17}{subsection.68}\protected@file@percent }
+\newlabel{eq:nonlinear_model}{{1.31}{17}{Linearization Around the Operating Point}{equation.69}{}}
+\newlabel{eq:equilibrium_triplet}{{1.32}{17}{Linearization Around the Operating Point}{equation.70}{}}
+\newlabel{eq:equilibrium_output_error}{{1.33}{17}{Linearization Around the Operating Point}{equation.71}{}}
+\newlabel{eq:variations}{{1.34}{17}{Linearization Around the Operating Point}{equation.72}{}}
+\newlabel{eq:variation_dynamics}{{1.35}{18}{Linearization Around the Operating Point}{equation.73}{}}
+\newlabel{eq:jacobians_compact_matrix}{{1.36}{18}{Linearization Around the Operating Point}{equation.74}{}}
+\newlabel{eq:linearized_system}{{1.37}{18}{Linearization Around the Operating Point}{equation.75}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.2}Matrix calculus}{18}{subsection.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Numerical Matrices}{21}{section*.85}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.5}{\ignorespaces Rolls-Royce Ghost 6.7 V12}}{21}{figure.87}\protected@file@percent }
+\newlabel{fig:rolllrrrois}{{1.5}{21}{Rolls-Royce Ghost 6.7 V12}{figure.87}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces Dynamic model parameters of a Rolls-Royce vehicle (Half-Car Model)}}{22}{table.86}\protected@file@percent }
+\newlabel{tab:parametri_rolls}{{1.2}{22}{Dynamic model parameters of a Rolls-Royce vehicle (Half-Car Model)}{table.86}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.3}Linear Model Analysis}{24}{subsection.96}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Open-Loop Eigenvalue Analysis}{25}{section*.99}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.7}Control}{26}{section.105}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7.1}Reachability}{26}{subsection.106}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Stabilizability}{26}{section*.110}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7.2}Integral Action}{27}{subsection.113}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7.3}Observability}{28}{subsection.120}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Detectability}{28}{section*.124}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7.4}Kalman Filter Design}{29}{subsection.126}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.7.5}LQR Cost Function and Weight Selection}{29}{subsection.131}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}MATLAB/Simulink Implementation}{31}{chapter.143}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.1}Overall Simulation Architecture}{27}{subsection.141}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.2}Symbolic Linearization and Control Synthesis Script}{27}{subsection.142}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Measurement Vector}{31}{section*.150}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Performance Vector}{32}{section*.151}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.3}Nonlinear Half-Car Model}{39}{subsection.160}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Nonlinear Kinematics}{39}{section*.162}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Suspension and Tire Forces}{40}{section*.163}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Actuator Force Distribution}{40}{section*.164}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Longitudinal Coupling and Load Transfer}{41}{section*.165}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{State Equations}{41}{section*.166}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Inertial Accelerations}{41}{section*.168}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Projection to Body Frame}{42}{section*.169}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Sensor Output Vector}{42}{section*.170}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.4}Road Profile Generator}{43}{subsection.172}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.5}Longitudinal Wheel Forces Block}{44}{subsection.173}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.6}Linearized Model}{45}{subsection.174}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.7}State Observer}{45}{subsection.175}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.8}Augmented LQR Controller}{46}{subsection.176}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.0.9}Simulation Management and Visualization}{47}{subsection.177}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Vehicle Parameters and Numerical Setup}{47}{section.178}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Mass and Geometry}{47}{subsection.179}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Suspension and Tire Characteristics}{48}{subsection.181}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.3}Anti-Pitch Geometry}{48}{subsection.182}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Numerical Parameters for the Luxury Sedan Model.}}{48}{table.183}\protected@file@percent }
-\newlabel{tab:params}{{2.1}{48}{Numerical Parameters for the Luxury Sedan Model}{table.183}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Control Design}{49}{chapter.184}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Overall Simulation Architecture}{31}{section.144}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Symbolic Linearization and Control Synthesis Script}{31}{subsection.145}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{1. Symbolic Parameters}{32}{section*.146}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{2. State Variables}{32}{section*.147}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{3. Control Inputs}{33}{section*.148}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{4. Disturbances}{33}{section*.149}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{5. Sensor Noise and References}{34}{section*.150}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{6. Nonlinear Kinematics and Dynamics}{34}{section*.151}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{7. Output Definition: Sensors and Performance Channels}{35}{section*.152}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Measurement Vector}{35}{section*.153}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Performance Vector}{36}{section*.154}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{8. Jacobian Computation}{36}{section*.155}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{9. Numerical Evaluation at the Equilibrium Point}{37}{section*.156}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{11. Observability Analysis}{38}{section*.158}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{12. LQR State Feedback Design}{39}{section*.159}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{13. Observer Design via Dual LQR}{40}{section*.160}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{14. Augmented LQR with Integral Action}{40}{section*.161}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{15. Final Outcome of the Script}{42}{section*.162}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Nonlinear Half-Car Model}{43}{section.163}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}State Dynamics Block $f(p,x,u,w)$}{43}{subsection.164}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Nonlinear Kinematics}{43}{subsection.165}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Suspension and Tire Forces}{44}{subsection.166}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Actuator Force Distribution}{44}{subsection.167}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.5}Longitudinal Coupling and Load Transfer}{45}{subsection.168}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.6}State Equations}{45}{subsection.169}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.7}Measurement Block $h(p,x,w,n)$}{45}{subsection.170}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.8}Inertial Accelerations}{45}{subsection.171}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.9}Projection to Body Frame}{46}{subsection.172}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.10}Sensor Output Vector}{46}{subsection.173}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.11}Performance Block $g(p,x,r)$}{46}{subsection.174}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.12}Road Profile Generator}{47}{subsection.175}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.13}Longitudinal Wheel Forces Block}{48}{subsection.176}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.14}Linearized Model}{49}{subsection.177}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.15}State Observer}{50}{subsection.178}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.16}Augmented LQR Controller}{50}{subsection.179}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.17}Simulation Management and Visualization}{51}{subsection.180}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Vehicle Parameters and Numerical Setup}{51}{section.181}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Mass and Geometry}{52}{subsection.182}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Suspension and Tire Characteristics}{52}{subsection.184}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Anti-Pitch Geometry}{52}{subsection.185}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Numerical Parameters for the Luxury Sedan Model.}}{53}{table.186}\protected@file@percent }
+\newlabel{tab:params}{{2.1}{53}{Numerical Parameters for the Luxury Sedan Model}{table.186}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Control Design}{54}{chapter.187}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Proposed Control Architecture}{49}{section.185}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Control Architecture}}{49}{figure.186}\protected@file@percent }
-\newlabel{fig:arch}{{3.1}{49}{Control Architecture}{figure.186}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Design Choice: Implicit Disturbance Rejection vs. Explicit Feed-Forward}{50}{subsection.190}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Architettura di Controllo LQR-PID Aumentata}{50}{section.193}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Augmented System and LQR Synthesis}{51}{subsection.194}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}State Estimation: Optimal Kalman Filter Theory}{51}{section.197}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Stochastic Formulation and $\epsilon $ Disturbances}{51}{subsection.198}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Observer Dynamics and Innovation}{52}{subsection.200}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Road Profile Reconstruction (Disturbance Observation)}{52}{subsection.202}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Stability of the Observer}{52}{subsection.203}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4} modeling of Anti-Dive and Anti-Squat Geometry}{53}{section.204}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Geometric Forces Definition}{53}{subsection.205}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Modified Equations of Motion}{53}{subsection.208}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Vertical Dynamics (Heave)}{53}{section*.209}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Rotational Dynamics (Pitch)}{54}{section*.211}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Impact on Linearization}{54}{subsection.213}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Control Strategy: LQR with Integral Action (LQR-PID)}{54}{section.214}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Augmented System State-Space Representation}{54}{subsection.215}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Optimal Control Law and Tuning}{55}{subsection.218}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}State Estimation: Kalman Filter}{55}{subsection.220}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Numerical Control Design Analysis}{56}{section.222}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Augmented System Dynamics}{56}{subsection.223}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Optimal LQR Gains Analysis}{57}{subsection.226}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}State Estimation and Road Profile Reconstruction}{58}{subsection.231}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Simulation Experiments and Results}{59}{chapter.233}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Proposed Control Architecture}{54}{section.188}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Control Architecture}}{54}{figure.189}\protected@file@percent }
+\newlabel{fig:arch}{{3.1}{54}{Control Architecture}{figure.189}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Implicit Disturbance Rejection vs. Explicit Feed-Forward}{55}{subsection.193}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Augmented LQR-PID Control Architecture}{55}{section.196}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Augmented System and LQR Synthesis}{55}{subsection.197}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Weight Selection}{56}{subsection.200}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}State Estimation: Optimal Kalman Filter}{56}{section.201}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Stochastic System Model}{56}{subsection.202}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Observer Dynamics}{56}{subsection.204}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}State Reconstruction and Implicit Disturbance Reaction}{56}{subsection.206}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Observer Stability}{57}{subsection.207}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Modeling of Anti-Dive and Anti-Squat Geometry}{57}{section.208}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Geometric Force Definition}{57}{subsection.209}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Modified Heave Dynamics}{57}{subsection.212}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Modified Pitch Dynamics}{57}{subsection.214}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Numerical Control Design Analysis}{57}{section.216}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Augmented System Dynamics}{57}{subsection.217}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Optimal LQR Gains}{57}{subsection.218}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Kalman Gain Matrix}{58}{subsection.221}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Simulation Experiments and Results}{59}{chapter.223}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.1}Open-Loop Linear vs Nonlinear Response}{59}{subsection.234}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Open-loop response: vertical acceleration and pitch angle. Linear vs nonlinear model.}}{60}{figure.235}\protected@file@percent }
-\newlabel{fig:open_loop_accel}{{4.1}{60}{Open-loop response: vertical acceleration and pitch angle. Linear vs nonlinear model}{figure.235}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.2}Effect of Anti-Dive and Anti-Squat Geometry}{60}{subsection.236}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Vehicle response with Anti-Dive and Anti-Squat geometry. Pitch is slightly improved but vertical displacement oscillates more.}}{60}{figure.237}\protected@file@percent }
-\newlabel{fig:antisquat_dive}{{4.2}{60}{Vehicle response with Anti-Dive and Anti-Squat geometry. Pitch is slightly improved but vertical displacement oscillates more}{figure.237}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.3}Road-Induced Oscillations without Anti-Dive / Anti-Squat}{61}{subsection.238}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Observer improvement}}{61}{figure.239}\protected@file@percent }
-\newlabel{fig:oscillator_response}{{4.3}{61}{Observer improvement}{figure.239}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.4}Integral Action and Trade-Offs}{62}{subsection.240}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Vehicle response with integral action. Steady-state error reduced but transients slightly slower.}}{62}{figure.241}\protected@file@percent }
-\newlabel{fig:integral_action}{{4.4}{62}{Vehicle response with integral action. Steady-state error reduced but transients slightly slower}{figure.241}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.5}Observer Performance and Control Effort Analysis}{62}{subsection.242}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces True states vs observer estimates. The estimation error remains small across all states.}}{63}{figure.244}\protected@file@percent }
-\newlabel{fig:observer_states}{{4.5}{63}{True states vs observer estimates. The estimation error remains small across all states}{figure.244}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Control inputs using observer-based state feedback (no integrator).}}{64}{figure.246}\protected@file@percent }
-\newlabel{fig:observer_inputs}{{4.6}{64}{Control inputs using observer-based state feedback (no integrator)}{figure.246}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Control inputs with observer and integral action enabled.}}{65}{figure.248}\protected@file@percent }
-\newlabel{fig:observer_integral_inputs}{{4.7}{65}{Control inputs with observer and integral action enabled}{figure.248}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.6}Observer Feasibility and Practical Considerations}{65}{subsection.249}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.7}Severe Road Bump Scenario}{66}{subsection.253}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Open-loop bump response: nonlinear vs linear model.}}{66}{figure.255}\protected@file@percent }
-\newlabel{fig:bump_linear_vs_nonlinear}{{4.8}{66}{Open-loop bump response: nonlinear vs linear model}{figure.255}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Comparison between uncontrolled nonlinear plant and controlled linear model under bump excitation.}}{67}{figure.257}\protected@file@percent }
-\newlabel{fig:bump_control_comparison}{{4.9}{67}{Comparison between uncontrolled nonlinear plant and controlled linear model under bump excitation}{figure.257}{}}
-\@writefile{toc}{\contentsline {paragraph}{Pitch Response}{67}{section*.258}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Heave Response}{68}{section*.259}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.8}Discussion of Trade-Offs}{68}{subsection.261}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.9}Additional Experimental Scenarios}{69}{subsection.266}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Case 7: Controlled system with observer, integrator, and Anti-Dive/Anti-Squat geometry.}}{70}{figure.268}\protected@file@percent }
-\newlabel{fig:case7_observer_antisquat}{{4.10}{70}{Case 7: Controlled system with observer, integrator, and Anti-Dive/Anti-Squat geometry}{figure.268}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Case 8: Four acceleration cases with different front/rear force distributions under Anti-Dive and Anti-Squat geometry.}}{71}{figure.270}\protected@file@percent }
-\newlabel{fig:case8_accel_distribution}{{4.11}{71}{Case 8: Four acceleration cases with different front/rear force distributions under Anti-Dive and Anti-Squat geometry}{figure.270}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.0.10}Overall Insight from Additional Experiments}{72}{subsection.271}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Simulation results}{73}{section.275}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions and Future Developments}{74}{chapter.276}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Open-Loop Linear vs Nonlinear Response}{59}{section.224}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Open-loop response: vertical acceleration and pitch angle. Linear vs nonlinear model.}}{60}{figure.225}\protected@file@percent }
+\newlabel{fig:open_loop_accel}{{4.1}{60}{Open-loop response: vertical acceleration and pitch angle. Linear vs nonlinear model}{figure.225}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Effect of Anti-Dive and Anti-Squat Geometry}{60}{section.226}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Vehicle response with Anti-Dive and Anti-Squat geometry. Pitch is slightly improved but vertical displacement oscillates more.}}{61}{figure.227}\protected@file@percent }
+\newlabel{fig:antisquat_dive}{{4.2}{61}{Vehicle response with Anti-Dive and Anti-Squat geometry. Pitch is slightly improved but vertical displacement oscillates more}{figure.227}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Road-Induced Oscillations without Anti-Dive / Anti-Squat}{61}{section.228}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Observer improvement}}{61}{figure.229}\protected@file@percent }
+\newlabel{fig:oscillator_response}{{4.3}{61}{Observer improvement}{figure.229}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Integral Action and Trade-Offs}{62}{section.230}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Vehicle response with integral action. Steady-state error reduced but transients slightly slower.}}{62}{figure.231}\protected@file@percent }
+\newlabel{fig:integral_action}{{4.4}{62}{Vehicle response with integral action. Steady-state error reduced but transients slightly slower}{figure.231}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Observer Performance and Control Effort Analysis}{63}{section.232}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}State Estimation Accuracy}{63}{subsection.233}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces True states vs observer estimates. The estimation error remains small across all states.}}{63}{figure.234}\protected@file@percent }
+\newlabel{fig:observer_states}{{4.5}{63}{True states vs observer estimates. The estimation error remains small across all states}{figure.234}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Control Inputs with Observer Only}{64}{subsection.235}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Control inputs using observer-based state feedback (no integrator).}}{64}{figure.236}\protected@file@percent }
+\newlabel{fig:observer_inputs}{{4.6}{64}{Control inputs using observer-based state feedback (no integrator)}{figure.236}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Control Inputs with Observer and Integral Action}{65}{subsection.237}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Control inputs with observer and integral action enabled.}}{65}{figure.238}\protected@file@percent }
+\newlabel{fig:observer_integral_inputs}{{4.7}{65}{Control inputs with observer and integral action enabled}{figure.238}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Observer Feasibility and Practical Considerations}{65}{section.239}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Severe Road Bump Scenario}{66}{section.243}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.1}Case 5: Linear vs Nonlinear Model under Bump Excitation}{66}{subsection.244}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Open-loop bump response: nonlinear vs linear model.}}{66}{figure.245}\protected@file@percent }
+\newlabel{fig:bump_linear_vs_nonlinear}{{4.8}{66}{Open-loop bump response: nonlinear vs linear model}{figure.245}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.2}Case 6: Controlled Linear Model vs Uncontrolled Nonlinear Plant}{67}{subsection.246}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Comparison between uncontrolled nonlinear plant and controlled linear model under bump excitation.}}{67}{figure.247}\protected@file@percent }
+\newlabel{fig:bump_control_comparison}{{4.9}{67}{Comparison between uncontrolled nonlinear plant and controlled linear model under bump excitation}{figure.247}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Pitch Response}{68}{section*.248}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Heave Response}{68}{section*.249}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.3}Sensor Interpretation and Measurement Limitations}{68}{subsection.250}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Trade-Offs}{69}{section.251}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.9}Additional Experimental Scenarios}{69}{section.256}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.1}Case 7: Observer + Integral Control with Anti-Dive and Anti-Squat}{69}{subsection.257}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Case 7: Controlled system with observer, integrator, and Anti-Dive/Anti-Squat geometry.}}{70}{figure.258}\protected@file@percent }
+\newlabel{fig:case7_observer_antisquat}{{4.10}{70}{Case 7: Controlled system with observer, integrator, and Anti-Dive/Anti-Squat geometry}{figure.258}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.2}Case 8: Four Acceleration Profiles with Different Force Distributions}{71}{subsection.259}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Case 8: Four acceleration cases with different front/rear force distributions under Anti-Dive and Anti-Squat geometry.}}{71}{figure.260}\protected@file@percent }
+\newlabel{fig:case8_accel_distribution}{{4.11}{71}{Case 8: Four acceleration cases with different front/rear force distributions under Anti-Dive and Anti-Squat geometry}{figure.260}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.3}Overall Insight from Additional Experiments}{72}{subsection.261}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions and Future Developments}{73}{chapter.265}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\gdef \@abspage@last{79}
+\gdef \@abspage@last{78}
