@@ -37,6 +37,79 @@
 	
 	\tableofcontents
 	
+	\section*{List of Symbols}
+	\thispagestyle{empty}
+	
+	\begin{table}[H]
+		\centering
+		\caption{Symbol Table}
+		\begin{tabular}{lll}
+			\toprule
+			\textbf{Symbol} & \textbf{Description} & \textbf{Unit} \\
+			\midrule
+			
+			$x$ & State vector ($x \in \mathbb{R}^{8}$) & -- \\
+			
+			$p_z$ & Sprung mass vertical displacement (heave) & m \\
+			$v_z = \dot{p}_z$ & Sprung mass vertical velocity & m/s \\
+			$\theta$ & Pitch angle & rad \\
+			$\omega = \dot{\theta}$ & Pitch rate & rad/s \\
+			
+			$z_{wf}, z_{wr}$ & Front and rear unsprung mass positions & m \\
+			$v_{zf}, v_{zr}$ & Front and rear unsprung mass velocities & m/s \\
+			
+			$u = \begin{bmatrix} u_F & u_M \end{bmatrix}^T$ & Control input vector & -- \\
+			$u_F$ & Total vertical control force & N \\
+			$u_M$ & Control pitching moment & N\,m \\
+			$f_{af}, f_{ar}$ & Front and rear actuator forces & N \\
+			
+			$w \in \mathbb{R}^{6}$ & Disturbance vector & -- \\
+			$z_{road,f}, z_{road,r}$ & Road vertical profiles (front, rear) & m \\
+			$\dot{z}_{road,f}, \dot{z}_{road,r}$ & Road profile velocities & m/s \\
+			$F_{xf}, F_{xr}$ & Longitudinal tire forces & N \\
+			
+			$s_f, s_r$ & Front and rear suspension deflections & m \\
+			$f_{sf}, f_{sr}$ & Suspension forces & N \\
+			$f_{tf}, f_{tr}$ & Tire forces & N \\
+			
+			$k_f, k_r$ & Suspension stiffness coefficients & N/m \\
+			$\beta_f, \beta_r$ & Suspension damping coefficients & N\,s/m \\
+			$k_{tf}, k_{tr}$ & Tire stiffness coefficients & N/m \\
+			
+			$m$ & Sprung mass & kg \\
+			$m_{wf}, m_{wr}$ & Unsprung masses & kg \\
+			$J$ & Pitch moment of inertia & kg\,m$^2$ \\
+			$d_f, d_r$ & CG to axle distances & m \\
+			$h_{cg}$ & Height of center of gravity & m \\
+			$g$ & Gravitational acceleration & m/s$^2$ \\
+			
+			$\gamma_f, \gamma_r$ & Anti-dive / Anti-squat coefficients & -- \\
+			$F_{tot,x}$ & Total longitudinal force ($F_{xf}+F_{xr}$) & N \\
+			
+			$y \in \mathbb{R}^{5}$ & Measurement vector & -- \\
+			$\nu_i$ & Sensor noise components & -- \\
+			
+			$z \in \mathbb{R}^{6}$ & Performance output vector & -- \\
+			$r_z$ & Heave reference & m \\
+			$r_\theta$ & Pitch reference & rad \\
+			
+			$\eta_z, \eta_\theta$ & Integral states & m\,s / rad\,s \\
+			
+			$A, B_1, B_2$ & State matrices & -- \\
+			$C, D_1, D_2$ & Output matrices & -- \\
+			$C_E, D_{E1}, D_{E2}$ & Performance matrices & -- \\
+			
+			$Q, R$ & LQR weighting matrices & -- \\
+			$K_s$ & State feedback gain & -- \\
+			$K_i$ & Integral gain & -- \\
+			$K_o$ & Kalman observer gain & -- \\
+			$Q_{kal}, R_{kal}$ & Kalman covariance matrices & -- \\
+			
+			\bottomrule
+		\end{tabular}
+	\end{table}
+	
+	\newpage
 	\chapter{Introduction}
 \section{Motivations}
 Suspension systems play a crucial role in ensuring vehicle stability, comfort, and safety. Traditional passive suspensions cannot adapt to changing road conditions, leading to undesired oscillations and reduced performance. 
@@ -44,90 +117,6 @@ Suspension systems play a crucial role in ensuring vehicle stability, comfort, a
 In this project, focus on active suspension control in the longitudinal direction (front and rear), which aims to reduce vertical oscillations and pitch movements when the vehicle passes over bumps or uneven surfaces. The goal is to design a control system that keeps the car body as steady as possible, improving both passenger comfort and vehicle handling.
 
 The half-car model was chosen because it provides a good trade-off between model simplicity and dynamic realism and allows to study the impact of front and rear suspension forces on the vehicle behavior without dealing with the complexity of a full 3D model.
-
-	
-%	\section{Contributions}
-%	Describe what this project deals with. What has been done to solve the problem presented in the motivations.
-	
-%	\section{State of art and literature comparison}
-%	List the closest works that deal with the same problem and compare the achievement obtained and the strategies exploited in %   this paper. For the search of the literature use \url{https://ieeexplore.ieee.org/Xplore/home.jsp} and  %      %\url{https://www.sciencedirect.com/}.
-	
-%	\section{Organisation of the manuscript}
-%	Describe what the reader finds in each of the Sections of this manuscript.
-	
-
-
-
-\section{List of Symbols}
-
-\begin{table}[H]
-	\centering
-	\caption{Symbol Table}
-	\begin{tabular}{lll}
-		\toprule
-		\textbf{Symbol} & \textbf{Description} & \textbf{Unit} \\
-		\midrule
-		
-		$x$ & State vector ($x \in \mathbb{R}^{8}$) & -- \\
-		
-		$p_z$ & Sprung mass vertical displacement (heave) & m \\
-		$v_z = \dot{p}_z$ & Sprung mass vertical velocity & m/s \\
-		$\theta$ & Pitch angle & rad \\
-		$\omega = \dot{\theta}$ & Pitch rate & rad/s \\
-		
-		$z_{wf}, z_{wr}$ & Front and rear unsprung mass positions & m \\
-		$v_{zf}, v_{zr}$ & Front and rear unsprung mass velocities & m/s \\
-		
-		$u = \begin{bmatrix} u_F & u_M \end{bmatrix}^T$ & Control input vector & -- \\
-		$u_F$ & Total vertical control force & N \\
-		$u_M$ & Control pitching moment & N\,m \\
-		$f_{af}, f_{ar}$ & Front and rear actuator forces & N \\
-		
-		$w \in \mathbb{R}^{6}$ & Disturbance vector & -- \\
-		$z_{road,f}, z_{road,r}$ & Road vertical profiles (front, rear) & m \\
-		$\dot{z}_{road,f}, \dot{z}_{road,r}$ & Road profile velocities & m/s \\
-		$F_{xf}, F_{xr}$ & Longitudinal tire forces & N \\
-		
-		$s_f, s_r$ & Front and rear suspension deflections & m \\
-		$f_{sf}, f_{sr}$ & Suspension forces & N \\
-		$f_{tf}, f_{tr}$ & Tire forces & N \\
-		
-		$k_f, k_r$ & Suspension stiffness coefficients & N/m \\
-		$\beta_f, \beta_r$ & Suspension damping coefficients & N\,s/m \\
-		$k_{tf}, k_{tr}$ & Tire stiffness coefficients & N/m \\
-		
-		$m$ & Sprung mass & kg \\
-		$m_{wf}, m_{wr}$ & Unsprung masses & kg \\
-		$J$ & Pitch moment of inertia & kg\,m$^2$ \\
-		$d_f, d_r$ & CG to axle distances & m \\
-		$h_{cg}$ & Height of center of gravity & m \\
-		$g$ & Gravitational acceleration & m/s$^2$ \\
-		
-		$\gamma_f, \gamma_r$ & Anti-dive / Anti-squat coefficients & -- \\
-		$F_{tot,x}$ & Total longitudinal force ($F_{xf}+F_{xr}$) & N \\
-		
-		$y \in \mathbb{R}^{5}$ & Measurement vector & -- \\
-		$\nu_i$ & Sensor noise components & -- \\
-		
-		$z \in \mathbb{R}^{6}$ & Performance output vector & -- \\
-		$r_z$ & Heave reference & m \\
-		$r_\theta$ & Pitch reference & rad \\
-		
-		$\eta_z, \eta_\theta$ & Integral states & m\,s / rad\,s \\
-		
-		$A, B_1, B_2$ & State matrices & -- \\
-		$C, D_1, D_2$ & Output matrices & -- \\
-		$C_E, D_{E1}, D_{E2}$ & Performance matrices & -- \\
-		
-		$Q, R$ & LQR weighting matrices & -- \\
-		$K_s$ & State feedback gain & -- \\
-		$K_i$ & Integral gain & -- \\
-		$K_o$ & Kalman observer gain & -- \\
-		$Q_{kal}, R_{kal}$ & Kalman covariance matrices & -- \\
-		
-		\bottomrule
-	\end{tabular}
-\end{table}
 
 
 
@@ -516,104 +505,7 @@ This formulation provides a complete nonlinear description of the vertical and p
 
 	\newpage
 	
-		\begin{center} 
-		\begin{tikzpicture}[scale=1.2, every node/.style={font=\small}]
-			% Coordinate axes - Spostati per non interferire
-			\draw[->, thick, red] (-4,-3.5) -- (-4,3.5) node[above] {$z_l$};
-			\draw[->, thick, red] (-4,-3.5) -- (-3,-3.5) node[right] {$y_l$};
-			\filldraw[red] (-4,-3.5) circle (2pt) node[below left] {$O_l$};
-			
-			% --- SPRUNG MASS (Body) ---
-			\filldraw[color=red!80, fill=red!10, very thick] (-2,2.5) rectangle (3,3.1);
-			\node at (0.5,2.8) {$J, m$};
-			
-			% CM and Gravity
-			\draw[fill=red] (0.5,2.6) circle (0.07);
-			\draw[->, thick, red] (0.5,2.6) -- (0.5,0.8) node[right, near end] {$mg$};
-			
-			% Pitch angle theta
-			\draw[->, red, thick] (0.2,2.5) arc[start angle=180, end angle=130, radius=0.6];
-			\node at (0,2.8) {$\theta$};
-			
-			% --- FRONT SUSPENSION (Left) ---
-			\def\xf{-1.5}
-			% Connection to body
-			\draw[thick, red] (\xf,2.5) -- (\xf,2.2);
-			\draw[thick, red] (\xf-0.6,2.2) -- (\xf+0.6,2.2);
-			
-			% Sospensione superiore (k e beta parallelo) - DISTESA
-			\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xf-0.4,2.2) -- (\xf-0.4,0.8);
-			\node[left=2pt] at (\xf-0.4,1.5) {$k$};
-			
-			% Damper (beta)
-			\draw[thick, red] (\xf+0.4,2.2) -- (\xf+0.4,1.8);
-			\draw[thick, red] (\xf+0.2,1.8) -- (\xf+0.6,1.8); % Top cylinder
-			\draw[thick, red] (\xf+0.2,1.8) -- (\xf+0.2,1.2) -- (\xf+0.6,1.2) -- (\xf+0.6,1.8); % Cylinder body
-			\draw[thick, red] (\xf+0.25,1.5) -- (\xf+0.55,1.5); % Piston
-			\draw[thick, red] (\xf+0.4,1.5) -- (\xf+0.4,0.8); % Rod
-			\node[right=2pt] at (\xf+0.6,1.5) {$\beta$};
-			
-			\draw[thick, red] (\xf-0.6,0.8) -- (\xf+0.6,0.8);
-			\draw[thick, red] (\xf,0.8) -- (\xf,0.5);
-			
-			% UNSPRUNG MASS (mw)
-			\filldraw[color=red!80, fill=red!10, thick] (\xf-0.6,-0.1) rectangle (\xf+0.6,0.5);
-			\node at (\xf, 0.2) {$m_w$};
-			
-			% TIRE STIFFNESS (kt) - DISTESA
-			\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xf,-0.1) -- (\xf,-1.5);
-			\node[left=3pt] at (\xf,-0.8) {$k_t$};
-			
-			% --- REAR SUSPENSION (Right) ---
-			\def\xr{2.5}
-			% Connection to body
-			\draw[thick, red] (\xr,2.5) -- (\xr,2.2);
-			\draw[thick, red] (\xr-0.6,2.2) -- (\xr+0.6,2.2);
-			
-			% Sospensione superiore (k e beta parallelo)
-			\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xr-0.4,2.2) -- (\xr-0.4,0.8);
-			\node[left=2pt] at (\xr-0.4,1.5) {$k$};
-			
-			% Damper (beta)
-			\draw[thick, red] (\xr+0.4,2.2) -- (\xr+0.4,1.8);
-			\draw[thick, red] (\xr+0.2,1.8) -- (\xr+0.6,1.8); 
-			\draw[thick, red] (\xr+0.2,1.8) -- (\xr+0.2,1.2) -- (\xr+0.6,1.2) -- (\xr+0.6,1.8); 
-			\draw[thick, red] (\xr+0.25,1.5) -- (\xr+0.55,1.5); 
-			\draw[thick, red] (\xr+0.4,1.5) -- (\xr+0.4,0.8); 
-			\node[right=2pt] at (\xr+0.6,1.5) {$\beta$};
-			
-			\draw[thick, red] (\xr-0.6,0.8) -- (\xr+0.6,0.8);
-			\draw[thick, red] (\xr,0.8) -- (\xr,0.5);
-			
-			% UNSPRUNG MASS (mw)
-			\filldraw[color=red!80, fill=red!10, thick] (\xr-0.6,-0.1) rectangle (\xr+0.6,0.5);
-			\node at (\xr, 0.2) {$m_w$};
-			
-			% TIRE STIFFNESS (kt)
-			\draw[thick, red, decorate, decoration={zigzag,segment length=8,amplitude=3}] (\xr,-0.1) -- (\xr,-1.5);
-			\node[right=3pt] at (\xr,-0.8) {$k_t$};
-			
-			% --- FORCES AND GROUND ---
-			% Ground forces
-			\draw[->, thick, red] (\xf,-1.5) -- (\xf+1,-1.5) node[right] {$f_{wf}$};
-			\draw[->, thick, red] (\xr,-1.5) -- (\xr+1,-1.5) node[right] {$f_{wr}$};
-			
-			% Ground inputs pf, pr
-			\draw[dashed, red] (\xf,-1.5) -- (\xf-1.2,-1.5) node[left] {$p_f$};
-			\draw[dashed, red] (\xr,-1.5) -- (\xr-1.2,-1.5) node[left] {$p_r$};
-			
-			% Distances df, dr
-			\draw[<->, red] (0.5,2.0) -- (\xf,2.0) node[midway,above] {$d_f$};
-			\draw[<->, red] (0.5,2.0) -- (\xr,2.0) node[midway,above] {$d_r$};
-			
-			% Active forces f_af, f_ar
-			\draw[->, thick, red] (\xf,2.8) -- (\xf,1.8) node[midway,left] {$f_{af}$};
-			\draw[->, thick, red] (\xr,2.8) -- (\xr,1.8) node[midway,right] {$f_{ar}$};
-			
-			% Reference height
-			\draw[dashed, red] (3,2.8) -- (4,2.8) node[right] {$z$};
-		\end{tikzpicture}
-	\end{center}
+
 \section{Sensor Model}
 
 The control architecture relies on a set of onboard sensors that provide real-time measurements of the vehicle vertical and pitch dynamics. The selected sensor suite is designed to ensure observability of the nonlinear half-car model and to provide sufficient information for feedback control in the presence of road disturbances and measurement noise.
@@ -3526,28 +3418,137 @@ The additional experiments confirm that:
 \end{enumerate}
 
 These findings reinforce the importance of carefully balancing passive suspension geometry and active control strategies when designing advanced ride control systems.
+\section{Robustness Analysis and Observer Performance}
 
+This section investigates the robustness of the control system in the presence of sensor noise, simulating the real-world operating conditions of an automotive ECU. The study focuses on how Gaussian white noise affects the state estimation and the subsequent control action, specifically regarding the pitch angle.
 
+\subsection{Experimental Setup and Noise Definition}
+
+To evaluate the system's resilience, white noise blocks were added to the sensor measurement paths within the Simulink model. The noise characteristics were derived from official sensor datasheets (Accelerometers, Gyroscope, and LVDTs).
+
+The simulation maintains a sampling frequency of $100~\text{Hz}$ ($T_s = 0.01~\text{s}$). This frequency was chosen based on the vehicle's time constants:
+\begin{itemize}
+	\item The main body dynamics (heave and pitch) typically reside between $1~\text{Hz}$ and $5~\text{Hz}$.
+	\item A $100~\text{Hz}$ rate provides sufficient temporal resolution (approximately 20 to 50 samples per oscillation cycle), comfortably satisfying the Nyquist-Shannon theorem while ensuring low control latency.
+\end{itemize}
+
+\subsection{Baseline Performance and Noise Impact}
+
+As a first reference, the system was simulated in ideal conditions. Figure~\ref{fig:ideal_control} shows the LQR controller's performance with perfect state information, while Figure~\ref{fig:ideal_observer} confirms the observer's ability to reconstruct states perfectly in the absence of noise.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/1_controllo_senza_rumore}
+	\caption{Baseline LQR control performance with perfect state information (no noise).}
+	\label{fig:ideal_control}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/3_observer_senza_rumore}
+	\caption{Observer state reconstruction accuracy in noise-free conditions.}
+	\label{fig:ideal_observer}
+\end{figure}
+
+However, when sensor noise is introduced, the reconstructed states become significantly degraded. Figure~\ref{fig:noisy_observer_base} illustrates the impact of Gaussian noise on the observer's output before any specific tuning.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/2_sistema_con_observer_rumoroso}
+	\caption{Initial observer performance showing significant noise propagation in the estimated states.}
+	\label{fig:noisy_observer_base}
+\end{figure}
+
+\subsection{Observer Optimization for Noise Suppression}
+
+Initial experiments showed that the pitch estimate was excessively noisy, leading to jittery actuator commands. As seen in Figure~\ref{fig:heavy_noise_obs}, high-frequency noise dominates the estimation when the observer is too reactive.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/4_observer_con_tanto_rumore}
+	\caption{Observer output subjected to high sensor noise levels before optimization.}
+	\label{fig:heavy_noise_obs}
+\end{figure}
+
+To mitigate this, the observer's "trust balance" was redefined. Figure~\ref{fig:sys_obs_comp} shows the comparison between the plant's true states and the noisy estimates. To clean the signal, the $Q_{obs}$ and $R_{obs}$ matrices were adjusted:
+\begin{itemize}
+	\item \textbf{Process Noise ($Q_{obs}$):} The weight on the pitch rate was reduced from $100$ to $10$, forcing the observer to rely more on the smooth physical model.
+	\item \textbf{Anti-Longitudinal Strategy:} High penalty ($10^3$) on accelerometer channels to ignore $a_x$ spikes.
+\end{itemize}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/5_sys_e_obs_rumoroso}
+	\caption{Time-history comparison between true plant states and noisy observer estimates.}
+	\label{fig:sys_obs_comp}
+\end{figure}
+
+The result of this optimization is shown in Figure~\ref{fig:tuned_observer}, where the state reconstruction is significantly smoothed, and Figure~\ref{fig:final_obs_signal} provides the final filtered output.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/6_sys_e_obs_tunato}
+	\caption{Optimized observer performance: effective noise filtering through $Q$ and $R$ recalibration.}
+	\label{fig:tuned_observer}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/7_observer_con_rumore}
+	\caption{Final filtered estimation used for the full control chain.}
+	\label{fig:final_obs_signal}
+\end{figure}
+
+\subsection{LQR Control Tuning for Smooth Response}
+
+Even with an optimized observer, a high-gain LQR controller can amplify residual noise. Figure~\ref{fig:noisy_control_jitter} shows the jittery behavior of the pitch control with original gains.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/8_controllo_con_il_rumore}
+	\caption{Closed-loop response with noise: observe the jitter in the pitch control (orange line).}
+	\label{fig:noisy_control_jitter}
+\end{figure}
+
+To eliminate this, the following LQR adjustments were implemented:
+\begin{itemize}
+	\item \textbf{Derivative Weight Reduction:} Velocity state weights ($q_{vz}, q_{v\theta}$) reduced from $3 \cdot 10^7$ to $3 \cdot 10^2$.
+	\item \textbf{Proportional/Integral Balance:} Lowered proportional gains to $10^6$/$10^7$ while keeping high integral weights ($5 \cdot 10^8$) for steady-state accuracy.
+\end{itemize}
+
+The final result is presented in Figure~\ref{fig:smooth_control}, demonstrating a robust and fluid control action.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/9_controllo_ammorbidito}
+	\caption{Final smoothed LQR control: noise-robust pitch suppression with fluid actuator response.}
+	\label{fig:smooth_control}
+\end{figure}
+
+Several conclusions can be drawn:
+\begin{itemize}
+	\item The optimized tuning results in a significantly cleaner pitch signal.
+	\item Actuator commands are now fluid and sustainable for real-world applications.
+	\item The system maintains leveling capabilities even under adverse sensor conditions.
+\end{itemize}
 
 
 	
 \chapter{Conclusions and Future Developments}
 
-The work presented in this report has led to the complete formulation, implementation, and analysis of the proposed vehicle dynamic model. Starting from the derivation of the equations of motion and proceeding through their numerical integration, we investigated the system response under different road excitations and parameter configurations. The results obtained are coherent with the expected physical behavior of the system and confirm the correctness of the modeling assumptions within the adopted framework.
+The work presented in this report led to the complete formulation, implementation, and analysis of an active suspension control system for a half-car model. Beginning with the derivation of the equations of motion and their numerical integration, the system response was evaluated under deterministic road excitations and longitudinal load transfers. The obtained results are consistent with the expected physical behavior and confirm the validity of the modeling assumptions, particularly regarding the effectiveness of the LQR controller in suppressing pitch and heave dynamics.
 
-A significant portion of the project was devoted to testing and debugging the model in order to ensure its reliability. Although these activities were not included in detail in the main body of the report, they played a fundamental role in validating the implementation. Throughout the development phase, we performed several additional tests to verify the consistency and robustness of the model: replacing the bump with a hole in the road to check sign conventions and symmetry of the response; modifying the damping coefficients $d_f$ and $d_r$ to create intentionally unbalanced configurations; testing extreme initial conditions, such as simulating a drop from a given height; introducing sloped road profiles to better understand the effect of the excitation integral; and exploring a wide range of stiffness and damping values to assess numerical stability and physical plausibility. Including a structured discussion of these debugging procedures would have further strengthened the methodological completeness of the report, as they demonstrate the systematic approach adopted to verify the model.
+A substantial part of the project concerned the transition from an ideal full-state feedback configuration to a realistic implementation based on a state observer. The observer design represented a critical milestone, enabling the reconstruction of the eight system states from a limited sensor set (accelerometers, gyroscope, and LVDTs). During the validation phase, multiple stress tests were conducted to assess model reliability, including road profile inversion, damping asymmetries. These analyses confirmed the numerical stability of the Jacobian-based linearization and the internal consistency of the adopted modeling framework.
 
-From a broader perspective, the developed model and simulation script provide a flexible framework that could be extended beyond the scenarios analyzed here. As a possible future development, it would be particularly interesting to adapt the same model to simulate a racing setup, modifying suspension parameters to represent a stiffer and more performance-oriented configuration. Such an investigation would allow a direct comparison between comfort-oriented and performance-oriented tuning strategies, highlighting how parameter variations influence stability, responsiveness, and load transfer characteristics.
+A central contribution of this study is the robustness assessment under sensor noise conditions. Simulations performed with a $100~\text{Hz}$ sampling frequency reproduced realistic operating scenarios, highlighting the fundamental trade-off between control responsiveness and noise amplification. Proper tuning of the observer, through systematic adjustment of the $Q_{obs}$ and $R_{obs}$ weighting matrices, proved essential to attenuate high-frequency disturbances while preserving the effectiveness of the anti-longitudinal control strategy. Furthermore, refinement of the LQR controller—achieved by reducing derivative penalties and increasing actuator effort weighting—resulted in a smoother control action, suitable for industrial ECU implementation where actuator durability and passenger comfort represent critical constraints.
 
-In conclusion, this project successfully achieved its objectives by developing a consistent dynamic model, implementing it numerically, and validating its behavior through systematic simulations and extensive debugging. The experience gained emphasizes the importance of combining theoretical modeling, computational analysis, and critical testing in academic engineering work. The model constitutes a solid basis for further refinements and applications, and it offers several promising directions for future investigation.
-	\newpage
-	\chapter*{Bibliography}
-	List the papers/books cited.
+From a broader perspective, the developed model and simulation framework provide a flexible basis for further extensions. A relevant future development consists in adapting the suspension parameters to a racing-oriented configuration, enabling a direct and systematic comparison with the comfort-focused setup. Such an analysis would allow the evaluation of how parameter variations influence load transfer dynamics, pitch control authority, and overall stability margins under different performance objectives.
+
+Another significant extension concerns the discretization of the estimation-control architecture. Reformulating both the observer and the LQR controller in discrete time would represent a necessary step toward practical implementation on an automotive-grade microcontroller. This transition would require careful consideration of sampling frequency selection, numerical stability, and computational constraints, ultimately bridging the gap between simulation-based validation and real-time ECU deployment.
+
+The project achieved its objectives by developing a coherent dynamic model, implementing a robust estimation-control architecture, and validating system performance through structured simulations under noisy conditions. The results emphasize the importance of integrating theoretical modeling, numerical analysis, and systematic validation. The framework therefore constitutes a solid foundation for further refinement and real-time implementation in active vehicle dynamics applications.
 	
 	
-	\newpage
-	\appendix
-	\chapter*{Appendix}
-	Use appendices to add technical parts which are instrumental for the completeness of the manuscript but are too heavy to be included inside the main text. Basically, appendices are exploited to let the main text cleaner and smoother. As example, the complete MATLAB listings can be reported in appendix.\\
+
 	
 	\end{document}          
