@@ -741,9 +741,16 @@ From a control design perspective, the augmented vector $z$ defines the full set
 \end{itemize}
 
 	\newpage
-	\subsection{System Linearization}
+
+	\subsection{Choice of the State Vector for Linearization}
 	
-	To facilitate the control design of the longitudinal half-car model equipped with active front and rear suspension systems, the initial step involves the linearization of the nonlinear system dynamics. This process is performed by identifying appropriate steady-state operating points \((x^*, y^*, w^*)\), which characterize representative conditions under which the vehicle is expected to operate. Linearizing the system around these equilibrium points enables the derivation of a time-invariant linear approximation of the vehicle dynamics, thereby simplifying the synthesis and analysis of control strategies.
+	For the linearization procedure, two possible formulations were considered: an 8–state model including only the vehicle dynamics, and a 12–state augmented model in which four additional states describe the road profiles at the front and rear wheels.
+	
+	The augmented formulation can be useful when the road is modeled through additional differential equations (e.g., shaping filters for stochastic road excitation), so that the disturbance becomes part of an extended state–space representation. This approach is typically adopted in estimation–oriented frameworks.
+	
+	However, in our case the original nonlinear model already consists of 8 states, corresponding exclusively to the vehicle dynamics (sprung mass vertical motion and pitch, together with front and rear unsprung masses and their velocities). The road profile is treated as an external input and is not governed by internal vehicle dynamics.
+	
+	For consistency with the nonlinear model and with the modeling assumptions adopted in the project, the linearization has therefore been carried out using the same 8–state representation. This ensures coherence between nonlinear and linear models while keeping a clear separation between the system dynamics and the exogenous road disturbance.
 	
 \section{System Linearization}
 
@@ -1099,7 +1106,6 @@ The substitution of the values in the table \ref{tab:parametri_rolls} into the m
 	\end{bmatrix}
 \end{equation}
 
-	
 
 
 \subsection{Linear Model Analysis}
@@ -1187,6 +1193,7 @@ the lightly damped body modes can degrade ride comfort and increase settling tim
 Therefore, active suspension control is introduced not to ensure stability, 
 but to reshape the closed-loop poles, increase damping, 
 and improve overall dynamic performance.
+
 
 
 
@@ -1520,6 +1527,16 @@ From a control perspective, the ratio between $Q_{aug}$ and $R_{aug}$
 directly determines the aggressiveness of the feedback law, 
 shaping the trade-off between ride comfort and actuator effort.
 
+\subsection{Absence of Feedforward Action}
+
+A feedforward contribution has not been included in the control structure. 
+Although feedforward compensation can improve performance when a measurable disturbance is available, in the present project it was not considered necessary with respect to the control objectives.
+
+The aim of the controller is to ensure satisfactory ride comfort and vehicle stability under generic road excitations. 
+Since the road disturbance is treated as an external input and not as a signal to be explicitly canceled, the design focuses on disturbance attenuation through feedback regulation rather than direct disturbance compensation.
+
+Introducing a feedforward term would have increased the structural complexity of the controller without providing a significant improvement for the considered performance criteria. 
+For this reason, a pure state–feedback architecture has been adopted as a coherent and sufficiently effective solution.
 	
 	\chapter{MATLAB/Simulink Implementation}
 	

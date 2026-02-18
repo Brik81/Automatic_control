@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.17)  18 FEB 2026 23:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.17)  18 FEB 2026 23:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -808,7 +808,7 @@ Chapter 1.
 [5
 
 ] [6] [7] [8]
-<img/LIS3DH.png, id=608, 448.67625pt x 348.55219pt>
+<img/LIS3DH.png, id=613, 448.67625pt x 348.55219pt>
 File: img/LIS3DH.png Graphic file (type png)
 <use img/LIS3DH.png>
 Package pdftex.def Info: img/LIS3DH.png  used on input line 553.
@@ -818,12 +818,12 @@ Package pdftex.def Info: img/LIS3DH.png  used on input line 553.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [9]
-<img/LIS3DH1.png, id=617, 442.65375pt x 400.49625pt>
+<img/LIS3DH1.png, id=622, 442.65375pt x 400.49625pt>
 File: img/LIS3DH1.png Graphic file (type png)
 <use img/LIS3DH1.png>
 Package pdftex.def Info: img/LIS3DH1.png  used on input line 570.
 (pdftex.def)             Requested size: 103.50105pt x 93.63997pt.
-<img/LIS3DH2.png, id=618, 394.47375pt x 469.00218pt>
+<img/LIS3DH2.png, id=623, 394.47375pt x 469.00218pt>
 File: img/LIS3DH2.png Graphic file (type png)
 <use img/LIS3DH2.png>
 Package pdftex.def Info: img/LIS3DH2.png  used on input line 593.
@@ -834,144 +834,144 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [10 <./img/LIS3DH.png> <./img/LIS3DH1.png>] [11 <./img/LIS3DH2.png>] [12]
 [13] [14] [15]
-Overfull \hbox (11.35706pt too wide) detected at line 811
+Overfull \hbox (11.35706pt too wide) detected at line 818
 [][][][][]
  []
 
 [16] [17]
-Overfull \hbox (33.35051pt too wide) detected at line 944
+Overfull \hbox (33.35051pt too wide) detected at line 951
 [][][]\OML/cmm/m/it/10 D[] \OT1/cmr/m/n/10 = []
  []
 
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 952--953
+Underfull \hbox (badness 10000) in paragraph at lines 959--960
 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/ROLLL_RRROIS.png, id=697, 911.65594pt x 493.845pt>
+<img/ROLLL_RRROIS.png, id=702, 911.65594pt x 493.845pt>
 File: img/ROLLL_RRROIS.png Graphic file (type png)
 <use img/ROLLL_RRROIS.png>
-Package pdftex.def Info: img/ROLLL_RRROIS.png  used on input line 985.
+Package pdftex.def Info: img/ROLLL_RRROIS.png  used on input line 992.
 (pdftex.def)             Requested size: 241.49895pt x 130.81555pt.
 [19 <./img/ROLLL_RRROIS.png>] [20] [21] [22]
-Overfull \hbox (0.57468pt too wide) in paragraph at lines 1180--1183
+Overfull \hbox (0.57468pt too wide) in paragraph at lines 1186--1189
 \OT1/cmr/m/n/10 the sprung-mass heave and pitch mo-tions. These modes are light
 ly damped
  []
 
 [23] [24]
-Overfull \hbox (10.32878pt too wide) in paragraph at lines 1332--1336
+Overfull \hbox (10.32878pt too wide) in paragraph at lines 1339--1343
 []\OT1/cmr/m/n/10 Since the orig-i-nal pair $(\OML/cmm/m/it/10 A; C\OT1/cmr/m/n
 /10 )$ is ob-serv-able and the aug-mented pair $(\OML/cmm/m/it/10 A[]; B[]\OT1/
 cmr/m/n/10 )$
  []
 
-[25] [26] [27] [28]
+[25] [26] [27] [28] [29]
 Chapter 2.
-[29
+[30
 
 ]
-<img/1.png, id=800, 554.07pt x 70.46326pt>
+<img/1.png, id=809, 554.07pt x 70.46326pt>
 File: img/1.png Graphic file (type png)
 <use img/1.png>
-Package pdftex.def Info: img/1.png  used on input line 1569.
+Package pdftex.def Info: img/1.png  used on input line 1586.
 (pdftex.def)             Requested size: 345.0pt x 43.87491pt.
-<img/2.png, id=801, 531.1845pt x 52.39575pt>
+<img/2.png, id=810, 531.1845pt x 52.39575pt>
 File: img/2.png Graphic file (type png)
 <use img/2.png>
-Package pdftex.def Info: img/2.png  used on input line 1588.
+Package pdftex.def Info: img/2.png  used on input line 1605.
 (pdftex.def)             Requested size: 345.0pt x 34.03204pt.
- [30 <./img/1.png> <./img/2.png>]
-<img/3.png, id=810, 529.98pt x 55.407pt>
+ [31 <./img/1.png> <./img/2.png>]
+<img/3.png, id=819, 529.98pt x 55.407pt>
 File: img/3.png Graphic file (type png)
 <use img/3.png>
-Package pdftex.def Info: img/3.png  used on input line 1615.
+Package pdftex.def Info: img/3.png  used on input line 1632.
 (pdftex.def)             Requested size: 345.0pt x 36.0682pt.
-<img/4.png, id=811, 531.78674pt x 54.2025pt>
+<img/4.png, id=820, 531.78674pt x 54.2025pt>
 File: img/4.png Graphic file (type png)
 <use img/4.png>
-Package pdftex.def Info: img/4.png  used on input line 1632.
+Package pdftex.def Info: img/4.png  used on input line 1649.
 (pdftex.def)             Requested size: 345.0pt x 35.1642pt.
-<img/5.png, id=812, 529.98pt x 68.05424pt>
+<img/5.png, id=821, 529.98pt x 68.05424pt>
 File: img/5.png Graphic file (type png)
 <use img/5.png>
-Package pdftex.def Info: img/5.png  used on input line 1658.
+Package pdftex.def Info: img/5.png  used on input line 1675.
 (pdftex.def)             Requested size: 345.0pt x 44.30118pt.
- [31 <./img/3.png> <./img/4.png>]
-<img/6.png, id=821, 572.73975pt x 365.56575pt>
+ [32 <./img/3.png> <./img/4.png>]
+<img/6.png, id=830, 572.73975pt x 365.56575pt>
 File: img/6.png Graphic file (type png)
 <use img/6.png>
-Package pdftex.def Info: img/6.png  used on input line 1669.
+Package pdftex.def Info: img/6.png  used on input line 1686.
 (pdftex.def)             Requested size: 345.0pt x 220.21132pt.
- [32 <./img/5.png> <./img/6.png>]
-<img/7.png, id=830, 519.1395pt x 181.8795pt>
+ [33 <./img/5.png> <./img/6.png>]
+<img/7.png, id=839, 519.1395pt x 181.8795pt>
 File: img/7.png Graphic file (type png)
 <use img/7.png>
-Package pdftex.def Info: img/7.png  used on input line 1701.
+Package pdftex.def Info: img/7.png  used on input line 1718.
 (pdftex.def)             Requested size: 345.0pt x 120.87062pt.
- [33 <./img/7.png>]
-<img/8.png, id=838, 528.17325pt x 181.8795pt>
+ [34 <./img/7.png>]
+<img/8.png, id=847, 528.17325pt x 181.8795pt>
 File: img/8.png Graphic file (type png)
 <use img/8.png>
-Package pdftex.def Info: img/8.png  used on input line 1759.
+Package pdftex.def Info: img/8.png  used on input line 1776.
 (pdftex.def)             Requested size: 345.0pt x 118.80583pt.
- [34 <./img/8.png>]
-<img/9.png, id=846, 591.4095pt x 369.17924pt>
+ [35 <./img/8.png>]
+<img/9.png, id=856, 591.4095pt x 369.17924pt>
 File: img/9.png Graphic file (type png)
 <use img/9.png>
-Package pdftex.def Info: img/9.png  used on input line 1808.
+Package pdftex.def Info: img/9.png  used on input line 1825.
 (pdftex.def)             Requested size: 345.0pt x 215.35779pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1824--1826
+Underfull \hbox (badness 10000) in paragraph at lines 1841--1843
 
  []
 
-[35 <./img/9.png>]
-<img/10.png, id=854, 527.571pt x 253.54726pt>
+[36 <./img/9.png>]
+<img/10.png, id=863, 527.571pt x 253.54726pt>
 File: img/10.png Graphic file (type png)
 <use img/10.png>
-Package pdftex.def Info: img/10.png  used on input line 1831.
+Package pdftex.def Info: img/10.png  used on input line 1848.
 (pdftex.def)             Requested size: 345.0pt x 165.80577pt.
-<img/11.png, id=855, 781.11826pt x 281.25075pt>
+<img/11.png, id=864, 781.11826pt x 281.25075pt>
 File: img/11.png Graphic file (type png)
 <use img/11.png>
-Package pdftex.def Info: img/11.png  used on input line 1838.
+Package pdftex.def Info: img/11.png  used on input line 1855.
 (pdftex.def)             Requested size: 482.9979pt x 173.91016pt.
 
-Overfull \hbox (137.9979pt too wide) in paragraph at lines 1838--1839
+Overfull \hbox (137.9979pt too wide) in paragraph at lines 1855--1856
  [][] 
  []
 
-[36 <./img/10.png> <./img/11.png>]
-<img/12.png, id=864, 526.96875pt x 266.1945pt>
+[37 <./img/10.png> <./img/11.png>]
+<img/12.png, id=873, 526.96875pt x 266.1945pt>
 File: img/12.png Graphic file (type png)
 <use img/12.png>
-Package pdftex.def Info: img/12.png  used on input line 1884.
+Package pdftex.def Info: img/12.png  used on input line 1901.
 (pdftex.def)             Requested size: 345.0pt x 174.28352pt.
- [37 <./img/12.png>]
-<img/13.png, id=871, 588.39825pt x 224.63925pt>
+ [38 <./img/12.png>]
+<img/13.png, id=880, 588.39825pt x 224.63925pt>
 File: img/13.png Graphic file (type png)
 <use img/13.png>
-Package pdftex.def Info: img/13.png  used on input line 1907.
+Package pdftex.def Info: img/13.png  used on input line 1924.
 (pdftex.def)             Requested size: 345.0pt x 131.71677pt.
- [38 <./img/13.png>]
-<img/14_1.png, id=879, 534.798pt x 311.9655pt>
+ [39 <./img/13.png>]
+<img/14_1.png, id=888, 534.798pt x 311.9655pt>
 File: img/14_1.png Graphic file (type png)
 <use img/14_1.png>
-Package pdftex.def Info: img/14_1.png  used on input line 1961.
+Package pdftex.def Info: img/14_1.png  used on input line 1978.
 (pdftex.def)             Requested size: 345.0pt x 201.2519pt.
-<img/14_2.png, id=880, 520.94624pt x 325.81725pt>
+<img/14_2.png, id=889, 520.94624pt x 325.81725pt>
 File: img/14_2.png Graphic file (type png)
 <use img/14_2.png>
-Package pdftex.def Info: img/14_2.png  used on input line 1966.
+Package pdftex.def Info: img/14_2.png  used on input line 1983.
 (pdftex.def)             Requested size: 345.0pt x 215.77582pt.
-<img/14_3.png, id=881, 564.9105pt x 144.54pt>
+<img/14_3.png, id=890, 564.9105pt x 144.54pt>
 File: img/14_3.png Graphic file (type png)
 <use img/14_3.png>
-Package pdftex.def Info: img/14_3.png  used on input line 1971.
+Package pdftex.def Info: img/14_3.png  used on input line 1988.
 (pdftex.def)             Requested size: 345.0pt x 88.27292pt.
 
 
@@ -980,331 +980,331 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[39 <./img/14_1.png>] [40 <./img/14_2.png> <./img/14_3.png>]
-<img/non_linear.png, id=894, 646.21425pt x 366.168pt>
+[40 <./img/14_1.png>] [41 <./img/14_2.png> <./img/14_3.png>]
+<img/non_linear.png, id=904, 646.21425pt x 366.168pt>
 File: img/non_linear.png Graphic file (type png)
 <use img/non_linear.png>
-Package pdftex.def Info: img/non_linear.png  used on input line 2011.
+Package pdftex.def Info: img/non_linear.png  used on input line 2028.
 (pdftex.def)             Requested size: 345.0pt x 195.49286pt.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2014.
+(hyperref)                removing `math shift' on input line 2031.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2014.
+(hyperref)                removing `math shift' on input line 2031.
 
-[41 <./img/non_linear.png>]
-<img/f4.png, id=902, 501.072pt x 75.8835pt>
+[42 <./img/non_linear.png>]
+<img/f4.png, id=911, 501.072pt x 75.8835pt>
 File: img/f4.png Graphic file (type png)
 <use img/f4.png>
-Package pdftex.def Info: img/f4.png  used on input line 2049.
+Package pdftex.def Info: img/f4.png  used on input line 2066.
 (pdftex.def)             Requested size: 345.0pt x 52.24734pt.
-<img/f5.png, id=903, 497.4585pt x 175.857pt>
+<img/f5.png, id=912, 497.4585pt x 175.857pt>
 File: img/f5.png Graphic file (type png)
 <use img/f5.png>
-Package pdftex.def Info: img/f5.png  used on input line 2072.
+Package pdftex.def Info: img/f5.png  used on input line 2089.
 (pdftex.def)             Requested size: 345.0pt x 121.96399pt.
- [42 <./img/f4.png> <./img/f5.png>]
+ [43 <./img/f4.png> <./img/f5.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2130.
+(hyperref)                removing `math shift' on input line 2147.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2130.
+(hyperref)                removing `math shift' on input line 2147.
 
-<img/h5.png, id=910, 496.85625pt x 111.41624pt>
+<img/h5.png, id=919, 496.85625pt x 111.41624pt>
 File: img/h5.png Graphic file (type png)
 <use img/h5.png>
-Package pdftex.def Info: img/h5.png  used on input line 2146.
+Package pdftex.def Info: img/h5.png  used on input line 2163.
 (pdftex.def)             Requested size: 345.0pt x 77.3652pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<img/h6.png, id=911, 494.44725pt x 63.23625pt>
+<img/h6.png, id=920, 494.44725pt x 63.23625pt>
 File: img/h6.png Graphic file (type png)
 <use img/h6.png>
-Package pdftex.def Info: img/h6.png  used on input line 2162.
+Package pdftex.def Info: img/h6.png  used on input line 2179.
 (pdftex.def)             Requested size: 345.0pt x 44.12321pt.
-[43]
+[44]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2184.
+(hyperref)                removing `math shift' on input line 2201.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2184.
+(hyperref)                removing `math shift' on input line 2201.
 
-[44 <./img/h5.png> <./img/h6.png>]
-<img/road.png, id=922, 394.47375pt x 177.66376pt>
+[45 <./img/h5.png> <./img/h6.png>]
+<img/road.png, id=931, 394.47375pt x 177.66376pt>
 File: img/road.png Graphic file (type png)
 <use img/road.png>
-Package pdftex.def Info: img/road.png  used on input line 2234.
+Package pdftex.def Info: img/road.png  used on input line 2251.
 (pdftex.def)             Requested size: 345.0pt x 155.3822pt.
-<img/road_g.png, id=923, 1091.87926pt x 455.90324pt>
+<img/road_g.png, id=932, 1091.87926pt x 455.90324pt>
 File: img/road_g.png Graphic file (type png)
 <use img/road_g.png>
-Package pdftex.def Info: img/road_g.png  used on input line 2247.
+Package pdftex.def Info: img/road_g.png  used on input line 2264.
 (pdftex.def)             Requested size: 345.0pt x 144.04854pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[45 <./img/road.png>]
-<img/long.png, id=929, 784.1295pt x 319.79475pt>
+[46 <./img/road.png>]
+<img/long.png, id=938, 784.1295pt x 319.79475pt>
 File: img/long.png Graphic file (type png)
 <use img/long.png>
-Package pdftex.def Info: img/long.png  used on input line 2267.
+Package pdftex.def Info: img/long.png  used on input line 2284.
 (pdftex.def)             Requested size: 345.0pt x 140.70036pt.
- [46 <./img/road_g.png> <./img/long.png>]
-<img/lin.png, id=936, 522.753pt x 326.4195pt>
+ [47 <./img/road_g.png> <./img/long.png>]
+<img/lin.png, id=946, 522.753pt x 326.4195pt>
 File: img/lin.png Graphic file (type png)
 <use img/lin.png>
-Package pdftex.def Info: img/lin.png  used on input line 2293.
+Package pdftex.def Info: img/lin.png  used on input line 2310.
 (pdftex.def)             Requested size: 345.0pt x 215.42258pt.
-<img/obs.png, id=937, 802.197pt x 283.65974pt>
+<img/obs.png, id=947, 802.197pt x 283.65974pt>
 File: img/obs.png Graphic file (type png)
 <use img/obs.png>
-Package pdftex.def Info: img/obs.png  used on input line 2320.
+Package pdftex.def Info: img/obs.png  used on input line 2337.
 (pdftex.def)             Requested size: 345.0pt x 121.99295pt.
- [47 <./img/lin.png>]
-<img/int.png, id=944, 624.53325pt x 218.61674pt>
+ [48 <./img/lin.png>]
+<img/int.png, id=953, 624.53325pt x 218.61674pt>
 File: img/int.png Graphic file (type png)
 <use img/int.png>
-Package pdftex.def Info: img/int.png  used on input line 2343.
+Package pdftex.def Info: img/int.png  used on input line 2360.
 (pdftex.def)             Requested size: 345.0pt x 120.76663pt.
- [48 <./img/obs.png> <./img/int.png>] [49] [50] [51]
+ [49 <./img/obs.png> <./img/int.png>] [50] [51] [52]
 Chapter 3.
-<img/arch.png, id=966, 333.6465pt x 176.45924pt>
+<img/arch.png, id=975, 333.6465pt x 176.45924pt>
 File: img/arch.png Graphic file (type png)
 <use img/arch.png>
-Package pdftex.def Info: img/arch.png  used on input line 2755.
+Package pdftex.def Info: img/arch.png  used on input line 2772.
 (pdftex.def)             Requested size: 310.4979pt x 164.22655pt.
-[52
+[53
 
- <./img/arch.png>] [53] [54] [55] [56]
+ <./img/arch.png>] [54] [55] [56] [57]
 Chapter 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2976--2979
+Underfull \hbox (badness 10000) in paragraph at lines 2993--2996
 
  []
 
-<img/Exp1.png, id=1009, 1033.461pt x 470.35725pt>
+<img/Exp1.png, id=1018, 1033.461pt x 470.35725pt>
 File: img/Exp1.png Graphic file (type png)
 <use img/Exp1.png>
-Package pdftex.def Info: img/Exp1.png  used on input line 2986.
+Package pdftex.def Info: img/Exp1.png  used on input line 3003.
 (pdftex.def)             Requested size: 310.4979pt x 141.31639pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[57
+[58
 
 ]
-<img/Exp2.png, id=1016, 1117.17375pt x 467.346pt>
+<img/Exp2.png, id=1025, 1117.17375pt x 467.346pt>
 File: img/Exp2.png Graphic file (type png)
 <use img/Exp2.png>
-Package pdftex.def Info: img/Exp2.png  used on input line 3011.
+Package pdftex.def Info: img/Exp2.png  used on input line 3028.
 (pdftex.def)             Requested size: 310.4979pt x 129.88615pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (7.49623pt too wide) in paragraph at lines 3025--3025
+Overfull \hbox (7.49623pt too wide) in paragraph at lines 3042--3042
 []\OT1/cmr/bx/n/14.4 Road-Induced Os-cil-la-tions with-out Anti-Dive
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3027--3032
+Underfull \hbox (badness 10000) in paragraph at lines 3044--3049
 
  []
 
-[58 <./img/Exp1.png>]
-<img/Exp3.png, id=1024, 1082.8455pt x 472.76625pt>
+[59 <./img/Exp1.png>]
+<img/Exp3.png, id=1034, 1082.8455pt x 472.76625pt>
 File: img/Exp3.png Graphic file (type png)
 <use img/Exp3.png>
-Package pdftex.def Info: img/Exp3.png  used on input line 3037.
+Package pdftex.def Info: img/Exp3.png  used on input line 3054.
 (pdftex.def)             Requested size: 310.4979pt x 135.56215pt.
- [59 <./img/Exp2.png> <./img/Exp3.png>]
-<img/Exp4.png, id=1034, 1058.15324pt x 470.35725pt>
+ [60 <./img/Exp2.png> <./img/Exp3.png>]
+<img/Exp4.png, id=1043, 1058.15324pt x 470.35725pt>
 File: img/Exp4.png Graphic file (type png)
 <use img/Exp4.png>
-Package pdftex.def Info: img/Exp4.png  used on input line 3061.
+Package pdftex.def Info: img/Exp4.png  used on input line 3078.
 (pdftex.def)             Requested size: 310.4979pt x 138.01494pt.
- [60 <./img/Exp4.png>]
-<img/obser.png, id=1042, 395.076pt x 376.40625pt>
+ [61 <./img/Exp4.png>]
+<img/obser.png, id=1051, 395.076pt x 376.40625pt>
 File: img/obser.png Graphic file (type png)
 <use img/obser.png>
-Package pdftex.def Info: img/obser.png  used on input line 3086.
+Package pdftex.def Info: img/obser.png  used on input line 3103.
 (pdftex.def)             Requested size: 310.4979pt x 295.8299pt.
- [61 <./img/obser.png>]
-<img/act.png, id=1050, 1102.1175pt x 473.3685pt>
+ [62 <./img/obser.png>]
+<img/act.png, id=1059, 1102.1175pt x 473.3685pt>
 File: img/act.png Graphic file (type png)
 <use img/act.png>
-Package pdftex.def Info: img/act.png  used on input line 3110.
+Package pdftex.def Info: img/act.png  used on input line 3127.
 (pdftex.def)             Requested size: 310.4979pt x 133.35847pt.
- [62 <./img/act.png>]
-<img/act2.png, id=1058, 1067.78925pt x 458.31226pt>
+ [63 <./img/act.png>]
+<img/act2.png, id=1067, 1067.78925pt x 458.31226pt>
 File: img/act2.png Graphic file (type png)
 <use img/act2.png>
-Package pdftex.def Info: img/act2.png  used on input line 3139.
+Package pdftex.def Info: img/act2.png  used on input line 3156.
 (pdftex.def)             Requested size: 310.4979pt x 133.2708pt.
- [63 <./img/act2.png>]
-<img/bump.png, id=1069, 1123.19624pt x 468.5505pt>
+ [64 <./img/act2.png>]
+<img/bump.png, id=1078, 1123.19624pt x 468.5505pt>
 File: img/bump.png Graphic file (type png)
 <use img/bump.png>
-Package pdftex.def Info: img/bump.png  used on input line 3197.
+Package pdftex.def Info: img/bump.png  used on input line 3214.
 (pdftex.def)             Requested size: 310.4979pt x 129.5274pt.
- [64 <./img/bump.png>]
-<img/bumpC.png, id=1077, 1090.0725pt x 471.56175pt>
+ [65 <./img/bump.png>]
+<img/bumpC.png, id=1087, 1090.0725pt x 471.56175pt>
 File: img/bumpC.png Graphic file (type png)
 <use img/bumpC.png>
-Package pdftex.def Info: img/bumpC.png  used on input line 3230.
+Package pdftex.def Info: img/bumpC.png  used on input line 3247.
 (pdftex.def)             Requested size: 310.4979pt x 134.31734pt.
- [65 <./img/bumpC.png>]
-Overfull \hbox (5.80626pt too wide) in paragraph at lines 3242--3243
+ [66 <./img/bumpC.png>]
+Overfull \hbox (5.80626pt too wide) in paragraph at lines 3259--3260
 []\OT1/cmr/m/n/10 Oscillations de-cay faster, demon-strat-ing ef-fec-tive damp-
 ing in-jec-tion through
  []
 
-[66]
-Overfull \hbox (6.47293pt too wide) in paragraph at lines 3291--3292
+[67]
+Overfull \hbox (6.47293pt too wide) in paragraph at lines 3308--3309
 []\OT1/cmr/m/n/10 Control tuned for lon-gi-tu-di-nal load trans-fer sce-nar-ios
  (ac-cel-er-a-tion/braking)
  []
 
-<img/case7.png, id=1092, 1052.13075pt x 467.94826pt>
+<img/case7.png, id=1101, 1052.13075pt x 467.94826pt>
 File: img/case7.png Graphic file (type png)
 <use img/case7.png>
-Package pdftex.def Info: img/case7.png  used on input line 3320.
+Package pdftex.def Info: img/case7.png  used on input line 3337.
 (pdftex.def)             Requested size: 345.0pt x 153.43803pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[67] [68 <./img/case7.png>]
-<img/case8.png, id=1108, 1088.26575pt x 472.76625pt>
+[68] [69 <./img/case7.png>]
+<img/case8.png, id=1117, 1088.26575pt x 472.76625pt>
 File: img/case8.png Graphic file (type png)
 <use img/case8.png>
-Package pdftex.def Info: img/case8.png  used on input line 3369.
+Package pdftex.def Info: img/case8.png  used on input line 3386.
 (pdftex.def)             Requested size: 345.0pt x 149.87437pt.
- [69 <./img/case8.png>] [70]
-<img/1_controllo_senza_rumore.png, id=1124, 1443.14156pt x 723.45282pt>
+ [70 <./img/case8.png>] [71]
+<img/1_controllo_senza_rumore.png, id=1134, 1443.14156pt x 723.45282pt>
 File: img/1_controllo_senza_rumore.png Graphic file (type png)
 <use img/1_controllo_senza_rumore.png>
 Package pdftex.def Info: img/1_controllo_senza_rumore.png  used on input line 3
-441.
+458.
 (pdftex.def)             Requested size: 310.4979pt x 155.64972pt.
-<img/3_observer_senza_rumore.png, id=1125, 1441.63594pt x 724.20563pt>
+<img/3_observer_senza_rumore.png, id=1135, 1441.63594pt x 724.20563pt>
 File: img/3_observer_senza_rumore.png Graphic file (type png)
 <use img/3_observer_senza_rumore.png>
 Package pdftex.def Info: img/3_observer_senza_rumore.png  used on input line 34
-48.
+65.
 (pdftex.def)             Requested size: 310.4979pt x 155.97743pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<img/2_sistema_con_observer_rumoroso.png, id=1127, 1439.3775pt x 741.52031pt>
+<img/2_sistema_con_observer_rumoroso.png, id=1137, 1439.3775pt x 741.52031pt>
 File: img/2_sistema_con_observer_rumoroso.png Graphic file (type png)
 <use img/2_sistema_con_observer_rumoroso.png>
 Package pdftex.def Info: img/2_sistema_con_observer_rumoroso.png  used on input
- line 3457.
+ line 3474.
 (pdftex.def)             Requested size: 310.4979pt x 159.95554pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<img/4_observer_con_tanto_rumore.png, id=1129, 1443.89438pt x 744.53156pt>
+<img/4_observer_con_tanto_rumore.png, id=1139, 1443.89438pt x 744.53156pt>
 File: img/4_observer_con_tanto_rumore.png Graphic file (type png)
 <use img/4_observer_con_tanto_rumore.png>
 Package pdftex.def Info: img/4_observer_con_tanto_rumore.png  used on input lin
-e 3468.
+e 3485.
 (pdftex.def)             Requested size: 310.4979pt x 160.10524pt.
-[71 <./img/1_controllo_senza_rumore.png>]
+[72 <./img/1_controllo_senza_rumore.png>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (2.64542pt too wide) in paragraph at lines 3476--3477
+Overfull \hbox (2.64542pt too wide) in paragraph at lines 3493--3494
 []\OT1/cmr/bx/n/10 Anti-Longitudinal Strat-egy: \OT1/cmr/m/n/10 High penalty ($
 10[]$) on ac-celerom-e-ter chan-
  []
 
-<img/5_sys_e_obs_rumoroso.png, id=1141, 1440.13031pt x 744.53156pt>
+<img/5_sys_e_obs_rumoroso.png, id=1150, 1440.13031pt x 744.53156pt>
 File: img/5_sys_e_obs_rumoroso.png Graphic file (type png)
 <use img/5_sys_e_obs_rumoroso.png>
-Package pdftex.def Info: img/5_sys_e_obs_rumoroso.png  used on input line 3481.
+Package pdftex.def Info: img/5_sys_e_obs_rumoroso.png  used on input line 3498.
 
 (pdftex.def)             Requested size: 310.4979pt x 160.51422pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<img/6_sys_e_obs_tunato.png, id=1144, 1440.13031pt x 723.45282pt>
+<img/6_sys_e_obs_tunato.png, id=1153, 1440.13031pt x 723.45282pt>
 File: img/6_sys_e_obs_tunato.png Graphic file (type png)
 <use img/6_sys_e_obs_tunato.png>
-Package pdftex.def Info: img/6_sys_e_obs_tunato.png  used on input line 3490.
+Package pdftex.def Info: img/6_sys_e_obs_tunato.png  used on input line 3507.
 (pdftex.def)             Requested size: 310.4979pt x 155.96985pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<img/7_observer_con_rumore.png, id=1145, 1440.13031pt x 742.27313pt>
+<img/7_observer_con_rumore.png, id=1154, 1440.13031pt x 742.27313pt>
 File: img/7_observer_con_rumore.png Graphic file (type png)
 <use img/7_observer_con_rumore.png>
-Package pdftex.def Info: img/7_observer_con_rumore.png  used on input line 3497
+Package pdftex.def Info: img/7_observer_con_rumore.png  used on input line 3514
 .
 (pdftex.def)             Requested size: 310.4979pt x 160.02733pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[72 <./img/3_observer_senza_rumore.png> <./img/2_sistema_con_observer_rumoroso.
+[73 <./img/3_observer_senza_rumore.png> <./img/2_sistema_con_observer_rumoroso.
 png>]
-<img/8_controllo_con_il_rumore.png, id=1156, 1440.13031pt x 724.95844pt>
+<img/8_controllo_con_il_rumore.png, id=1165, 1440.13031pt x 724.95844pt>
 File: img/8_controllo_con_il_rumore.png Graphic file (type png)
 <use img/8_controllo_con_il_rumore.png>
 Package pdftex.def Info: img/8_controllo_con_il_rumore.png  used on input line 
-3508.
+3525.
 (pdftex.def)             Requested size: 310.4979pt x 156.29443pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (2.81897pt too wide) in paragraph at lines 3516--3517
+Overfull \hbox (2.81897pt too wide) in paragraph at lines 3533--3534
 []\OT1/cmr/bx/n/10 Proportional/Integral Bal-ance: \OT1/cmr/m/n/10 Low-ered pro
 -por-tional gains to $10[]$/$10[]$
  []
 
-[73 <./img/4_observer_con_tanto_rumore.png> <./img/5_sys_e_obs_rumoroso.png>]
-<img/9_controllo_ammorbidito.png, id=1165, 1445.4pt x 718.18312pt>
+[74 <./img/4_observer_con_tanto_rumore.png> <./img/5_sys_e_obs_rumoroso.png>]
+<img/9_controllo_ammorbidito.png, id=1174, 1445.4pt x 718.18312pt>
 File: img/9_controllo_ammorbidito.png Graphic file (type png)
 <use img/9_controllo_ammorbidito.png>
 Package pdftex.def Info: img/9_controllo_ammorbidito.png  used on input line 35
-23.
+40.
 (pdftex.def)             Requested size: 310.4979pt x 154.27486pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[74 <./img/6_sys_e_obs_tunato.png> <./img/7_observer_con_rumore.png>] [75 <./im
+[75 <./img/6_sys_e_obs_tunato.png> <./img/7_observer_con_rumore.png>] [76 <./im
 g/8_controllo_con_il_rumore.png> <./img/9_controllo_ammorbidito.png>]
 Chapter 5.
-[76
+[77
 
-] [77] (report_AC_Briccoli_Cecchini_DiMarino.aux)
+] [78] (report_AC_Briccoli_Cecchini_DiMarino.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-10-24>
  ***********
 Package rerunfilecheck Info: File `report_AC_Briccoli_Cecchini_DiMarino.out' ha
 s not changed.
-(rerunfilecheck)             Checksum: BBD0B1F0E0A84E7DDF57F77DABCC3048;22343.
+(rerunfilecheck)             Checksum: E9C1F70734F69DBA718A4E8C5126C1F2;22693.
  ) 
 Here is how much of TeX's memory you used:
- 40250 strings out of 467871
- 974949 string characters out of 5418375
- 1605340 words of memory out of 5000000
- 68358 multiletter control sequences out of 15000+600000
+ 40253 strings out of 467871
+ 974986 string characters out of 5418375
+ 1604338 words of memory out of 5000000
+ 68359 multiletter control sequences out of 15000+600000
  638563 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,15n,104p,904b,864s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1332,10 +1332,10 @@ ers/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.p
 fb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
 /cmtt10.pfb><C:/Users/alex2/AppData/Local/Programs/MiKTeX/fonts/type1/public/am
 sfonts/symbols/msbm10.pfb>
-Output written on report_AC_Briccoli_Cecchini_DiMarino.pdf (79 pages, 5664329 b
+Output written on report_AC_Briccoli_Cecchini_DiMarino.pdf (80 pages, 5667827 b
 ytes).
 PDF statistics:
- 1353 PDF objects out of 1440 (max. 8388607)
- 359 named destinations out of 1000 (max. 500000)
- 1113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1364 PDF objects out of 1440 (max. 8388607)
+ 361 named destinations out of 1000 (max. 500000)
+ 1121 words of extra memory for PDF output out of 10000 (max. 10000000)
 
