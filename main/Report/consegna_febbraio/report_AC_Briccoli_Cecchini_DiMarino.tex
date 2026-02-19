@@ -13,7 +13,7 @@
 
 
 % Title Page
-\title{{\huge  Longitudinal Active Suspension Control in a Half-Car Model with Unsprang Masses} \\
+\title{{\huge  Longitudinal Active Suspension Control in a Half-Car Model with Unsprung Masses} \\
 	{\small Automatic Control\\
 		Electronic Engineering for Intelligent Vehicles\\
 		University of Bologna\\
@@ -27,11 +27,13 @@
 	\maketitle
 	
 	\begin{abstract}
-		This report presents the modeling, design, and simulation of an active suspension control system aimed at improving ride comfort and handling performance in passenger vehicles. The study focuses on a half-car model that includes both front and rear suspension dynamics, allowing the analysis of vertical and pitch motion of the vehicle body. Unlike passive suspension systems, which rely solely on spring-damper elements, the active suspension system introduced here incorporates actuators capable of generating controlled forces to counteract road disturbances in real time.
-		
-		To achieve the desired ride quality, a control strategy based on Proportional-Integral-Derivative (PID) controllers is developed.  Additionally, a state estimation technique using a Kalman observer is incorporated to provide real-time estimates of the states, helping to adapt to acceleration and road profile in a faster and more effective way.
-		
-		The performance of the control system is evaluated through simulations conducted in MATLAB/Simulink. Results show a significant reduction in body acceleration and pitch angle variation when compared to a passive suspension system, demonstrating the effectiveness of the proposed approach in enhancing ride comfort. This project perfectly demonstrates, once again, the massive importance of active control strategies in automotive suspension design.
+This report presents the modeling, linearization, and control design of an active longitudinal suspension system for a nonlinear half-car vehicle model. The considered model describes the vertical and pitch dynamics of the sprung mass together with the vertical dynamics of the front and rear unsprung masses, while road profiles are treated as external disturbances.
+
+The nonlinear equations of motion are derived and subsequently linearized around the static equilibrium configuration, resulting in an 8-state Linear Time-Invariant (LTI) representation suitable for control synthesis. A state-feedback control architecture based on an augmented Linear Quadratic Regulator (LQR) is adopted. Integral action is included to ensure asymptotic rejection of constant disturbances and accurate tracking of heave and pitch references.
+
+Since not all vehicle states are directly measurable, a steady-state Kalman observer is designed to reconstruct the system states from accelerometer, gyroscope, and suspension deflection measurements. Structural observability of the linearized model is verified prior to observer synthesis.
+
+The controller is synthesized on the linearized model and validated through nonlinear simulations in MATLAB/Simulink under different road excitation scenarios. Results show improved damping of the sprung-mass modes, reduced heave and pitch oscillations, and enhanced disturbance attenuation compared to the passive suspension configuration.
 	\end{abstract}
 	
 	
@@ -548,12 +550,12 @@ The trigonometric terms $\sin(\theta)$ and $\cos(\theta)$ account for the projec
 
 A typical automotive-grade device is the \textbf{STMicroelectronics LIS3DH}, providing 12-bit resolution and low noise density.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.3\linewidth]{img/LIS3DH}
 	\caption{MEMS accelerometer LIS3DH}
 \end{figure}
-
+\newpage
 \subsection{Gyroscope Model}
 
 The third measurement $y_g$ corresponds to the pitch angular rate:
@@ -742,20 +744,21 @@ From a control design perspective, the augmented vector $z$ defines the full set
 
 	\newpage
 
-	\subsection{Choice of the State Vector for Linearization}
-	
-	For the linearization procedure, two possible formulations were considered: an 8–state model including only the vehicle dynamics, and a 12–state augmented model in which four additional states describe the road profiles at the front and rear wheels.
-	
-	The augmented formulation can be useful when the road is modeled through additional differential equations (e.g., shaping filters for stochastic road excitation), so that the disturbance becomes part of an extended state–space representation. This approach is typically adopted in estimation–oriented frameworks.
-	
-	However, in our case the original nonlinear model already consists of 8 states, corresponding exclusively to the vehicle dynamics (sprung mass vertical motion and pitch, together with front and rear unsprung masses and their velocities). The road profile is treated as an external input and is not governed by internal vehicle dynamics.
-	
-	For consistency with the nonlinear model and with the modeling assumptions adopted in the project, the linearization has therefore been carried out using the same 8–state representation. This ensures coherence between nonlinear and linear models while keeping a clear separation between the system dynamics and the exogenous road disturbance.
+ 
 	
 \section{System Linearization}
 
 To facilitate the control design of the longitudinal half-car model equipped with active front and rear suspension systems, the initial step involves the linearization of the nonlinear system dynamics. This process is performed by identifying appropriate steady-state operating points \((x^*, y^*, w^*)\), which characterize representative conditions under which the vehicle is expected to operate. Linearizing the system around these equilibrium points enables the derivation of a time-invariant linear approximation of the vehicle dynamics, thereby simplifying the synthesis and analysis of control strategies.
 
+\subsection{Choice of the State Vector for Linearization}
+
+For the linearization procedure, two possible formulations were considered: an 8–state model including only the vehicle dynamics, and a 12–state augmented model in which four additional states describe the road profiles at the front and rear wheels.
+
+The augmented formulation can be useful when the road is modeled through additional differential equations (e.g., shaping filters for stochastic road excitation), so that the disturbance becomes part of an extended state–space representation. This approach is typically adopted in estimation–oriented frameworks.
+
+However, in our case the original nonlinear model already consists of 8 states, corresponding exclusively to the vehicle dynamics (sprung mass vertical motion and pitch, together with front and rear unsprung masses and their velocities). The road profile is treated as an external input and is not governed by internal vehicle dynamics.
+
+For consistency with the nonlinear model and with the modeling assumptions adopted in the project, the linearization has therefore been carried out using the same 8–state representation. This ensures coherence between nonlinear and linear models while keeping a clear separation between the system dynamics and the exogenous road disturbance.
 \subsection{Linearization Around the Operating Point}
 
 Consider the nonlinear system model:
@@ -956,7 +959,7 @@ For the matrix calculation, the procedure described in equations \eqref{eq:jacob
 
 	%MATRICI NUMERICHE
 	\subsubsection{Numerical Matrices}
-	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study: All parameters used to find the numeric matrices are based on the Rolls-Royce Ghost 6.7 V12, a car suitable for this type of active suspensions and with same suspension parameters on front and rear axle, this simplifies slighlty our model:\\
+	To calculate the numerical values of the matrices, the parameters were replaced with the values of the vehicle chosen for this study: All parameters used to find the numeric matrices are based on the Rolls-Royce Ghost 6.7 V12, a car suitable for this type of active suspensions and with same suspension parameters on front and rear axle, this simplifies slightly our model:\\
 	
 
 
@@ -2446,7 +2449,7 @@ This modular implementation allows systematic validation of performance, robustn
 	
 	\begin{table}[H]
 		\centering
-		\caption{Numerical Parameters for the Luxury Sedan Model.}
+		\caption{Numerical Parameters for the Luxury Rolls-Royce vehicle}
 		\label{tab:params}
 		\begin{tabular}{@{}llll@{}}
 			\toprule
@@ -3203,7 +3206,7 @@ The bump profile is defined as a half-sine wave with:
 This configuration produces a short-duration, high-curvature excitation, corresponding to a very demanding input for both passive and active suspension dynamics.
 
 % ==========================================================
-\subsection{Case 5: Linear vs Nonlinear Model under Bump Excitation}
+\subsection{Linear vs Nonlinear Model under Bump Excitation}
 
 We first compare the open-loop response of the nonlinear plant and its linear approximation.
 
@@ -3228,7 +3231,7 @@ This result is particularly significant because the bump amplitude ($20$ cm) and
 The close agreement confirms that the linearized model remains valid even under aggressive excitation conditions, strengthening confidence in the controller design framework based on the linear model.
 
 % ==========================================================
-\subsection{Case 6: Controlled Linear Model vs Uncontrolled Nonlinear Plant}
+\subsection{Controlled Linear Model vs Uncontrolled Nonlinear Plant}
 
 Next we compare:
 

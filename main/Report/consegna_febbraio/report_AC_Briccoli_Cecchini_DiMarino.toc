@@ -11,7 +11,7 @@
 \contentsline {section}{\numberline {1.3}Sensor Model}{9}{section.31}%
 \contentsline {subsection}{\numberline {1.3.1}Measurement Vector}{9}{subsection.32}%
 \contentsline {subsection}{\numberline {1.3.2}Accelerometer Model}{9}{subsection.34}%
-\contentsline {subsection}{\numberline {1.3.3}Gyroscope Model}{9}{subsection.36}%
+\contentsline {subsection}{\numberline {1.3.3}Gyroscope Model}{10}{subsection.36}%
 \contentsline {subsection}{\numberline {1.3.4}Suspension Deflection Sensors}{10}{subsection.39}%
 \contentsline {subsection}{\numberline {1.3.5}Noise Modeling}{11}{subsection.44}%
 \contentsline {section}{\numberline {1.4}Performance Variables and Control Objectives}{11}{section.46}%
@@ -23,12 +23,12 @@
 \contentsline {subsection}{\numberline {1.4.6}Physical Meaning of the Augmented Components}{13}{subsection.60}%
 \contentsline {subsection}{\numberline {1.4.7}Relation with the Output Error Function}{14}{subsection.64}%
 \contentsline {subsection}{\numberline {1.4.8}Control-Oriented Interpretation}{14}{subsection.65}%
-\contentsline {subsection}{\numberline {1.4.9}Choice of the State Vector for Linearization}{15}{subsection.66}%
-\contentsline {section}{\numberline {1.5}System Linearization}{15}{section.67}%
-\contentsline {subsection}{\numberline {1.5.1}Linearization Around the Operating Point}{15}{subsection.68}%
-\contentsline {subsection}{\numberline {1.5.2}Matrix calculus}{16}{subsection.76}%
+\contentsline {section}{\numberline {1.5}System Linearization}{15}{section.66}%
+\contentsline {subsection}{\numberline {1.5.1}Choice of the State Vector for Linearization}{15}{subsection.67}%
+\contentsline {subsection}{\numberline {1.5.2}Linearization Around the Operating Point}{15}{subsection.68}%
+\contentsline {subsection}{\numberline {1.5.3}Matrix calculus}{16}{subsection.76}%
 \contentsline {subsubsection}{Numerical Matrices}{19}{section*.85}%
-\contentsline {subsection}{\numberline {1.5.3}Linear Model Analysis}{22}{subsection.96}%
+\contentsline {subsection}{\numberline {1.5.4}Linear Model Analysis}{22}{subsection.96}%
 \contentsline {subsubsection}{Open-Loop Eigenvalue Analysis}{23}{section*.99}%
 \contentsline {section}{\numberline {1.6}Control}{24}{section.105}%
 \contentsline {subsection}{\numberline {1.6.1}Reachability}{24}{subsection.106}%
@@ -110,9 +110,9 @@
 \contentsline {subsection}{\numberline {4.5.3}Control Inputs with Observer and Integral Action}{64}{subsection.238}%
 \contentsline {section}{\numberline {4.6}Observer Feasibility and Practical Considerations}{64}{section.240}%
 \contentsline {section}{\numberline {4.7}Severe Road Bump Scenario}{65}{section.244}%
-\contentsline {subsection}{\numberline {4.7.1}Case 5: Linear vs Nonlinear Model under Bump Excitation}{65}{subsection.245}%
-\contentsline {subsection}{\numberline {4.7.2}Case 6: Controlled Linear Model vs Uncontrolled Nonlinear Plant}{66}{subsection.247}%
-\contentsline {subsubsection}{Pitch Response}{67}{section*.249}%
+\contentsline {subsection}{\numberline {4.7.1}Linear vs Nonlinear Model under Bump Excitation}{65}{subsection.245}%
+\contentsline {subsection}{\numberline {4.7.2}Controlled Linear Model vs Uncontrolled Nonlinear Plant}{66}{subsection.247}%
+\contentsline {subsubsection}{Pitch Response}{66}{section*.249}%
 \contentsline {subsubsection}{Heave Response}{67}{section*.250}%
 \contentsline {subsection}{\numberline {4.7.3}Sensor Interpretation and Measurement Limitations}{67}{subsection.251}%
 \contentsline {section}{\numberline {4.8}Trade-Offs}{68}{section.252}%
