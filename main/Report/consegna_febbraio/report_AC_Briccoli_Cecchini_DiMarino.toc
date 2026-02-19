@@ -1,0 +1,128 @@
+\contentsline {chapter}{\numberline {1}Introduction}{5}{chapter.4}%
+\contentsline {section}{\numberline {1.1}Motivations}{5}{section.5}%
+\contentsline {section}{\numberline {1.2}Dynamic Model}{5}{section.6}%
+\contentsline {subsection}{\numberline {1.2.1}State vector}{6}{subsection.8}%
+\contentsline {subsection}{\numberline {1.2.2}Control inputs}{6}{subsection.10}%
+\contentsline {subsection}{\numberline {1.2.3}Suspension kinematics}{7}{subsection.14}%
+\contentsline {subsection}{\numberline {1.2.4}Suspension and tire forces}{7}{subsection.17}%
+\contentsline {subsection}{\numberline {1.2.5}Sprung mass dynamics}{7}{subsection.22}%
+\contentsline {subsection}{\numberline {1.2.6}Unsprung mass dynamics}{8}{subsection.26}%
+\contentsline {subsection}{\numberline {1.2.7}State-space representation}{8}{subsection.29}%
+\contentsline {section}{\numberline {1.3}Sensor Model}{9}{section.31}%
+\contentsline {subsection}{\numberline {1.3.1}Measurement Vector}{9}{subsection.32}%
+\contentsline {subsection}{\numberline {1.3.2}Accelerometer Model}{9}{subsection.34}%
+\contentsline {subsection}{\numberline {1.3.3}Gyroscope Model}{9}{subsection.36}%
+\contentsline {subsection}{\numberline {1.3.4}Suspension Deflection Sensors}{10}{subsection.39}%
+\contentsline {subsection}{\numberline {1.3.5}Noise Modeling}{11}{subsection.44}%
+\contentsline {section}{\numberline {1.4}Performance Variables and Control Objectives}{11}{section.46}%
+\contentsline {subsection}{\numberline {1.4.1}Control Objectives}{11}{subsection.48}%
+\contentsline {subsection}{\numberline {1.4.2}Output Error Function}{12}{subsection.51}%
+\contentsline {subsection}{\numberline {1.4.3}Observability Considerations}{12}{subsection.53}%
+\contentsline {subsection}{\numberline {1.4.4}Augmented Performance Output for Control Design}{12}{subsection.54}%
+\contentsline {subsection}{\numberline {1.4.5}Definition of Suspension Deflections}{13}{subsection.57}%
+\contentsline {subsection}{\numberline {1.4.6}Physical Meaning of the Augmented Components}{13}{subsection.60}%
+\contentsline {subsection}{\numberline {1.4.7}Relation with the Output Error Function}{14}{subsection.64}%
+\contentsline {subsection}{\numberline {1.4.8}Control-Oriented Interpretation}{14}{subsection.65}%
+\contentsline {subsection}{\numberline {1.4.9}Choice of the State Vector for Linearization}{15}{subsection.66}%
+\contentsline {section}{\numberline {1.5}System Linearization}{15}{section.67}%
+\contentsline {subsection}{\numberline {1.5.1}Linearization Around the Operating Point}{15}{subsection.68}%
+\contentsline {subsection}{\numberline {1.5.2}Matrix calculus}{16}{subsection.76}%
+\contentsline {subsubsection}{Numerical Matrices}{19}{section*.85}%
+\contentsline {subsection}{\numberline {1.5.3}Linear Model Analysis}{22}{subsection.96}%
+\contentsline {subsubsection}{Open-Loop Eigenvalue Analysis}{23}{section*.99}%
+\contentsline {section}{\numberline {1.6}Control}{24}{section.105}%
+\contentsline {subsection}{\numberline {1.6.1}Reachability}{24}{subsection.106}%
+\contentsline {subsubsection}{Stabilizability}{24}{section*.110}%
+\contentsline {subsection}{\numberline {1.6.2}Integral Action}{25}{subsection.113}%
+\contentsline {subsection}{\numberline {1.6.3}Observability}{26}{subsection.120}%
+\contentsline {subsubsection}{Detectability}{26}{section*.124}%
+\contentsline {subsection}{\numberline {1.6.4}Kalman Filter Design}{27}{subsection.126}%
+\contentsline {subsection}{\numberline {1.6.5}LQR Cost Function and Weight Selection}{27}{subsection.131}%
+\contentsline {subsection}{\numberline {1.6.6}Absence of Feedforward Action}{28}{subsection.143}%
+\contentsline {chapter}{\numberline {2}MATLAB/Simulink Implementation}{30}{chapter.144}%
+\contentsline {section}{\numberline {2.1}Overall Simulation Architecture}{30}{section.145}%
+\contentsline {subsection}{\numberline {2.1.1}Symbolic Linearization and Control Synthesis Script}{30}{subsection.146}%
+\contentsline {subsubsection}{1. Symbolic Parameters}{31}{section*.147}%
+\contentsline {subsubsection}{2. State Variables}{31}{section*.148}%
+\contentsline {subsubsection}{3. Control Inputs}{32}{section*.149}%
+\contentsline {subsubsection}{4. Disturbances}{32}{section*.150}%
+\contentsline {subsubsection}{5. Sensor Noise and References}{33}{section*.151}%
+\contentsline {subsubsection}{6. Nonlinear Kinematics and Dynamics}{33}{section*.152}%
+\contentsline {subsubsection}{7. Output Definition: Sensors and Performance Channels}{34}{section*.153}%
+\contentsline {paragraph}{Measurement Vector}{34}{section*.154}%
+\contentsline {paragraph}{Performance Vector}{35}{section*.155}%
+\contentsline {subsubsection}{8. Jacobian Computation}{35}{section*.156}%
+\contentsline {subsubsection}{9. Numerical Evaluation at the Equilibrium Point}{36}{section*.157}%
+\contentsline {subsubsection}{11. Observability Analysis}{37}{section*.159}%
+\contentsline {subsubsection}{12. LQR State Feedback Design}{38}{section*.160}%
+\contentsline {subsubsection}{13. Observer Design via Dual LQR}{39}{section*.161}%
+\contentsline {subsubsection}{14. Augmented LQR with Integral Action}{39}{section*.162}%
+\contentsline {subsubsection}{15. Final Outcome of the Script}{41}{section*.163}%
+\contentsline {section}{\numberline {2.2}Nonlinear Half-Car Model}{42}{section.164}%
+\contentsline {subsection}{\numberline {2.2.1}State Dynamics Block $f(p,x,u,w)$}{42}{subsection.165}%
+\contentsline {subsection}{\numberline {2.2.2}Nonlinear Kinematics}{42}{subsection.166}%
+\contentsline {subsection}{\numberline {2.2.3}Suspension and Tire Forces}{43}{subsection.167}%
+\contentsline {subsection}{\numberline {2.2.4}Actuator Force Distribution}{43}{subsection.168}%
+\contentsline {subsection}{\numberline {2.2.5}Longitudinal Coupling and Load Transfer}{44}{subsection.169}%
+\contentsline {subsection}{\numberline {2.2.6}State Equations}{44}{subsection.170}%
+\contentsline {subsection}{\numberline {2.2.7}Measurement Block $h(p,x,w,n)$}{44}{subsection.171}%
+\contentsline {subsection}{\numberline {2.2.8}Inertial Accelerations}{44}{subsection.172}%
+\contentsline {subsection}{\numberline {2.2.9}Projection to Body Frame}{45}{subsection.173}%
+\contentsline {subsection}{\numberline {2.2.10}Sensor Output Vector}{45}{subsection.174}%
+\contentsline {subsection}{\numberline {2.2.11}Performance Block $g(p,x,r)$}{45}{subsection.175}%
+\contentsline {subsection}{\numberline {2.2.12}Road Profile Generator}{46}{subsection.176}%
+\contentsline {subsection}{\numberline {2.2.13}Longitudinal Wheel Forces Block}{47}{subsection.177}%
+\contentsline {subsection}{\numberline {2.2.14}Linearized Model}{48}{subsection.178}%
+\contentsline {subsection}{\numberline {2.2.15}State Observer}{49}{subsection.179}%
+\contentsline {subsection}{\numberline {2.2.16}Augmented LQR Controller}{49}{subsection.180}%
+\contentsline {subsection}{\numberline {2.2.17}Simulation Management and Visualization}{50}{subsection.181}%
+\contentsline {section}{\numberline {2.3}Vehicle Parameters and Numerical Setup}{50}{section.182}%
+\contentsline {subsection}{\numberline {2.3.1}Mass and Geometry}{51}{subsection.183}%
+\contentsline {subsection}{\numberline {2.3.2}Suspension and Tire Characteristics}{51}{subsection.185}%
+\contentsline {subsection}{\numberline {2.3.3}Anti-Pitch Geometry}{51}{subsection.186}%
+\contentsline {chapter}{\numberline {3}Control Design}{53}{chapter.188}%
+\contentsline {section}{\numberline {3.1}Proposed Control Architecture}{53}{section.189}%
+\contentsline {subsection}{\numberline {3.1.1}Implicit Disturbance Rejection vs. Explicit Feed-Forward}{54}{subsection.194}%
+\contentsline {section}{\numberline {3.2}Augmented LQR-PID Control Architecture}{54}{section.197}%
+\contentsline {subsection}{\numberline {3.2.1}Augmented System and LQR Synthesis}{54}{subsection.198}%
+\contentsline {subsection}{\numberline {3.2.2}Weight Selection}{55}{subsection.201}%
+\contentsline {section}{\numberline {3.3}State Estimation: Optimal Kalman Filter}{55}{section.202}%
+\contentsline {subsection}{\numberline {3.3.1}Stochastic System Model}{55}{subsection.203}%
+\contentsline {subsection}{\numberline {3.3.2}Observer Dynamics}{55}{subsection.205}%
+\contentsline {subsection}{\numberline {3.3.3}State Reconstruction and Implicit Disturbance Reaction}{55}{subsection.207}%
+\contentsline {subsection}{\numberline {3.3.4}Observer Stability}{56}{subsection.208}%
+\contentsline {section}{\numberline {3.4}Modeling of Anti-Dive and Anti-Squat Geometry}{56}{section.209}%
+\contentsline {subsection}{\numberline {3.4.1}Geometric Force Definition}{56}{subsection.210}%
+\contentsline {subsection}{\numberline {3.4.2}Modified Heave Dynamics}{56}{subsection.213}%
+\contentsline {subsection}{\numberline {3.4.3}Modified Pitch Dynamics}{56}{subsection.215}%
+\contentsline {section}{\numberline {3.5}Numerical Control Design Analysis}{56}{section.217}%
+\contentsline {subsection}{\numberline {3.5.1}Augmented System Dynamics}{56}{subsection.218}%
+\contentsline {subsection}{\numberline {3.5.2}Optimal LQR Gains}{56}{subsection.219}%
+\contentsline {subsection}{\numberline {3.5.3}Kalman Gain Matrix}{57}{subsection.222}%
+\contentsline {chapter}{\numberline {4}Simulation Experiments and Results}{58}{chapter.224}%
+\contentsline {section}{\numberline {4.1}Open-Loop Linear vs Nonlinear Response}{58}{section.225}%
+\contentsline {section}{\numberline {4.2}Effect of Anti-Dive and Anti-Squat Geometry}{59}{section.227}%
+\contentsline {section}{\numberline {4.3}Road-Induced Oscillations without Anti-Dive / Anti-Squat}{60}{section.229}%
+\contentsline {section}{\numberline {4.4}Integral Action and Trade-Offs}{61}{section.231}%
+\contentsline {section}{\numberline {4.5}Observer Performance and Control Effort Analysis}{62}{section.233}%
+\contentsline {subsection}{\numberline {4.5.1}State Estimation Accuracy}{62}{subsection.234}%
+\contentsline {subsection}{\numberline {4.5.2}Control Inputs with Observer Only}{63}{subsection.236}%
+\contentsline {subsection}{\numberline {4.5.3}Control Inputs with Observer and Integral Action}{64}{subsection.238}%
+\contentsline {section}{\numberline {4.6}Observer Feasibility and Practical Considerations}{64}{section.240}%
+\contentsline {section}{\numberline {4.7}Severe Road Bump Scenario}{65}{section.244}%
+\contentsline {subsection}{\numberline {4.7.1}Case 5: Linear vs Nonlinear Model under Bump Excitation}{65}{subsection.245}%
+\contentsline {subsection}{\numberline {4.7.2}Case 6: Controlled Linear Model vs Uncontrolled Nonlinear Plant}{66}{subsection.247}%
+\contentsline {subsubsection}{Pitch Response}{67}{section*.249}%
+\contentsline {subsubsection}{Heave Response}{67}{section*.250}%
+\contentsline {subsection}{\numberline {4.7.3}Sensor Interpretation and Measurement Limitations}{67}{subsection.251}%
+\contentsline {section}{\numberline {4.8}Trade-Offs}{68}{section.252}%
+\contentsline {section}{\numberline {4.9}Additional Experimental Scenarios}{68}{section.257}%
+\contentsline {subsection}{\numberline {4.9.1}Observer + Integral Control with Anti-Dive and Anti-Squat}{68}{subsection.258}%
+\contentsline {subsection}{\numberline {4.9.2}Four Acceleration Profiles with Different Force Distributions}{70}{subsection.260}%
+\contentsline {subsection}{\numberline {4.9.3}Overall Insight from Additional Experiments}{71}{subsection.262}%
+\contentsline {section}{\numberline {4.10}Robustness Analysis and Observer Performance}{72}{section.266}%
+\contentsline {subsection}{\numberline {4.10.1}Experimental Setup and Noise Definition}{72}{subsection.267}%
+\contentsline {subsection}{\numberline {4.10.2}Baseline Performance and Noise Impact}{73}{subsection.268}%
+\contentsline {subsection}{\numberline {4.10.3}Observer Optimization for Noise Suppression}{74}{subsection.272}%
+\contentsline {subsection}{\numberline {4.10.4}LQR Control Tuning for Smooth Response}{76}{subsection.277}%
+\contentsline {chapter}{\numberline {5}Conclusions and Future Developments}{78}{chapter.280}%
